@@ -1367,18 +1367,19 @@ $(document).ready(function(){
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
+
 					var word = value["word"];
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
-					var wtype = base_attr_array[value["type"]];
-					count[wtype] = count[wtype] + 1;
-					// if (count.hasOwnProperty(wtype)) {
-					// 	count[wtype] = count[wtype] + 1;
-					// }
-					// else {
-					// 	count[wtype] = 1;
-					// }
+					var wtype = value["type"];
 
-					if(count[wtype] > 1 ) {
+					if (count.hasOwnProperty(wtype)) {
+						count[wtype] = count[wtype] + 1;
+					}
+					else {
+						count[wtype] = 1;
+					}
+
+					if(wtype_ret.indexOf(wtype) >= 0 ) {
 					}
 					else {
 						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
