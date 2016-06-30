@@ -21,28 +21,7 @@ userTable = Table(
 )
 
 class User(object):
-	id = Column(VARCHAR(50), primary_key=True, nullable=False)
-	email = Column(VARCHAR(50), unique=True, nullable=False)
-	password = Column(VARCHAR(50), nullable=False)
-	token = Column(VARCHAR(50), nullable=False)
-	phone = Column(VARCHAR(50), nullable=False)
-	create_at = Column(REAL, nullable=False)
-	last_login = Column(REAL, nullable=False)
-	token_time = Column(REAL, nullable=False)
-	admin = Column(BOOLEAN, nullable=False)
-
-	def is_authenticated(self):
-		return True
- 
-	def is_active(self):
-		return True
-	 
-	def is_anonymous(self):
-		return False
- 
-	def get_id(self):
-		return unicode(self.id)
-
+	pass
 
 mapper(User, userTable)
 
