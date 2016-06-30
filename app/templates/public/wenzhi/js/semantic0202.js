@@ -1212,3 +1212,151 @@ function select_wtype(el){
   $('.mod_result_content .current').removeClass("current");
   $('[title="'+ wtype +'"]').addClass("current");
 }
+
+
+$(function () {
+    $('#chart_container').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '分词使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [100, 200, 300, 150, 175, 200, 200, 400, 345, 123, 223, ]
+        }, ]
+    });
+});
+
+$(function () {
+    $('#chart_container2').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '词性标注使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
+        }, ]
+    });
+});
+
+$(function () {
+    $('#chart_container3').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '情感分析使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
+        }, ]
+    });
+});
