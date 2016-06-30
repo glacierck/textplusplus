@@ -1342,10 +1342,11 @@ $(function () {
 
 $(document).ready(function(){
   	$("#analysis_button").click(function(){
+  		console.log($("#input_sec1").val());
 	    $.post("api/thulac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
-	      	"text": $("#input_sec1").text(),
+	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data,status){
 	      alert("数据：" + data + "\n状态：" + status);
