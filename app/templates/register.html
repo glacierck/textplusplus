@@ -120,7 +120,7 @@ $(document).ready(function(){
     function(data){
       var obj = eval("(" + data + ")");
       if(obj.code == 100) {
-        window.open("userinfo","_self");
+        window.open("login","_self");
       }
       else {
         alert(obj.message);
@@ -213,8 +213,8 @@ $(document).ready(function(){
                 <br>
                 <div class="input-group">
                   <span class="input-group-addon">邮箱</span>
-                  <input id="email" v-model="email" type="text" class="form-control" ></div>
-                  <span class="label label-warning" style="display:none;font-size:15px" id="email_warning" onblur="show('email')">邮箱格式错误</span>
+                  <input id="email" v-model="email" type="text" class="form-control" onblur="show('email')"></div>
+                  <span class="label label-warning" style="display:none;font-size:15px" id="email_warning" >邮箱格式错误</span>
                 <br>
                 <div style="width:100%; position:relative; margin-left:5%; text-align:center;">
                   <button id="register" type="submit" class="button button-action button-medium">立即注册</a>
