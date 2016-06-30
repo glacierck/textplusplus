@@ -32,13 +32,19 @@
 <script>
 $(document).ready(function(){
   $("#login").click(function(){
-    $.post("example.asp",
+    $.post("api/login",
     {
-      username:$("#username").val(),
+      id:$("#username").val(),
       password:$("#password").val(),
     },
-    function(data,status){
-      alert("数据：" + data + "\n状态：" + status);
+    function(data){
+      var obj = eval("(" + data + ")");
+      if(obj.code == 100) {
+        window.open("console","_self");
+      }
+      else {
+        alert(obj.message);
+      }
     });
 
 
