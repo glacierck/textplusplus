@@ -1,0 +1,23 @@
+/* 返回顶部 */
+
+.scrollUpf {
+    position: fixed;
+    z-index: 2147483647;
+    display: block;
+    width: 48px;
+    bottom: 90px;
+    right: 50px;
+    z-index: 100;
+}
+.scrollUpf a {
+    float: left;
+}
+#scrollUp {
+    height: 48px;
+    width: 48px;
+    background: url('../images/index/top1.png') no-repeat left top;
+    transition: bottom 0.9s ease 0s;
+}
+#scrollUp:hover {
+    background: url('../images/index/top2.png') no-repeat left top;
+}

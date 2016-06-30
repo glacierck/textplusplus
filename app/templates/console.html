@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]>
+<html class="lt9">
+    <![endif]-->
+    <html lang="zh-cn">
+
+<head>
+    <script type="text/javascript">var _speedMark = new Date();</script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />    
+    <title>Text++-登录</title>
+    <meta name="Copyright" content="Tencent" />    
+    <link href="public/wenzhi/images/common/favicon.ico" type="image/ico" rel="shortcut icon" />    
+    <meta name="Keywords" content="Text++" />    
+    <meta name="Description" content="中文语义分析平台" />    
+    <script type="text/javascript" src="https://js.aq.qq.com/js/aq_common.js"></script>
+    <link rel="stylesheet" href="public/wenzhi/css/global.css">    
+    <link rel="stylesheet" href="public/wenzhi/css/index.css">    
+    <link rel="stylesheet" href="public/wenzhi/css/buttons.css">    
+    <link rel="stylesheet" href="public/wenzhi/css/footer.css">    
+    <script type="text/javascript" src="public/wenzhi/js/respond.min.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/jquery.scrollUp.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/footer.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/common.js"></script>
+    <!-- <script type="text/javascript" src="public/wenzhi/js/vue.js"></script>
+    -->
+    <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
+    <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
+
+    <!-- <script>
+    $(function() {
+    var vm = new Vue({
+        el: '#form-signin',
+        data: {
+            email: '',
+            password: '',
+            remember: false
+        },
+        methods: {
+            submit: function (event) {
+                event.preventDefault();
+                var email = this.email.trim().toLowerCase();
+                showError();
+                startLoading();
+                postApi('/api/authenticate', {
+                    email: email,
+                    password: CryptoJS.MD5(this.password).toString(),
+                    remember: this.remember
+                }, function (err, result) {
+                    if (err) {
+                        showError(err);
+                    }
+                    else {
+                        // return location.assign(result.admin ? '/manage/' : '/');
+                        return null;
+                    }
+                    stopLoading();
+                });
+            }
+        }
+    });
+})
+</script>
+-->
+<script>
+$(document).ready(function(){
+  $("#login").click(function(){
+    $.post("example.asp",
+    {
+      username:$("#username").val(),
+      password:$("#password").val(),
+    },
+    function(data,status){
+      alert("数据：" + data + "\n状态：" + status);
+    });
+
+
+  });
+});
+</script>
+
+<!-- <meta name="full-screen" content="yes">
+<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes">--></head>
+
+<body>
+<div class="header_topbar">
+    <div class="header_content ui_maxw">
+        <a href="index.html" class="logo" title="Text++">Text++</a>
+        <div class="header_menu">
+            <ul>
+                <li>
+                    <a href="#" title="首页">
+                        <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home.png" height="30%"/>
+                        &nbsp;&nbsp;首页
+                    </a>
+                </li>
+                <li>
+                    <a href="semantic.html" title="产品演示">
+                        <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>
+                        &nbsp;&nbsp;产品演示
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="开发者文档">
+                        <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/document.png" height="30%"/>
+                        &nbsp;&nbsp;开发者文档
+                    </a>
+                </li>
+                <li>
+                    <a href="#" title="关于">
+                        <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/about.png" height="30%"/>
+                        &nbsp;&nbsp;关于
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="header_sign">
+            <div class="sign_wrap">
+                <a href="login.html" class="button button-primary button-small">登录</a>
+                <a href="register.html" class="button button-action button-small">注册</a>
+            </div>
+        </div>
+    </div>
+    <div class="header_topbar_bg2"></div>
+
+    <div class="console_left">s</div>
+    <div class="console_right">s</div>
+
+</div>
+
+</body>
+
+</html>

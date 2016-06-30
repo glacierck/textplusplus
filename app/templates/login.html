@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]>
+    <html class="lt9">
+<![endif]-->
+<html lang="zh-cn">
+
+<head>
+    <script type="text/javascript">
+	    var _speedMark = new Date();
+	</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Text++-登录</title>
+    <meta name="Copyright" content="Tencent" />
+    <link href="public/wenzhi/images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
+    <meta name="Keywords" content="Text++" />
+    <meta name="Description" content="中文语义分析平台" />
+	<script type="text/javascript" src="https://js.aq.qq.com/js/aq_common.js"></script>
+    <link rel="stylesheet" href="public/wenzhi/css/global.css">
+    <link rel="stylesheet" href="public/wenzhi/css/index.css">
+    <link rel="stylesheet" href="public/wenzhi/css/buttons.css">
+    <link rel="stylesheet" href="public/wenzhi/css/footer.css">
+    <script type="text/javascript" src="public/wenzhi/js/respond.min.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/jquery.scrollUp.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/footer.js"></script>
+    <script type="text/javascript" src="public/wenzhi/js/common.js"></script>
+    <!-- <script type="text/javascript" src="public/wenzhi/js/vue.js"></script> -->
+    <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
+    <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
+
+
+    <!-- <script>
+
+$(function() {
+    var vm = new Vue({
+        el: '#form-signin',
+        data: {
+            email: '',
+            password: '',
+            remember: false
+        },
+        methods: {
+            submit: function (event) {
+                event.preventDefault();
+                var email = this.email.trim().toLowerCase();
+                showError();
+                startLoading();
+                postApi('/api/authenticate', {
+                    email: email,
+                    password: CryptoJS.MD5(this.password).toString(),
+                    remember: this.remember
+                }, function (err, result) {
+                    if (err) {
+                        showError(err);
+                    }
+                    else {
+                        // return location.assign(result.admin ? '/manage/' : '/');
+                        return null;
+                    }
+                    stopLoading();
+                });
+            }
+        }
+    });
+})
+
+    </script> -->
+
+<script>
+$(document).ready(function(){
+  $("#login").click(function(){
+    $.post("/api/login",
+    {
+      id:$("#username").val(),
+      password:$("#password").val(),
+    },
+    function(data){
+      alert(data);
+      // alert("数据：" + data + "\n状态：" + status);
+    });
+
+
+  });
+});
+</script>
+
+
+    <!-- <meta name="full-screen" content="yes">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes"> -->
+</head>
+
+<body>
+    <div class="header_topbar">
+        <div class="header_content ui_maxw">
+            <a href="index.html" class="logo" title="Text++">Text++</a>
+                <div class="header_menu">
+                    <ul>
+                        <li><a href="#" title="首页"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home.png" height="30%"/>&nbsp;&nbsp;首页</a></li>
+                        <li><a href="semantic.html" title="产品演示"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>&nbsp;&nbsp;产品演示</a></li>
+                        <li><a href="#" title="开发者文档"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/document.png" height="30%"/>&nbsp;&nbsp;开发者文档</a></li>
+                        <li><a href="#" title="关于"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/about.png" height="30%"/>&nbsp;&nbsp;关于</a></li>
+                    </ul>
+                </div>
+                <div class="header_sign">
+                    <div class="sign_wrap">
+                        <a href="login.html" class="button button-primary button-small">登录</a>
+                        <a href="register.html" class="button button-action button-small">注册</a>
+                    </div>
+                </div>
+        </div>
+        <div class="header_topbar_bg"></div>
+    </div>
+
+    <div class="header">
+        <div class="header_banner">
+            <div class="header_banner_content ui_maxw">
+                <h1><img src="public/wenzhi/images/main/logo.png"></h1>
+
+                    <div class="article_col_head active">
+                        <p><font color="white" size="5pt">Lorem ipsum dolor sit amet</font></p>
+                        <br>
+                        <br>
+                        <br>
+                        <div style="width: 40%; background: url(public/wenzhi/images/main/transparent.png); background-position:center; margin:0 auto;" >
+                        <br>
+                        <br>
+                        <div style="width: 75%; position: relative; margin-left: 9%; text-align: center; ">
+
+				            <!-- <form id="form-signin" v-on="submit: submit" class="bs-example bs-example-form"> -->
+
+				                <div class="input-group">
+
+				                        <span class="input-group-addon">用户名</span>
+
+				                        <input id="username" v-model="email" name="email" type="text" placeholder="用户名" class="form-control">
+
+				                </div>
+				                <br>
+				                <div class="input-group">
+				                    	<span class="input-group-addon">密码</span>
+
+				                        <input id="password" v-model="password" name="password" type="password" placeholder="口令" maxlength="50" class="form-control">
+				                </div>
+				                <br>
+
+				                <div style="width:100%; position:relative; margin-left:48%; text-align:center;">
+				                    <label><input v-model="remember" type="checkbox"> 记住我</label>
+				                    <center><a href="" style="position:relative; margin-left:0%;">忘记密码?</a></center>
+				                </div>
+								<br>
+				                <div style="width:100%; position:relative; margin-left:5%; text-align:center;">
+				                    <button id="login" type="submit" class="button button-action button-medium">登录</button>
+				                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				                    <a href="register.html" class="button button-medium">注册</a>
+				                </div>
+
+
+
+
+
+				            <!-- </form> -->
+
+
+
+
+
+                        </div>
+                        <br>
+                        <br>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="header_bg"></div>
+    </div>
+
+
+
+
+    <div class="footer">
+	<div class="copyright ui_maxw">
+		<p class="txt">Copyright &copy; 1998 - 2015 Tencent. All Rights Reserved.</p>
+		<p class="txt"><a href="help.html?topic=agreement">开发者协议</a> | <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=Enx_Yk16d35id2BSY2M8cX1-" target="_blank">投诉建议</a></p>
+
+		<div class="foot_link">
+			<a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=Enx_Yk16d35id2BSY2M8cX1-" target="_blank" class="ico_foot_mail"></a>
+			<a class="ico_foot_wechat">
+			<div class="link_show"> <b class="bar"></b>
+				<p class="tit">扫码关注“腾讯文智”</p>
+				<div class="photo"> <img src="public/wenzhi/images/common/wechat_nlp_new.jpg" alt="扫码关注“腾讯云搜”"> </div>
+			</div>
+			</a>
+			<a target="_blank" class="ico_foot_qq"></a>
+		</div>
+	</div>
+	<div class="scrollUpf">
+        <a style="" title="返回顶部" href="javascript:pageScroll();" id="scrollUp"></a>
+    </div>
+</div>
+
+
+<script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+
+<script type="text/javascript" src="http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/user_login.js"></script>
+<script type="text/javascript">
+	$(function(){
+		(function(){
+			var select_page = '';
+			var url_path = window.location.pathname;
+			var url_part = url_path.split("/");
+			var cgi = url_part[url_part.length - 1];
+
+			if (select_page != ""){
+				cgi = select_page;
+			}
+			if (cgi.indexOf('cgi') == -1){
+				$('ul.index_nav').find('li').first().addClass('active');
+				return ;
+			}
+			$('ul li a[href="' + cgi + '"]').parent().addClass('active');
+		})();
+	});
+
+	$(function(){
+		$('.ico_foot_qq').click(function(){
+			$('div.foot_link').find('iframe').remove();
+			$('div.foot_link').append("<iframe src='http://shang.qq.com/wpa/qunwpa?idkey=ed1858f3162ab0b688836aae5207cb38acdd36f2a12206dad0bda0e4e146bf5a' height='1px' width='1px'></iframe>");
+		});
+
+		var temp = "";
+		if (temp.length>10) {
+			ret = temp.substr(0,7) + "...<i class=\"bor\"></i><div class=\"tooltip\"><i class=\"ico_ny ico_up_arrow\"></i><span id=\"#\" onclick=\"logOut();\">退出</span></div>";
+			$('#uin_nick_name').html(ret);
+		}
+	})
+</script>
+
+
+
+    </div>
+	<script type="text/javascript" src="https://tajs.qq.com/stats?sId=43910093" charset="UTF-8"></script>
+</body>
+
+</html>
