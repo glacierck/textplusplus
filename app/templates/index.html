@@ -30,19 +30,19 @@
 <body>
     <div class="header_topbar">
         <div class="header_content ui_maxw">
-            <a href="index.html" class="logo" title="Text++">Text++</a>
+            <a href="index" class="logo" title="Text++">Text++</a>
                 <div class="header_menu">
                     <ul>
                         <li class="current"><a href="#" title="首页"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home_choose.png" height="30%"/>&nbsp;&nbsp;首页</a></li>
-                        <li><a href="semantic.html" title="产品演示"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>&nbsp;&nbsp;产品演示</a></li>
+                        <li><a href="semantic" title="产品演示"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>&nbsp;&nbsp;产品演示</a></li>
                         <li><a href="#" title="开发者文档"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/document.png" height="30%"/>&nbsp;&nbsp;开发者文档</a></li>
                         <li><a href="#" title="关于"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/about.png" height="30%"/>&nbsp;&nbsp;关于</a></li>
                     </ul>
                 </div>
                 <div class="header_sign">
                     <div class="sign_wrap">
-                        <a href="" class="button button-primary button-small">登录</a>
-                        <a href="" class="button button-action button-small">注册</a> 
+                        <a href="login" class="button button-primary button-small">登录</a>
+                        <a href="register" class="button button-action button-small">注册</a> 
                     </div>
                 </div>
         </div>
@@ -58,24 +58,12 @@
                         <p><font color="white" size="5pt">Lorem ipsum dolor sit amet</font></p>
                         <p><font color="white" size="3pt">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio.</font></p>
                     </div>
-                <div class="header_banner_btn"> <a href="semantic.html" class="mod_bigbtn mod_btn_white" title="产品演示">产品演示</a> <a href="https://console.qcloud.com/nlp/manage_app.html?src=nlp" class="mod_bigbtn mod_btn_white" title="开始使用" target="_blank">开始使用</a> </div>
+                <div class="header_banner_btn"> <a href="semantic
+                " class="mod_bigbtn mod_btn_white" title="产品演示">产品演示</a> <a href="semantic" class="mod_bigbtn mod_btn_white" title="开始使用" target="_blank">开始使用</a> </div>
             </div>
         </div>
         <div class="header_bg"></div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <div class="section_container active">
         <div class="section_bg">
@@ -135,48 +123,8 @@
 </div>
 
     <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
-<script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
-
-
-<script type="text/javascript" src="http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/user_login.js"></script>
-<script type="text/javascript">
-	$(function(){
-		(function(){
-			var select_page = '';
-			var url_path = window.location.pathname;
-			var url_part = url_path.split("/");
-			var cgi = url_part[url_part.length - 1];
-
-			if (select_page != ""){
-				cgi = select_page;
-			}
-			if (cgi.indexOf('cgi') == -1){
-				$('ul.index_nav').find('li').first().addClass('active');
-				return ;
-			}
-			$('ul li a[href="' + cgi + '"]').parent().addClass('active');
-		})();
-	});
-
-	$(function(){
-		$('.ico_foot_qq').click(function(){
-			$('div.foot_link').find('iframe').remove();
-			$('div.foot_link').append("<iframe src='http://shang.qq.com/wpa/qunwpa?idkey=ed1858f3162ab0b688836aae5207cb38acdd36f2a12206dad0bda0e4e146bf5a' height='1px' width='1px'></iframe>");
-		});
-
-		var temp = "";
-		if (temp.length>10) {
-			ret = temp.substr(0,7) + "...<i class=\"bor\"></i><div class=\"tooltip\"><i class=\"ico_ny ico_up_arrow\"></i><span id=\"#\" onclick=\"logOut();\">退出</span></div>";
-			$('#uin_nick_name').html(ret);
-		}
-	})
-</script>
-
-    </div>
-	<script type="text/javascript" src="https://tajs.qq.com/stats?sId=43910093" charset="UTF-8"></script>
+    <script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
+	
 </body>
 
 </html>
