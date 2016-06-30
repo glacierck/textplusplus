@@ -1373,7 +1373,7 @@ $(document).ready(function(){
 					console.log(value);
 					var word = value["word"];
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
-					var wtype = value["type"];
+					var wtype = base_attr_array[value["type"]];
 
 					if (count.hasOwnProperty(wtype)) {
 						count[wtype] = count[wtype] + 1;
@@ -1385,10 +1385,10 @@ $(document).ready(function(){
 					if(wtype_ret.indexOf(wtype) >= 0 ) {
 					}
 					else {
-						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + base_attr_array[wtype] + "'>" + base_attr_array[wtype] +"</a>";
+						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
 					}
 					if (word.length > 0){
-						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + base_attr_array[wtype] + '">' + word + '</span>';
+						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
 					}
 				}
 				var maxTypeNum = 0;
