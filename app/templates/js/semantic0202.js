@@ -1148,7 +1148,7 @@ $(document).ready(function() {
 
 
 function select_type(el){
-	var type = $(el).html();
+	var type = $(el).attr("title");
 	$('.mod_result_content .current').removeClass('current');
 	$(el).addClass('current');
 	$('.stress').removeClass('stress').addClass('normal');
@@ -1382,10 +1382,10 @@ $(document).ready(function(){
 					if(wtype_ret.indexOf(wtype) >= 0 ) {
 					}
 					else {
-						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + base_attr_array[wtype] + "'>" + base_attr_array[wtype] +"</a>";
+						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + base_attr_array[wtype] +"</a>";
 					}
 					if (word.length > 0){
-						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + base_attr_array[wtype] + '">' + word + '</span>';
+						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
 					}
 				}
 				var maxTypeNum = 0;
