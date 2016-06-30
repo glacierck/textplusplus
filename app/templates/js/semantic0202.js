@@ -1351,14 +1351,12 @@ $(document).ready(function(){
 	var txt = $('#input_sec1').val();
 		txt = text_filter(txt);
   	$("#analysis_button").click(function(){
-  		// console.log($("#input_sec1").val());
 	    $.post("api/thulac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
 	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data){
-	    	alert(data);
 	    	var obj = eval("(" + data + ")");
 	      	var temp = obj.result;
 				var word_ret = '';
@@ -1366,23 +1364,21 @@ $(document).ready(function(){
 				var first_wtype = "True";
 
 				var count = new Array();
-				// console.log(temp);
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
-					console.log(value);
 					var word = value["word"];
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
 					var wtype = base_attr_array[value["type"]];
+					count[wtype] = count[wtype] + 1;
+					// if (count.hasOwnProperty(wtype)) {
+					// 	count[wtype] = count[wtype] + 1;
+					// }
+					// else {
+					// 	count[wtype] = 1;
+					// }
 
-					if (count.hasOwnProperty(wtype)) {
-						count[wtype] = count[wtype] + 1;
-					}
-					else {
-						count[wtype] = 1;
-					}
-
-					if(wtype_ret.indexOf(wtype) >= 0 ) {
+					if(count[wtype] > 1 ) {
 					}
 					else {
 						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
@@ -1399,7 +1395,6 @@ $(document).ready(function(){
 						maxTypeNum = count[key];
 					}
 				}
-				//console.log(maxType, "--", maxTypeNum);
 
 				$('#wtype_ret').html(wtype_ret);
 				$('#mCSB_2_container').html(word_ret);
@@ -1407,7 +1402,6 @@ $(document).ready(function(){
 				var $cur = $('.mod_result_content .current');
 				var cur_len = $cur.length;
 				if (cur_len == 0) {
-					//el = $('#first_mark');
 					el = $('[title="' + maxType + '"]')
 					select_type(el);
 				}

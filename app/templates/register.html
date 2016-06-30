@@ -25,72 +25,64 @@
     <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
     <script src="css/bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/md5.js"></script>
-    <script>
 
+<script>
 function validateEmail(email) {
     var re = /^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$/;
     return re.test(email.toLowerCase());
 }
 
-</script>
-
-<script>
-
-      function show(data) {
-          if(data == "username"){
-            if($("#username").val().length < 5)
-              document.getElementById("name_warning").style.display = "inline";
-            else 
-              document.getElementById("name_warning").style.display = "none";
-          }
-          else if(data == "password"){
-            if($("#password").val().length < 5)
-              document.getElementById("pswrd_warning").style.display = "inline";
-            else
-              document.getElementById("pswrd_warning").style.display = "none";
-          }
-          else if(data == 'email'){
-            var email = validateEmail($("#email").val().toLowerCase())
-            if(! email)
-              document.getElementById("email_warning").style.display = "inline";
-            else
-              document.getElementById("email_warning").style.display = "none";
-          }
-          else if(data == "password2") {
-            if($("#password").val() == $("#password2").val())
-              document.getElementById("pswrd_double_warning").style.display = "none";
-            else
-              document.getElementById("pswrd_double_warning").style.display = "inline";
-          }
-      }
-
+function show(data) {
+    if(data == "username"){
+        if($("#username").val().length < 5)
+            document.getElementById("name_warning").style.display = "inline";
+        else 
+            document.getElementById("name_warning").style.display = "none";
+    }
+    else if(data == "password"){
+        if($("#password").val().length < 5)
+            document.getElementById("pswrd_warning").style.display = "inline";
+        else
+            document.getElementById("pswrd_warning").style.display = "none";
+    }
+    else if(data == 'email'){
+        var email = validateEmail($("#email").val().toLowerCase())
+        if(! email)
+            document.getElementById("email_warning").style.display = "inline";
+        else
+            document.getElementById("email_warning").style.display = "none";
+    }
+    else if(data == "password2") {
+        if($("#password").val() == $("#password2").val())
+            document.getElementById("pswrd_double_warning").style.display = "none";
+        else
+            document.getElementById("pswrd_double_warning").style.display = "inline";
+    }
+}
 
 $(document).ready(function(){
-  $("#register").click(function(){
-    var pas = hex_md5($("#password").val());
-    $.post("api/register",
-    {
-      id:$("#username").val(),
-      password:pas,
-      email:$("#email").val(),
-    },
-    function(data){
-      var obj = eval("(" + data + ")");
-      if(obj.code == 100) {
-        window.open("login","_self");
-      }
-      else {
-        alert(obj.message);
-      }
+    $("#register").click(function(){
+        var pas = hex_md5($("#password").val());
+        $.post("api/register",
+        {
+            id:$("#username").val(),
+            password:pas,
+            email:$("#email").val(),
+        },
+        function(data){
+            var obj = eval("(" + data + ")");
+            if(obj.code == 100) {
+              window.open("login","_self");
+            }
+            else {
+              alert(obj.message);
+            }
+        });
     });
-
-
-  });
 });
-</script>
 
-    <!-- <meta name="full-screen" content="yes">
-    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes">--></head>
+</script>
+</head>
 
 <body>
     <div class="header_topbar">
@@ -154,8 +146,7 @@ $(document).ready(function(){
                 -->
                 <div class="input-group">
                   <span class="input-group-addon">用户名</span>
-                  <input id="username" v-model="name" type="text" class="form-control" onblur="show('username')">
-                  </div>
+                  <input id="username" v-model="name" type="text" class="form-control" onblur="show('username')"></div>
                 <span class="label label-warning" style="display:none;font-size:15px" id="name_warning">账号长度不得小于5个字符</span>
                 <br>
                 <div class="input-group">
@@ -171,7 +162,7 @@ $(document).ready(function(){
                 <div class="input-group">
                   <span class="input-group-addon">邮箱</span>
                   <input id="email" v-model="email" type="text" class="form-control" onblur="show('email')"></div>
-                  <span class="label label-warning" style="display:none;font-size:15px" id="email_warning" >邮箱格式错误</span>
+                <span class="label label-warning" style="display:none;font-size:15px" id="email_warning" >邮箱格式错误</span>
                 <br>
                 <div style="width:100%; position:relative; margin-left:5%; text-align:center;">
                   <button id="register" type="submit" class="button button-action button-medium">立即注册</a>
@@ -192,7 +183,6 @@ $(document).ready(function(){
       <p class="txt">Copyright &copy; 1998 - 2015 Tencent. All Rights Reserved.</p>
       <p class="txt">
         <a href="help.html?topic=agreement">开发者协议</a>
-        |
         <a href="http://mail.qq.com/cgi-bin/qm_share?t=qm_mailme&email=Enx_Yk16d35id2BSY2M8cX1-" target="_blank">投诉建议</a>
       </p>
 
@@ -212,45 +202,7 @@ $(document).ready(function(){
       <a style="" title="返回顶部" href="javascript:pageScroll();" id="scrollUp"></a>
     </div>
   </div>
-
-  <script src="plugin/bootstrap/assets/js/docs.min.js"></script>
-  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <script src="plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
-
-  <script type="text/javascript">
-  $(function(){
-    (function(){
-      var select_page = '';
-      var url_path = window.location.pathname;
-      var url_part = url_path.split("/");
-      var cgi = url_part[url_part.length - 1];
-
-      if (select_page != ""){
-        cgi = select_page;
-      }
-      if (cgi.indexOf('cgi') == -1){
-        $('ul.index_nav').find('li').first().addClass('active');
-        return ;
-      }
-      $('ul li a[href="' + cgi + '"]').parent().addClass('active');
-    })();
-  });
-
-  $(function(){
-    $('.ico_foot_qq').click(function(){
-      $('div.foot_link').find('iframe').remove();
-      $('div.foot_link').append("<iframe src='http://shang.qq.com/wpa/qunwpa?idkey=ed1858f3162ab0b688836aae5207cb38acdd36f2a12206dad0bda0e4e146bf5a' height='1px' width='1px'></iframe>");
-    });
-
-    var temp = "";
-    if (temp.length>10) {
-      ret = temp.substr(0,7) + "...<i class=\"bor\"></i><div class=\"tooltip\"><i class=\"ico_ny ico_up_arrow\"></i><span id=\"#\" onclick=\"logOut();\">退出</span></div>";
-      $('#uin_nick_name').html(ret);
-    }
-  })
-</script>
-
 </div>
-</body>
 
+</body>
 </html>
