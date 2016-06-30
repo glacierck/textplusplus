@@ -245,18 +245,8 @@ $(document).ready(function() {
 			},
 
 			'afterRender': function(){
-				// $('#infoMenu').appendTo('body');
-
-				// $('#githubLink, .twitter-share-button').appendTo('body');
+				
 			}
-
-			 //events
-        // onLeave: function(index, nextIndex, direction){},
-        // afterLoad: function(anchorLink, index){},
-        // afterRender: function(){},
-        // afterResize: function(){},
-        // afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
-        // onSlideLeave: function(anchorLink, index, slideIndex, direction){}
 		});
 
 	/* 第五屏的tabs切换 */
@@ -346,63 +336,12 @@ $(document).ready(function() {
 		//showImg(0);
 
 		function showImg(n) {
-			//-----------added by fwindychen begin------------
-			/*
-			var value = demoLink[n];
-			var dat = {'url':value};
-			$.ajax({
-				async:false,
-				type:'post',
-				url: '/public/wenzhi/api/common_api.php',
-				dataType: 'json',
-				data:{
-					'url_path':'http://10.171.59.20:55000/content/grab',
-					'body_data': JSON.stringify(dat)
-				},
-				success:function(data){
-					$('#phone_title_2').html(data["title"]);
-					$('#mCSB_8_container').html(data["content"]);
-				}
-			});
-
-			dat = {'url':value, 'to_html':1};
-	    	$.ajax({
-				async:false,
-				type:'post',
-				url: '/public/wenzhi/api/common_api.php',
-				dataType: 'json',
-				data:{
-					'url_path':'http://10.171.59.20:55000/content/transcode',
-					'body_data': JSON.stringify(dat),
-					'method':'not_save'
-				},
-				success:function(data){
-					content = data["content"];
-					var array_con = content.split("/style>");
-					var len = array_con.length;
-					var ret = array_con[len-1];
-					$('#phone_web').html(ret);
-				}
-			});
-			*/
-			//-----------added by fwindychen end--------------
+			
 
 			$('.search_txt').val(demoLink[n]);
 			var img = $('.img_show img').eq(n);
 			img.show().siblings().hide();
-			/*
-			var img = new Image();
-			img.src = '/public/wenzhi/data/p' + (n+1) + '.png';
-			if (img.complete) {
-				$('.img_show img').attr("src", img.src);
-			}
-			else {
-				img.onload = function() {
-					$('.img_show img').attr("src", img.src);
-				};
-			}
-			*/
-			//image.onload = function() { $(img).replaceWith(image); };
+			
 
 			$.ajax({
 				async:false,
@@ -595,6 +534,10 @@ $(document).ready(function() {
 		get_words();
 	});
 
+
+
+
+
 	function get_words(){
 		var txt = $('#input_sec1').val();
 		txt = text_filter(txt);
@@ -602,11 +545,11 @@ $(document).ready(function() {
 		$.ajax({
 			async:true,
 			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
+			url: '/api/thulac',
 			dataType: 'json',
 			data:{
 				'api':'2',
-				'body_data': JSON.stringify({"code":2097152, "text":txt,"type":1})
+				'body_data': JSON.stringify({"token":qC7pRO8LH912194p36DH, "text":txt,"type":1})
 			},
 			success:function(data){
 				var temp = data["tokens"];
@@ -1269,152 +1212,3 @@ function select_wtype(el){
   $('.mod_result_content .current').removeClass("current");
   $('[title="'+ wtype +'"]').addClass("current");
 }
-
-
-$(function () {
-    $('#chart_container').highcharts({
-        chart: {
-        	backgroundColor: 'rgba(0,0,0,0)',
-        },
-        title: {
-            text: '分词使用情况',
-            x: -20 //center
-        },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com',
-        //     x: -20
-        // },
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        credits: {
-            enabled: false
-        },
-        exporting: {
-        	enabled: false
-        },
-        yAxis: {
-            title: {
-                text: '次数'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: '次'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: '使用情况',
-            data: [100, 200, 300, 150, 175, 200, 200, 400, 345, 123, 223, ]
-        }, ]
-    });
-});
-
-$(function () {
-    $('#chart_container2').highcharts({
-        chart: {
-        	backgroundColor: 'rgba(0,0,0,0)',
-        },
-        title: {
-            text: '词性标注使用情况',
-            x: -20 //center
-        },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com',
-        //     x: -20
-        // },
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        credits: {
-            enabled: false
-        },
-        exporting: {
-        	enabled: false
-        },
-        yAxis: {
-            title: {
-                text: '次数'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: '次'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: '使用情况',
-            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
-        }, ]
-    });
-});
-
-$(function () {
-    $('#chart_container3').highcharts({
-        chart: {
-        	backgroundColor: 'rgba(0,0,0,0)',
-        },
-        title: {
-            text: '情感分析使用情况',
-            x: -20 //center
-        },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com',
-        //     x: -20
-        // },
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        credits: {
-            enabled: false
-        },
-        exporting: {
-        	enabled: false
-        },
-        yAxis: {
-            title: {
-                text: '次数'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: '次'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: '使用情况',
-            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
-        }, ]
-    });
-});
-        

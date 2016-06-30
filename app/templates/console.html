@@ -11,19 +11,176 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,IE=9,IE=edge" />
 <title>腾讯文智中文语义平台-产品体验</title>
 <meta name="Copyright" content="Tencent" />
-<link href="public/wenzhi/images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
-<meta name="Keywords" content="腾讯文智中文语义平台" />
-<meta name="Description" content="腾讯文智中文语义平台" />
-<script type="text/javascript" src="http://js.aq.qq.com/js/aq_common.js"></script>
+
+<script type="text/javascript" src="public/wenzhi/js/aq_common.js"></script>
 <link rel="stylesheet" href="public/wenzhi/css/buttons.css">
 <link rel="stylesheet" href="public/wenzhi/css/global.css">
-<script type="text/javascript" src="public/wenzhi/js/jquery-1.8.2.min.js"></script>
+<!-- <script type="text/javascript" src="public/wenzhi/js/jquery-1.8.2.min.js"></script> -->
+<script type="text/javascript" src="public/wenzhi/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/respond.min.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/jquery.fullPage.min.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/jquery.limitTextarea.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/d3.min.js"></script>
+<script type="text/javascript" src="public/wenzhi/js/lex.js"></script>
+<script src="public/wenzhi/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.css">
-<script href="public/wenzhi/js/d3.min.js"></script>
-<link rel="stylesheet" href="public/wenzhi/css/semantic0202.css">
+<script src="public/wenzhi/js/highcharts/highcharts.js"></script>
+<script src="public/wenzhi/js/highcharts/modules/exporting.js"></script>
+<script src="public/wenzhi/js/highcharts/modules/data.js"></script>
 
-<script href="public/wenzhi/js/highcharts/highcharts.js"></script>
-<script href="public/wenzhi/js/highcharts/modules/exporting.js"></script>
+<link rel="stylesheet" href="public/wenzhi/css/semantic0202.css">
+<script type="text/javascript" src="public/wenzhi/js/semantic0202.js"></script>
+<script type="text/javascript">
+$(function () {
+    $('#chart_container').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '分词使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [100, 200, 300, 150, 175, 200, 200, 400, 345, 123, 223, ]
+        }, ]
+    });
+});
+
+$(function () {
+    $('#chart_container2').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '词性标注使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
+        }, ]
+    });
+});
+
+$(function () {
+    $('#chart_container3').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '情感分析使用情况',
+            x: -20 //center
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: [10, 20, 30, 15, 17, 20, 0, 40, 45, 13, 22, ]
+        }, ]
+    });
+});
+</script>
+
 <!-- <meta name="full-screen" content="yes">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes"> -->
 
@@ -238,61 +395,8 @@
 	
 	
 </div>
-<script type="text/javascript" src="public/wenzhi/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/respond.min.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/jquery.fullPage.min.js"></script>
-<!-- <script type="text/javascript" src="/public/wenzhi/js/jquery.SuperSlide.2.1.1.js"></script> -->
-<script type="text/javascript" src="public/wenzhi/js/jquery.limitTextarea.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/d3.min.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/lex.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/semantic0202.js"></script>
-<script src="public/wenzhi/js/jquery.mCustomScrollbar.concat.min.js"></script>
-
-<script src="public/Highcharts-3.0.1/js/highcharts.js" type="text/javascript"></script>
-<script src="public/Highcharts-3.0.1/js/modules/data.js" type="text/javascript"></script>
-<script src="public/Highcharts-3.0.1/js/modules/exporting.js" type="text/javascript"></script>
-<script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
-<script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
 
 
-<script type="text/javascript" src="http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/user_login.js"></script>
-<script type="text/javascript">
-	$(function(){
-		(function(){
-			var select_page = '';
-			var url_path = window.location.pathname;
-			var url_part = url_path.split("/");
-			var cgi = url_part[url_part.length - 1];
 
-			if (select_page != ""){
-				cgi = select_page;
-			}
-			if (cgi.indexOf('cgi') == -1){
-				$('ul.index_nav').find('li').first().addClass('active');
-				return ;
-			}
-			$('ul li a[href="' + cgi + '"]').parent().addClass('active');
-		})();
-	});
-
-	$(function(){
-		$('.ico_foot_qq').click(function(){
-			$('div.foot_link').find('iframe').remove();
-			$('div.foot_link').append("<iframe src='http://shang.qq.com/wpa/qunwpa?idkey=ed1858f3162ab0b688836aae5207cb38acdd36f2a12206dad0bda0e4e146bf5a' height='1px' width='1px'></iframe>");
-		});
-
-		var temp = "";
-		if (temp.length>10) {
-			ret = temp.substr(0,7) + "...<i class=\"bor\"></i><div class=\"tooltip\"><i class=\"ico_ny ico_up_arrow\"></i><span id=\"#\" onclick=\"logOut();\">退出</span></div>";
-			$('#uin_nick_name').html(ret);
-		}
-	})
-</script>
-
-<script type="text/javascript" src="http://tajs.qq.com/stats?sId=43910093" charset="UTF-8"></script>
 </body>
 </html>
