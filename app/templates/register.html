@@ -10,70 +10,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Text++-注册</title>
     <meta name="Copyright" content="Tencent" />
-    <link href="public/wenzhi/images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
+    <link href="images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
     <meta name="Keywords" content="Text++" />
     <meta name="Description" content="中文语义分析平台" />
-    <link rel="stylesheet" href="public/wenzhi/css/global.css">
-    <link rel="stylesheet" href="public/wenzhi/css/index.css">
-    <link rel="stylesheet" href="public/wenzhi/css/buttons.css">
-    <link rel="stylesheet" href="public/wenzhi/css/footer.css">
-    <script type="text/javascript" src="public/wenzhi/js/respond.min.js"></script>
-    <script type="text/javascript" src="public/wenzhi/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="public/wenzhi/js/jquery.scrollUp.js"></script>
-    <script type="text/javascript" src="public/wenzhi/js/footer.js"></script>
-    <script type="text/javascript" src="public/wenzhi/js/common.js"></script>
-    <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
-    <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="public/wenzhi/js/md5.js"></script>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/buttons.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <script type="text/javascript" src="js/respond.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.scrollUp.js"></script>
+    <script type="text/javascript" src="js/footer.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+    <script src="css/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/md5.js"></script>
     <script>
 
 function validateEmail(email) {
     var re = /^[a-z0-9\.\-\_]+\@[a-z0-9\-\_]+(\.[a-z0-9\-\_]+){1,4}$/;
     return re.test(email.toLowerCase());
 }
-
-// $(function () {
-//     var vm = new Vue({
-//         el: '#form-register',
-//         data: {
-//             name: '',
-//             email: '',
-//             password1: '',
-//             password2: ''
-//         },
-//         methods: {
-//             submit: function (event) {
-//                 event.preventDefault();
-//                 if (! this.name.trim()) {
-//                     return alert('请输入名字');
-//                 }
-//                 if (! validateEmail(this.email.trim().toLowerCase())) {
-//                     return alert('请输入正确的Email地址');
-//                 }
-//                 if (this.password1.length < 6) {
-//                     return alert('口令长度至少为6个字符');
-//                 }
-//                 if (this.password1 !== this.password2) {
-//                     return alert('两次输入的口令不一致');
-//                 }
-//                 startLoading();
-//                 postApi('/api/users', {
-//                     name: this.name,
-//                     email: this.email.trim().toLowerCase(),
-//                     password: CryptoJS.MD5(this.password1).toString(),
-//                 }, function (err, r) {
-//                     if (err) {
-//                         alert(err);
-//                     }
-//                     else {
-//                         return location.assign('/');
-//                     }
-//                     stopLoading();
-//                 });
-//             }
-//         }
-//     });
-// });
 
 </script>
 
@@ -143,25 +100,25 @@ $(document).ready(function(){
           <ul>
             <li>
               <a href="#" title="首页">
-                <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home_choose.png" height="30%"/>
+                <img style = "float:left; margin-top:22px;s" src="images/main/home_choose.png" height="30%"/>
                 &nbsp;&nbsp;首页
               </a>
             </li>
             <li>
               <a href="semantic.html" title="产品演示">
-                <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>
+                <img style = "float:left; margin-top:22px;s" src="images/main/product.png" height="30%"/>
                 &nbsp;&nbsp;产品演示
               </a>
             </li>
             <li>
               <a href="#" title="开发者文档">
-                <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/document.png" height="30%"/>
+                <img style = "float:left; margin-top:22px;s" src="images/main/document.png" height="30%"/>
                 &nbsp;&nbsp;开发者文档
               </a>
             </li>
             <li>
               <a href="#" title="关于">
-                <img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/about.png" height="30%"/>
+                <img style = "float:left; margin-top:22px;s" src="images/main/about.png" height="30%"/>
                 &nbsp;&nbsp;关于
               </a>
             </li>
@@ -181,7 +138,7 @@ $(document).ready(function(){
       <div class="header_banner">
         <div class="header_banner_content ui_maxw">
           <h1>
-            <img src="public/wenzhi/images/main/logo.png"></h1>
+            <img src="images/main/logo.png"></h1>
 
           <div class="article_col_head active">
             <p> <font color="white" size="4pt">欢迎注册Text++，我们会为您提供更好的服务。</font>
@@ -189,7 +146,7 @@ $(document).ready(function(){
             <br>
             <br>
             <br>
-            <div style="width: 40%; background: url(public/wenzhi/images/main/transparent.png); background-position:center; margin:0 auto;" >
+            <div style="width: 40%; background: url(images/main/transparent.png); background-position:center; margin:0 auto;" >
               <br>
               <br>
               <div style="width: 75%; position: relative; margin-left: 9%; text-align: center; ">
@@ -245,7 +202,7 @@ $(document).ready(function(){
           <div class="link_show"> <b class="bar"></b>
             <p class="tit">扫码关注“腾讯文智”</p>
             <div class="photo">
-              <img src="public/wenzhi/images/common/wechat_nlp_new.jpg" alt="扫码关注“腾讯云搜”"></div>
+              <img src="images/common/wechat_nlp_new.jpg" alt="扫码关注“腾讯云搜”"></div>
           </div>
         </a>
         <a target="_blank" class="ico_foot_qq"></a>
@@ -256,9 +213,9 @@ $(document).ready(function(){
     </div>
   </div>
 
-  <script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
+  <script src="plugin/bootstrap/assets/js/docs.min.js"></script>
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-  <script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
+  <script src="plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
 
   <script type="text/javascript">
   $(function(){

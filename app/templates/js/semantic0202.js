@@ -1339,7 +1339,7 @@ $(function () {
     });
 });
 
-<script type="text/javascript">
+
 $(document).ready(function(){
   	$("#analysis_button").click(function(){
 	    $.post("api/thulac",
@@ -1351,4 +1351,3 @@ $(document).ready(function(){
 	    });
  	 });
 });
-</script>
