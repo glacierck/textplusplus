@@ -70,14 +70,13 @@ $(function() {
 <script>
 $(document).ready(function(){
   $("#login").click(function(){
-    $.post("/api/login",
+    $.post("example.asp",
     {
-      id:$("#username").val(),
+      username:$("#username").val(),
       password:$("#password").val(),
     },
-    function(data){
-      alert(data);
-      // alert("数据：" + data + "\n状态：" + status);
+    function(data,status){
+      alert("数据：" + data + "\n状态：" + status);
     });
 
 

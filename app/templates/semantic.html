@@ -21,6 +21,22 @@
 <!-- <meta name="full-screen" content="yes">
 	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=yes"> -->
 
+<script type="text/javascript">
+$(document).ready(function(){
+  	$("#analysis_button").click(function(){
+	    $.post("example.asp",
+	    {
+	      	analysis_text: $("#input_sec1").text(),
+	    },
+	    function(data,status){
+	      alert("数据：" + data + "\n状态：" + status);
+	    });
+ 	 });
+});
+</script>
+
+
+
 </head>
 <body>
 <div class="fix_top semantic">
@@ -29,8 +45,8 @@
             <a href="index.html" class="logo" title="Text++">Text++</a>
                 <div class="header_menu">
                     <ul>
-                        <li class="current"><a href="#" title="首页"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home_choose.png" height="30%"/>&nbsp;&nbsp;首页</a></li>
-                        <li><a href="semantic.html" title="产品演示"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product.png" height="30%"/>&nbsp;&nbsp;产品演示</a></li>
+                        <li><a href="index.html" title="首页"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/home.png" height="30%"/>&nbsp;&nbsp;首页</a></li>
+                        <li class="current"><a href="semantic.html" title="产品演示"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/product_choose.png" height="30%"/>&nbsp;&nbsp;产品演示</a></li>
                         <li><a href="#" title="开发者文档"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/document.png" height="30%"/>&nbsp;&nbsp;开发者文档</a></li>
                         <li><a href="#" title="关于"><img style = "float:left; margin-top:22px;s" src="public/wenzhi/images/main/about.png" height="30%"/>&nbsp;&nbsp;关于</a></li>
                     </ul>
@@ -104,11 +120,12 @@
 						<textarea class="txt" name="" id="input_sec1" limit="110">去年南京人购买最多的文学书籍中，有一本书也特别打眼，那就是马尔克斯的《百年孤独》。</textarea>
 						<i class="icon_close"  id="sec1_clear"></i>
 						<!-- <p class="txt_warm">体验版最多可输入110个字</p> -->
+						<!-- <button style="float:right; margin-top:-30px;"class="button button-action button-small" id="analysis_button">分析</button> -->
 					</div>
-<!-- 					<div class="analysis_btn">
-						<a class="replaced" href="#" title="换一段示例" id="sec1_replaced">换一段示例</a>
-						<a class="btn" href="#" title="清 除" id="sec1_clear">清 除</a>
-					</div> -->
+
+					
+						<button style="float:right; margin-top: 10px; margin-right:-14px;" class="button button-action button-small" title="分析" id="analysis_button">分析</button>
+					
 				</div>
 			</div>
 			<div class="mod_col_main result_main">
@@ -117,6 +134,7 @@
 				<dl class="row">
 					<dd class="mod_result_content result_tabs">
 						<div id="wtype_ret" class="result_tabs_wrap">
+						<a href="#" onclick="select_type(this)" title="时间词">时间词</a><a href="#" onclick="select_type(this)" title="名词" class="current">名词</a><a href="#" onclick="select_type(this)" title="动词">动词</a><a href="#" onclick="select_type(this)" title="形容词">形容词</a><a href="#" onclick="select_type(this)" title="助词">助词</a><a href="#" onclick="select_type(this)" title="方位词">方位词</a><a href="#" onclick="select_type(this)" title="标点符号">标点符号</a><a href="#" onclick="select_type(this)" title="数词">数词</a><a href="#" onclick="select_type(this)" title="量词">量词</a><a href="#" onclick="select_type(this)" title="副词">副词</a><a href="#" onclick="select_type(this)" title="代词">代词</a>
 						</div>
 					</dd>
 				</dl>
@@ -126,6 +144,30 @@
 					<dd class="mod_result_content result_words mCustomScrollbar _mCS_2">
 						<div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" tabindex="0">
 							<div id="mCSB_2_container" class="mCSB_container" style="position:relative; top:0; left:0;" dir="ltr">
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="时间词">去年</span>
+							<span class="txt_bor stress" onclick="select_wtype(this)" option-data="名词">南京人</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="动词">购买</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="形容词">最多</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="助词">的</span>
+							<span class="txt_bor stress" onclick="select_wtype(this)" option-data="名词">文学书籍</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="方位词">中</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">，</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="动词">有</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="数词">一</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">本</span>
+							<span class="txt_bor stress" onclick="select_wtype(this)" option-data="名词">书</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="副词">也</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="副词">特别</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="动词">打眼</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">，</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="代词">那</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="动词">就是</span>
+							<span class="txt_bor stress" onclick="select_wtype(this)" option-data="名词">马尔克斯</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="助词">的</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">《</span>
+							<span class="txt_bor stress" onclick="select_wtype(this)" option-data="名词">百年孤独</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">》</span>
+							<span class="txt_bor normal" onclick="select_wtype(this)" option-data="标点符号">。</span>
 							</div>
 						</div>
 					</dd>

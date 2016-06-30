@@ -2479,6 +2479,9 @@ textarea {
     .header_topbar {
         height: 60px;
     }
+    .header_topbar2 {
+        height: 60px;
+    }
     .header_content {
         height: 60px;
     }
@@ -2514,7 +2517,7 @@ textarea {
         margin-top: 0;
     }
     .col_2_wrap .analysis_content {
-        height: 400px;
+        height: 340px;
     }
     .col_2_wrap .mod_col_title {
         padding-top: 14px;
@@ -2760,4 +2763,23 @@ textarea {
   width: 60%;
   font-weight: lighter;
   color: white;
+}
+
+.header_list {
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgba(208,86,93,0.5);
+    color: black;
+    font-size: 16px;
+    
+}
+
+.list_content {
+    text-align: center;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgba(208,86,93,0.2);
+    color: black;
+    font-size: 14px;
 }
