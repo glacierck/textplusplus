@@ -1344,7 +1344,8 @@ $(document).ready(function(){
   	$("#analysis_button").click(function(){
 	    $.post("api/thulac",
 	    {
-	      	analysis_text: $("#input_sec1").text(),
+	    	"token" : "qC7pRO8LH912194p36DH",
+	      	"text": $("#input_sec1").text(),
 	    },
 	    function(data,status){
 	      alert("数据：" + data + "\n状态：" + status);
