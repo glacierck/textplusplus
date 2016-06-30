@@ -29,44 +29,6 @@
     <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
     <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
 
-
-    <!-- <script>
-
-$(function() {
-    var vm = new Vue({
-        el: '#form-signin',
-        data: {
-            email: '',
-            password: '',
-            remember: false
-        },
-        methods: {
-            submit: function (event) {
-                event.preventDefault();
-                var email = this.email.trim().toLowerCase();
-                showError();
-                startLoading();
-                postApi('/api/authenticate', {
-                    email: email,
-                    password: CryptoJS.MD5(this.password).toString(),
-                    remember: this.remember
-                }, function (err, result) {
-                    if (err) {
-                        showError(err);
-                    }
-                    else {
-                        // return location.assign(result.admin ? '/manage/' : '/');
-                        return null;
-                    }
-                    stopLoading();
-                });
-            }
-        }
-    });
-})
-
-    </script> -->
-
 <script>
 $(document).ready(function(){
   $("#login").click(function(){
@@ -154,16 +116,6 @@ $(document).ready(function(){
 				                    <a href="register.html" class="button button-medium">注册</a>
 				                </div>
 
-
-
-
-
-				            <!-- </form> -->
-
-
-
-
-
                         </div>
                         <br>
                         <br>
@@ -200,49 +152,7 @@ $(document).ready(function(){
 
 
 <script src="public/wenzhi/plugin/bootstrap/assets/js/docs.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
 
-
-<script type="text/javascript" src="http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout.js"></script>
-<script type="text/javascript" src="public/wenzhi/js/user_login.js"></script>
-<script type="text/javascript">
-	$(function(){
-		(function(){
-			var select_page = '';
-			var url_path = window.location.pathname;
-			var url_part = url_path.split("/");
-			var cgi = url_part[url_part.length - 1];
-
-			if (select_page != ""){
-				cgi = select_page;
-			}
-			if (cgi.indexOf('cgi') == -1){
-				$('ul.index_nav').find('li').first().addClass('active');
-				return ;
-			}
-			$('ul li a[href="' + cgi + '"]').parent().addClass('active');
-		})();
-	});
-
-	$(function(){
-		$('.ico_foot_qq').click(function(){
-			$('div.foot_link').find('iframe').remove();
-			$('div.foot_link').append("<iframe src='http://shang.qq.com/wpa/qunwpa?idkey=ed1858f3162ab0b688836aae5207cb38acdd36f2a12206dad0bda0e4e146bf5a' height='1px' width='1px'></iframe>");
-		});
-
-		var temp = "";
-		if (temp.length>10) {
-			ret = temp.substr(0,7) + "...<i class=\"bor\"></i><div class=\"tooltip\"><i class=\"ico_ny ico_up_arrow\"></i><span id=\"#\" onclick=\"logOut();\">退出</span></div>";
-			$('#uin_nick_name').html(ret);
-		}
-	})
-</script>
-
-
-
-    </div>
-	<script type="text/javascript" src="https://tajs.qq.com/stats?sId=43910093" charset="UTF-8"></script>
 </body>
 
 </html>
