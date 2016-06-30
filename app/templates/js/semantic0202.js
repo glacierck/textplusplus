@@ -28,35 +28,7 @@ $(document).ready(function() {
 		'HED': '核心关系',
 		'WP': '标点符号'
 		};
-	var base_attr_array = {
-		'a' : '形容词',
-		'c' : '连词',
-		'd' : '副词',
-		'e' : '语气词',
-		'f' : '方位词',
-		'g' : '助词',
-		'h' : '前接成分',
-		'id' : '习语',
-		'j' : '简称',
-		'k' : '后接成分',
-		'l' : '处所词',
-		'm' : '数词',
-		'mq' : '数量词',
-		'n' : '名词',
-		'ni' : '机构名',
-		'np' : '人名',
-		'ns' : '地名',
-		'nz' : '其它专名',
-		'o' : '拟声词',
-		'p' : '介词',
-		'q' : '量词',
-		'r' : '代词',
-		't' : '时间词',
-		'u' : '助词',
-		'v' : '动词',
-		'w' : '标点',
-		'x' : '其它',
-		};
+	
 
 	function navDown(){
 		// $fixTop.height(70);
@@ -1341,6 +1313,35 @@ $(function () {
 
 
 $(document).ready(function(){
+	var base_attr_array = {
+		'a' : '形容词',
+		'c' : '连词',
+		'd' : '副词',
+		'e' : '语气词',
+		'f' : '方位词',
+		'g' : '助词',
+		'h' : '前接成分',
+		'id' : '习语',
+		'j' : '简称',
+		'k' : '后接成分',
+		'l' : '处所词',
+		'm' : '数词',
+		'mq' : '数量词',
+		'n' : '名词',
+		'ni' : '机构名',
+		'np' : '人名',
+		'ns' : '地名',
+		'nz' : '其它专名',
+		'o' : '拟声词',
+		'p' : '介词',
+		'q' : '量词',
+		'r' : '代词',
+		't' : '时间词',
+		'u' : '助词',
+		'v' : '动词',
+		'w' : '标点',
+		'x' : '其它',
+		};
 	function text_filter(text){
 		text = text.replace(/<[\/\s]*(?:(?!div|br)[^>]*)>/g, '');
 		text = text.replace(/<\s*div[^>]*>/g, '<div>');
@@ -1356,22 +1357,23 @@ $(document).ready(function(){
 	    	"token" : "qC7pRO8LH912194p36DH",
 	      	"text": $("#input_sec1").val(),
 	    },
-	    function(data,status){
+	    function(data){
 	    	alert(data);
 	    	var obj = eval("(" + data + ")");
-	      	var temp = obj.tokens;
+	      	var temp = obj.result;
 				var word_ret = '';
 				var wtype_ret = '';
 				var first_wtype = "True";
 
 				var count = new Array();
-
+				console.log(temp);
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
+					console.log(value);
 					var word = value["word"];
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
-					var wtype = value["wtype"];
+					var wtype = value["type"];
 
 					if (count.hasOwnProperty(wtype)) {
 						count[wtype] = count[wtype] + 1;
