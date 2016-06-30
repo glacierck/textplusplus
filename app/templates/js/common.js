@@ -1,4 +1,3 @@
-
 //滚屏触发
 (function() {
    $backToTopFuna = function() {
