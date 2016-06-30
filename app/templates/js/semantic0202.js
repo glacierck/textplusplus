@@ -201,7 +201,7 @@ $(document).ready(function() {
 
 			afterLoad: function(anchorLink, index){
 				if (index == 2 && sectionMark[2] == 'no') {
-					get_words();
+					// get_words();
 					sectionMark[2] = 'yes';
 				}
 				else if (index == 4 && sectionMark[4] == 'no') {
@@ -478,7 +478,7 @@ $(document).ready(function() {
 	//sec1
 	//$("#input_sec1").keyup(function(){
 	$('#input_sec1').bind('input propertychange', function() {
-		get_words();
+		// get_words();
 	});
 
 
@@ -509,80 +509,80 @@ $(document).ready(function() {
 		}
 		var sec1Input = se1Exam[se1ExamNum];
 		$('#input_sec1').val(sec1Input);
-		get_words();
+		// get_words();
 	});
 
 
 
 
 
-	function get_words(){
-		var txt = $('#input_sec1').val();
-		txt = text_filter(txt);
+	// function get_words(){
+	// 	var txt = $('#input_sec1').val();
+	// 	txt = text_filter(txt);
 
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/api/thulac',
-			dataType: 'json',
-			data:{
-				'api':'2',
-				'body_data': JSON.stringify({"token":qC7pRO8LH912194p36DH, "text":txt,"type":1})
-			},
-			success:function(data){
-				var temp = data["tokens"];
-				var word_ret = '';
-				var wtype_ret = '';
-				var first_wtype = "True";
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/api/thulac',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'2',
+	// 			'body_data': JSON.stringify({"token":qC7pRO8LH912194p36DH, "text":txt,"type":1})
+	// 		},
+	// 		success:function(data){
+	// 			var temp = data["tokens"];
+	// 			var word_ret = '';
+	// 			var wtype_ret = '';
+	// 			var first_wtype = "True";
 
-				var count = new Array();
+	// 			var count = new Array();
 
-				for (var i=0; i<temp.length; i++)
-				{
-					var value = temp[i];
-					var word = value["word"];
-					word = word.replace(/(^\s*)|(\s*$)/g, "");
-					var wtype = value["wtype"];
+	// 			for (var i=0; i<temp.length; i++)
+	// 			{
+	// 				var value = temp[i];
+	// 				var word = value["word"];
+	// 				word = word.replace(/(^\s*)|(\s*$)/g, "");
+	// 				var wtype = value["wtype"];
 
-					if (count.hasOwnProperty(wtype)) {
-						count[wtype] = count[wtype] + 1;
-					}
-					else {
-						count[wtype] = 1;
-					}
+	// 				if (count.hasOwnProperty(wtype)) {
+	// 					count[wtype] = count[wtype] + 1;
+	// 				}
+	// 				else {
+	// 					count[wtype] = 1;
+	// 				}
 
-					if(wtype_ret.indexOf(wtype) >= 0 ) {
-					}
-					else {
-						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
-					}
-					if (word.length > 0){
-						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
-					}
-				}
-				var maxTypeNum = 0;
-				var maxType = '';
-				for (var key in count){
-					if (count[key] > maxTypeNum) {
-						maxType = key;
-						maxTypeNum = count[key];
-					}
-				}
-				//console.log(maxType, "--", maxTypeNum);
+	// 				if(wtype_ret.indexOf(wtype) >= 0 ) {
+	// 				}
+	// 				else {
+	// 					wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
+	// 				}
+	// 				if (word.length > 0){
+	// 					word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
+	// 				}
+	// 			}
+	// 			var maxTypeNum = 0;
+	// 			var maxType = '';
+	// 			for (var key in count){
+	// 				if (count[key] > maxTypeNum) {
+	// 					maxType = key;
+	// 					maxTypeNum = count[key];
+	// 				}
+	// 			}
+	// 			//console.log(maxType, "--", maxTypeNum);
 
-				$('#wtype_ret').html(wtype_ret);
-				$('#mCSB_2_container').html(word_ret);
+	// 			$('#wtype_ret').html(wtype_ret);
+	// 			$('#mCSB_2_container').html(word_ret);
 
-				var $cur = $('.mod_result_content .current');
-				var cur_len = $cur.length;
-				if (cur_len == 0) {
-					//el = $('#first_mark');
-					el = $('[title="' + maxType + '"]')
-					select_type(el);
-				}
-			}
-		});
-	}
+	// 			var $cur = $('.mod_result_content .current');
+	// 			var cur_len = $cur.length;
+	// 			if (cur_len == 0) {
+	// 				//el = $('#first_mark');
+	// 				el = $('[title="' + maxType + '"]')
+	// 				select_type(el);
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 	$('.dependency_text').on('click','a',function(){
 		var title = $(this).attr('title');
@@ -1341,6 +1341,12 @@ $(function () {
 
 
 $(document).ready(function(){
+	function text_filter(text){
+		text = text.replace(/<[\/\s]*(?:(?!div|br)[^>]*)>/g, '');
+		text = text.replace(/<\s*div[^>]*>/g, '<div>');
+		text = text.replace(/<[\/\s]*div[^>]*>/g, '</div>');
+		return text;
+	}
 	var txt = $('#input_sec1').val();
 		txt = text_filter(txt);
   	$("#analysis_button").click(function(){
