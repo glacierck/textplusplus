@@ -115,7 +115,7 @@ $(document).ready(function(){
     {
       id:$("#username").val(),
       password:pas,
-      email:validateEmail($("#email").val()),
+      email:$("#email").val(),
     },
     function(data){
       var obj = eval("(" + data + ")");
