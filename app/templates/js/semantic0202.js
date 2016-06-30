@@ -1351,7 +1351,7 @@ $(document).ready(function(){
 	var txt = $('#input_sec1').val();
 		txt = text_filter(txt);
   	$("#analysis_button").click(function(){
-  		console.log($("#input_sec1").val());
+  		// console.log($("#input_sec1").val());
 	    $.post("api/thulac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
@@ -1366,7 +1366,7 @@ $(document).ready(function(){
 				var first_wtype = "True";
 
 				var count = new Array();
-				console.log(temp);
+				// console.log(temp);
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
@@ -1385,7 +1385,7 @@ $(document).ready(function(){
 					if(wtype_ret.indexOf(wtype) >= 0 ) {
 					}
 					else {
-						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
+						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + base_attr_array[wtype] +"</a>";
 					}
 					if (word.length > 0){
 						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
