@@ -1357,7 +1357,9 @@ $(document).ready(function(){
 	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data,status){
-	      	var temp = data["tokens"];
+	    	alert(data);
+	    	var obj = eval("(" + data + ")");
+	      	var temp = obj.tokens;
 				var word_ret = '';
 				var wtype_ret = '';
 				var first_wtype = "True";
