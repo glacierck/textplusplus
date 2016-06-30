@@ -1341,6 +1341,8 @@ $(function () {
 
 
 $(document).ready(function(){
+	var txt = $('#input_sec1').val();
+		txt = text_filter(txt);
   	$("#analysis_button").click(function(){
   		console.log($("#input_sec1").val());
 	    $.post("api/thulac",
@@ -1349,7 +1351,59 @@ $(document).ready(function(){
 	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data,status){
-	      alert("数据：" + data + "\n状态：" + status);
+	      	var temp = data["tokens"];
+				var word_ret = '';
+				var wtype_ret = '';
+				var first_wtype = "True";
+
+				var count = new Array();
+
+				for (var i=0; i<temp.length; i++)
+				{
+					var value = temp[i];
+					var word = value["word"];
+					word = word.replace(/(^\s*)|(\s*$)/g, "");
+					var wtype = value["wtype"];
+
+					if (count.hasOwnProperty(wtype)) {
+						count[wtype] = count[wtype] + 1;
+					}
+					else {
+						count[wtype] = 1;
+					}
+
+					if(wtype_ret.indexOf(wtype) >= 0 ) {
+					}
+					else {
+						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + wtype +"</a>";
+					}
+					if (word.length > 0){
+						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
+					}
+				}
+				var maxTypeNum = 0;
+				var maxType = '';
+				for (var key in count){
+					if (count[key] > maxTypeNum) {
+						maxType = key;
+						maxTypeNum = count[key];
+					}
+				}
+				//console.log(maxType, "--", maxTypeNum);
+
+				$('#wtype_ret').html(wtype_ret);
+				$('#mCSB_2_container').html(word_ret);
+
+				var $cur = $('.mod_result_content .current');
+				var cur_len = $cur.length;
+				if (cur_len == 0) {
+					//el = $('#first_mark');
+					el = $('[title="' + maxType + '"]')
+					select_type(el);
+				}
 	    });
  	 });
 });
+
+
+
