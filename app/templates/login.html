@@ -43,7 +43,7 @@ $(document).ready(function(){
     function(data){
       var obj = eval("(" + data + ")");
       if(obj.code == 100) {
-        window.open("console","_self");
+        window.open("userinfo","_self");
       }
       else {
         alert(obj.message);
