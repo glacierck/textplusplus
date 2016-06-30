@@ -13,7 +13,6 @@
     <link href="public/wenzhi/images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
     <meta name="Keywords" content="Text++" />
     <meta name="Description" content="中文语义分析平台" />
-    <script type="text/javascript" src="https://js.aq.qq.com/js/aq_common.js"></script>
     <link rel="stylesheet" href="public/wenzhi/css/global.css">
     <link rel="stylesheet" href="public/wenzhi/css/index.css">
     <link rel="stylesheet" href="public/wenzhi/css/buttons.css">
@@ -25,7 +24,7 @@
     <script type="text/javascript" src="public/wenzhi/js/common.js"></script>
     <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
     <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
-
+    <script type="text/javascript" src="public/wenzhi/js/md5.js"></script>
     <script>
 
 function validateEmail(email) {
@@ -78,19 +77,54 @@ function validateEmail(email) {
 
 </script>
 
-    <script>
+<script>
+
+      function show(data) {
+          if(data == "username"){
+            if($("#username").val().length < 5)
+              document.getElementById("name_warning").style.display = "inline";
+            else 
+              document.getElementById("name_warning").style.display = "none";
+          }
+          else if(data == "password"){
+            if($("#password").val().length < 5)
+              document.getElementById("pswrd_warning").style.display = "inline";
+            else
+              document.getElementById("pswrd_warning").style.display = "none";
+          }
+          else if(data == 'email'){
+            var email = validateEmail($("#email").val().toLowerCase())
+            if(! email)
+              document.getElementById("email_warning").style.display = "inline";
+            else
+              document.getElementById("email_warning").style.display = "none";
+          }
+          else if(data == "password2") {
+            if($("#password").val() == $("#password2").val())
+              document.getElementById("email_warning").style.display = "none";
+            else
+              document.getElementById("email_warning").style.display = "inline";
+          }
+      }
+
+
 $(document).ready(function(){
   $("#register").click(function(){
-
-    $.post("example.asp",
+    var pas = hex_md5($("#password").val());
+    $.post("api/register",
     {
-      username:$("#username").val(),
-      password:$("#password").val(),
-      password2:$("#password2").val(),
+      id:$("#username").val(),
+      password:pas,
       email:validateEmail($("#email").val()),
     },
-    function(data,status){
-      alert("数据：" + data + "\n状态：" + status);
+    function(data){
+      var obj = eval("(" + data + ")");
+      if(obj.code == 100) {
+        window.open("userinfo","_self");
+      }
+      else {
+        alert(obj.message);
+      }
     });
 
 
@@ -163,19 +197,24 @@ $(document).ready(function(){
                 -->
                 <div class="input-group">
                   <span class="input-group-addon">用户名</span>
-                  <input id="username" v-model="name" type="text" class="form-control" ></div>
+                  <input id="username" v-model="name" type="text" class="form-control" onblur="show('username')">
+                  </div>
+                <span class="label label-warning" style="display:none;font-size:15px" id="name_warning">账号长度不得小于5个字符</span>
                 <br>
                 <div class="input-group">
                   <span class="input-group-addon">密码</span>
-                  <input id="password" v-model="password1" type="password" class="form-control" ></div>
+                  <input id="password" v-model="password1" type="password" class="form-control" onblur="show('password')"></div>
+                <span class="label label-warning" style="display:none;font-size:15px" id="pswrd_warning">密码长度不得小于5个字符</span>
                 <br>
                 <div class="input-group">
                   <span class="input-group-addon">确认密码</span>
-                  <input id="password2" v-model="password2" type="password" class="form-control" ></div>
+                  <input id="password2" v-model="password2" type="password" class="form-control" onblur="show('password2')" ></div>
+                <span class="label label-warning" style="display:none;font-size:15px" id="pswrd_double_warning">两次输入的密码不一致</span>
                 <br>
                 <div class="input-group">
                   <span class="input-group-addon">邮箱</span>
                   <input id="email" v-model="email" type="text" class="form-control" ></div>
+                  <span class="label label-warning" style="display:none;font-size:15px" id="email_warning" onblur="show('email')">邮箱格式错误</span>
                 <br>
                 <div style="width:100%; position:relative; margin-left:5%; text-align:center;">
                   <button id="register" type="submit" class="button button-action button-medium">立即注册</a>
@@ -221,8 +260,6 @@ $(document).ready(function(){
   <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
   <script src="public/wenzhi/plugin/bootstrap/assets/js/ie10-viewport-bug-workaround.js"></script>
 
-  <script type="text/javascript" src="http://imgcache.qq.com/ptlogin/ac/v9/js/ptloginout.js"></script>
-  <script type="text/javascript" src="public/wenzhi/js/user_login.js"></script>
   <script type="text/javascript">
   $(function(){
     (function(){
@@ -257,7 +294,6 @@ $(document).ready(function(){
 </script>
 
 </div>
-<script type="text/javascript" src="https://tajs.qq.com/stats?sId=43910093" charset="UTF-8"></script>
 </body>
 
 </html>

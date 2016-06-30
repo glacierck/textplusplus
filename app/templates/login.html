@@ -33,7 +33,7 @@
 <script>
 $(document).ready(function(){
   $("#login").click(function(){
-    console.log($("#password").val());
+    // console.log($("#password").val());
     var pas = hex_md5($("#password").val());
     $.post("api/login",
     {
