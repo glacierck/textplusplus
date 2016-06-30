@@ -28,14 +28,17 @@
     <!-- <script type="text/javascript" src="public/wenzhi/js/vue.js"></script> -->
     <link rel="stylesheet" href="public/wenzhi/plugin/bootstrap/css/bootstrap.min.css">
     <script src="public/wenzhi/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="public/wenzhi/js/md5.js"></script>
 
 <script>
 $(document).ready(function(){
   $("#login").click(function(){
+    console.log($("#password").val());
+    var pas = hex_md5($("#password").val());
     $.post("api/login",
     {
       id:$("#username").val(),
-      password:$("#password").val(),
+      password:pas,
     },
     function(data){
       var obj = eval("(" + data + ")");
