@@ -1164,54 +1164,54 @@ function select_wtype(el){
 }
 
 
-$(function () {
-    $('#chart_container').highcharts({
-        chart: {
-        	backgroundColor: 'rgba(0,0,0,0)',
-        },
-        title: {
-            text: '分词使用情况',
-            x: -20 //center
-        },
-        // subtitle: {
-        //     text: 'Source: WorldClimate.com',
-        //     x: -20
-        // },
-        xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-        },
-        credits: {
-            enabled: false
-        },
-        exporting: {
-        	enabled: false
-        },
-        yAxis: {
-            title: {
-                text: '次数'
-            },
-            plotLines: [{
-                value: 0,
-                width: 1,
-                color: '#808080'
-            }]
-        },
-        tooltip: {
-            valueSuffix: '次'
-        },
-        legend: {
-            layout: 'vertical',
-            align: 'right',
-            verticalAlign: 'middle',
-            borderWidth: 0
-        },
-        series: [{
-            name: '使用情况',
-            data: [100, 200, 300, 150, 175, 200, 200, 400, 345, 123, 223, ]
-        }, ]
-    });
-});
+// $(function () {
+//     $('#chart_container').highcharts({
+//         chart: {
+//         	backgroundColor: 'rgba(0,0,0,0)',
+//         },
+//         title: {
+//             text: '分词使用情况',
+//             x: -20 //center
+//         },
+//         // subtitle: {
+//         //     text: 'Source: WorldClimate.com',
+//         //     x: -20
+//         // },
+//         xAxis: {
+//             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+//                 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+//         },
+//         credits: {
+//             enabled: false
+//         },
+//         exporting: {
+//         	enabled: false
+//         },
+//         yAxis: {
+//             title: {
+//                 text: '次数'
+//             },
+//             plotLines: [{
+//                 value: 0,
+//                 width: 1,
+//                 color: '#808080'
+//             }]
+//         },
+//         tooltip: {
+//             valueSuffix: '次'
+//         },
+//         legend: {
+//             layout: 'vertical',
+//             align: 'right',
+//             verticalAlign: 'middle',
+//             borderWidth: 0
+//         },
+//         series: [{
+//             name: '使用情况',
+//             data: [100, 200, 300, 150, 175, 200, 200, 400, 345, 123, 223, ]
+//         }, ]
+//     });
+// });
 
 $(function () {
     $('#chart_container2').highcharts({
@@ -1436,13 +1436,15 @@ $(document).ready(function() {
 	// use_date[0] = "0601";
 	// use_num[0] = 100;
 	// use_num[1] = 200;
+	// var data = '{"used" : "1000","unused" : "2000","used_data" : [{"date": "0601", "num":"100"}, {"date":"0602", "num":"200"}, {"date":"0603", "num":"300"}],}';
+
 	$.get("api/console/tag_info", function(data) {
 		var user_data = eval("(" + data + ")");
 		used = parseInt(user_data.used);
 		unused = parseInt(user_data.unused);
 		for (var i = 0; i < user_data.used_data.length; i++) {
-			used_date[i] = user_data.used_data[i].date;
-			used_num[i] = parseInt(user_data.used_data[i].num);
+			use_date[i] = user_data.used_data[i].date;
+			use_num[i] = parseInt(user_data.used_data[i].num);
 		}
 	});
     $('#chart_container').highcharts({
