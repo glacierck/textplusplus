@@ -1317,14 +1317,14 @@ $(document).ready(function(){
 		'a' : '形容词',
 		'c' : '连词',
 		'd' : '副词',
-		'e' : '语气词',
+		'e' : '叹词',
 		'f' : '方位词',
-		'g' : '助词',
+		'g' : '语素',
 		'h' : '前接成分',
-		'id' : '习语',
+		'i' : '习语',
 		'j' : '简称',
 		'k' : '后接成分',
-		'l' : '处所词',
+		's' : '处所词',
 		'm' : '数词',
 		'mq' : '数量词',
 		'n' : '名词',
@@ -1341,6 +1341,9 @@ $(document).ready(function(){
 		'v' : '动词',
 		'w' : '标点',
 		'x' : '其它',
+		'vm' : '能愿动词',
+		'vd' : '趋向动词',
+		'y' : '语气助词',
 		};
 	function text_filter(text){
 		text = text.replace(/<[\/\s]*(?:(?!div|br)[^>]*)>/g, '');
@@ -1357,6 +1360,7 @@ $(document).ready(function(){
 	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data){
+	    	//alert(data);
 	    	var obj = eval("(" + data + ")");
 	      	var temp = obj.result;
 				var word_ret = '';
@@ -1367,25 +1371,27 @@ $(document).ready(function(){
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
+					
 
 					var word = value["word"];
+					console.log(word);
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
 					var wtype = value["type"];
-
+					console.log(wtype);
 					if (count.hasOwnProperty(wtype)) {
 						count[wtype] = count[wtype] + 1;
 					}
 					else {
 						count[wtype] = 1;
 					}
-
-					if(wtype_ret.indexOf(wtype) >= 0 ) {
+					console.log(wtype_ret.indexOf('#'+base_attr_array[wtype]));
+					if(wtype_ret.indexOf('#'+base_attr_array[wtype]) >= 0 ) {
 					}
 					else {
-						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + wtype + "'>" + base_attr_array[wtype] +"</a>";
+						wtype_ret += "<a href=\"#\" onclick=\"select_type(this)\" title='" + '#' + base_attr_array[wtype] + "'>" + base_attr_array[wtype] +"</a>";
 					}
 					if (word.length > 0){
-						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + wtype + '">' + word + '</span>';
+						word_ret += '<span class="txt_bor normal" onclick="select_wtype(this)" option-data="' + '#' + base_attr_array[wtype] + '">' + word + '</span>';
 					}
 				}
 				var maxTypeNum = 0;
