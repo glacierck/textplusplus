@@ -28,7 +28,7 @@ $(document).ready(function() {
 		'HED': '核心关系',
 		'WP': '标点符号'
 		};
-	
+
 
 	function navDown(){
 		// $fixTop.height(70);
@@ -195,7 +195,7 @@ $(document).ready(function() {
 			},
 
 			'afterRender': function(){
-				
+
 			}
 		});
 
@@ -286,12 +286,12 @@ $(document).ready(function() {
 		//showImg(0);
 
 		function showImg(n) {
-			
+
 
 			$('.search_txt').val(demoLink[n]);
 			var img = $('.img_show img').eq(n);
 			img.show().siblings().hide();
-			
+
 
 			$.ajax({
 				async:false,
@@ -575,7 +575,7 @@ $(document).ready(function() {
 	}); */
 	$('.dependency_chart').on('click','rect',function(){
 		cur_id = $('rect').index($(this));
-		
+
 		//$('.arc_arrow').hide();
 		//$('.'+title).show();
 		$('.sentence_svg .link').hide();
@@ -591,12 +591,12 @@ $(document).ready(function() {
 			title = $(this).data('relation')
 			$('[title="'+title+'"]').addClass('current');
 		});
-		
+
 	});
 	$('.dependency_chart').on('click','text',function(){
 		cur_id = $('text').index($(this));
 		cur_id = cur_id / 2;
-		
+
 		//$('.arc_arrow').hide();
 		//$('.'+title).show();
 		$('.sentence_svg .link').hide();
@@ -612,10 +612,10 @@ $(document).ready(function() {
 			title = $(this).data('relation')
 			$('[title="'+title+'"]').addClass('current');
 		});
-		
+
 	});
-	
-	
+
+
 	//sec2_1 synon+check
 	$('#input_sec2_1').bind('input propertychange', function() {
 		get_synonyms();
@@ -1352,7 +1352,7 @@ $(document).ready(function(){
 		return text;
 	}
 	var txt = $('#input_sec1').val();
-		txt = text_filter(txt);
+		// txt = text_filter(txt);
   	$("#analysis_button").click(function(){
 	    $.post("api/thulac",
 	    {
@@ -1371,7 +1371,7 @@ $(document).ready(function(){
 				for (var i=0; i<temp.length; i++)
 				{
 					var value = temp[i];
-					
+
 
 					var word = value["word"];
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
@@ -1411,6 +1411,91 @@ $(document).ready(function(){
 				}
 	    });
  	 });
+});
+
+
+$(document).ready(function() {
+   	$.get("api/console",function(data) {
+   		var user = eval("(" + data + ")");
+   		var name = user.name;
+   		var email = user.email;
+   		var register_time = user.register_time;
+   		var token = user.token;
+   		$("#userinfo").append('<li>用户名: ' + name + '</li>');
+   		$("#userinfo").append('<li>Email: ' + email + '</li>');
+   		$("#userinfo").append('<li>注册时间: ' + register_time + '</li>');
+   		$("#userinfo").append('<li>Token: ' + token + '</li>');
+  	});
+})
+
+$(document).ready(function() {
+	var use_date = new Array();
+	var use_num = new Array();
+	var used=0;
+	var unused=0;
+	// use_date[0] = "0601";
+	// use_num[0] = 100;
+	// use_num[1] = 200;
+	$.get("api/console/tag_info", function(data) {
+		var user_data = eval("(" + data + ")");
+		used = parseInt(user_data.used);
+		unused = parseInt(user_data.unused);
+		for (var i = 0; i < user_data.used_data.length; i++) {
+			used_date[i] = user_data.used_data[i].date;
+			used_num[i] = parseInt(user_data.used_data[i].num);
+		}
+	});
+    $('#chart_container').highcharts({
+        chart: {
+        	backgroundColor: 'rgba(0,0,0,0)',
+        },
+        title: {
+            text: '分词使用情况',
+            x: -20 //center
+        },
+        subtitle: {
+        	text: '今日已使用' + used + '次, 剩余' + unused + '次',
+        	x: -20
+        },
+        // subtitle: {
+        //     text: 'Source: WorldClimate.com',
+        //     x: -20
+        // },
+        xAxis: {
+            // categories: ['0601', '0602', '0603', '0604', '0605', '0606',
+                // '0607', '0608', '0609', '0610', '0611', '0612','0613','0614']
+            categories : use_date
+        },
+        credits: {
+            enabled: false
+        },
+        exporting: {
+        	enabled: false
+        },
+        yAxis: {
+            title: {
+                text: '次数'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        tooltip: {
+            valueSuffix: '次'
+        },
+        legend: {
+            layout: 'vertical',
+            align: 'right',
+            verticalAlign: 'middle',
+            borderWidth: 0
+        },
+        series: [{
+            name: '使用情况',
+            data: use_num
+        }, ]
+    });
 });
 
 
