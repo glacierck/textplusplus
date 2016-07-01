@@ -1374,17 +1374,14 @@ $(document).ready(function(){
 					
 
 					var word = value["word"];
-					console.log(word);
 					word = word.replace(/(^\s*)|(\s*$)/g, "");
 					var wtype = value["type"];
-					console.log(wtype);
 					if (count.hasOwnProperty(wtype)) {
 						count[wtype] = count[wtype] + 1;
 					}
 					else {
 						count[wtype] = 1;
 					}
-					console.log(wtype_ret.indexOf('#'+base_attr_array[wtype]));
 					if(wtype_ret.indexOf('#'+base_attr_array[wtype]) >= 0 ) {
 					}
 					else {
