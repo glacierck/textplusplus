@@ -1445,8 +1445,11 @@ $(document).ready(function() {
 		for (var i = 0; i < user_data.used_data.length; i++) {
 			use_date[i] = user_data.used_data[i].date;
 			use_num[i] = parseInt(user_data.used_data[i].num);
+
 		}
+		draw_pic1();
 	});
+    function draw_pic1() {
     $('#chart_container').highcharts({
         chart: {
         	backgroundColor: 'rgba(0,0,0,0)',
@@ -1498,7 +1501,9 @@ $(document).ready(function() {
             data: use_num
         }, ]
     });
+}
 });
+
 
 
 

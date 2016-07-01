@@ -1,7 +1,6 @@
 from flask import *
 import time, random, string, hashlib, re
-from app import app, model
-from model import engine, User, DBSession
+from app import app, conn
 
 def token():
 	slcNum = [random.choice(string.digits) for i in range(10)]
@@ -13,96 +12,120 @@ def token():
 
 @app.route('/api/register', methods=['GET','POST'])
 def register():
-	if not request.json:
+	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 
-	cursur = DBSession()
-	user = request.json
+	cursor=conn.cursor()
+	user = request.form
 	uid = user['id'].encode('utf-8')
 	uemail = user['email'].encode('utf-8')
 
-	u = cursur.query(User).filter(User.id==uid).first()
+	cursor.execute('select * from user where id = %s', (uid,))
+	u = cursor.fetchone()
+
 	if(u is not None):
 		return json.dumps({ 'code': 301, 'message': 'the id is existed' }), 203
 
-	u = cursur.query(User).filter(User.email==uemail).first()
+	cursor.execute('select * from user where email = %s', (uemail,))
+	u = cursor.fetchone()
+
 	if(u is not None):
 		return json.dumps({ 'code': 302, 'message': 'the email is existed' }), 203
 
 	t = time.time()
-	new_user = User()
-	
-	new_user.id = uid
-	new_user.email = uemail
-	new_user.token = token()
-	new_user.admin = False
-	new_user.password = user['password'].encode('utf-8')
-	new_user.phone = user['phone'].encode('utf-8')
-	new_user.create_at = t
-	new_user.last_login = t
-	new_user.token_time = t
-
-	cursur.add(new_user)
-	cursur.commit()
-	cursur.close()
+	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token, False, user['password'].encode('utf-8'), t, t, t))
+	conn.commit()
 	return json.dumps({'code': 100,'message': 'success','user': uid})
 
 @app.route('/api/login', methods=['GET','POST'])
 def log_in():
-	print request.form
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 
-	cursur = DBSession()
+	cursor=conn.cursor()
 	user = request.form
 	uid = user['id'].encode('utf-8')
 
-	u = cursur.query(User).filter(User.id==uid).first()
+	cursor.execute('select * from user where id = %s', (uid,))
+	u = cursor.fetchone()
+
 	if(u is None):
 		return json.dumps({ 'code': 306, 'message': 'the id is not existed' }), 203
-	if(u.password != user['password'].encode('utf-8')):
+
+	print u
+	if(u[2] != user['password'].encode('utf-8')):
 		return json.dumps({ 'code': 307, 'message': 'the password is wrong' }), 203
 	
-	cursur.query(User).filter(User.id==uid).update({'last_login' : time.time()})
-	cursur.commit()
-	cursur.close()
+	t = time.time()
+	cursor.execute('update user set last_login = %s where id = %s', (t,uid))
+	conn.commit()
 
+	session['id'] = uid
 	return json.dumps({'code': 100,'message': 'success','user': uid})
 
-@app.route('/api/gettoken', methods=['GET','POST'])
-def get_token():
-	if not request.json:
-		return json.dumps({ 'code': 201,'message': 'format error' }), 400
+@app.route('/api/console/tag_info', methods=['GET','POST'])
+def tag_info():
+	uid = session['id']
+	cursor = conn.cursor()
+	cursor.execute('select * from lac where user = %s', (uid,))
+	u = cursor.fetchone()
+	print uid
+	print u
 
-	cursur = DBSession()
-	user = request.json
-	uid = user['id'].encode('utf-8')
+	max_count = 1000
+	dt =86400
+	t = time.time()
+	time.strftime('%m%d',time.localtime(time.time()))
+	res = []
+	num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+	sign = 0
 
-	t = token()
+	for i in num:
+		md = time.strftime('%m%d',time.localtime(t))
+		t = t - dt
 
-	cursur.query(User).filter(User.id==uid).update({'token_time' : time.time(),'token' : t})
-	cursur.commit()
-	cursur.close()
+		if (len(u) == i):
+			sign = 1
+		if (sign == 1):
+			res.append({'date':md, 'num':0})
+		else:
+			res.append({'date':md, 'num':u[-i]})
 
-	return json.dumps({'token': t})
+	res.reverse()
+	return json.dumps({'used': u[-1],'unused': max_count-u[-1],'used_data': res})
 
-@app.route('/api/update', methods=['GET','POST'])
-def update():
-	if not request.json:
-		return json.dumps({ 'code': 201,'message': 'format error' }), 400
+# @app.route('/api/gettoken', methods=['GET','POST'])
+# def get_token():
+# 	if not request.json:
+# 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 
-	cursur = DBSession()
-	user = request.json
-	uid = user['id'].encode('utf-8')
+# 	cursur = DBSession()
+# 	user = request.json
+# 	uid = user['id'].encode('utf-8')
 
-	for i in user:
-		if(i == 'phone'):
-			cursur.query(User).filter(User.id==uid).update({'phone' : user[i]})
-		if(i == 'password'):
-			cursur.query(User).filter(User.id==uid).update({'password' : user[i]})
+# 	t = token()
 
-	cursur.commit()
-	cursur.close()
-	return json.dumps({'user': uid})
+# 	cursur.query(User).filter(User['id']==uid).update({'token_time' : time.time(),'token' : t})
+# 	cursur.commit()
+# 	cursur.close()
 
+# 	return json.dumps({'token': t})
 
+# @app.route('/api/update', methods=['GET','POST'])
+# def update():
+# 	if not request.json:
+# 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
+
+# 	cursur = DBSession()
+# 	user = request.json
+# 	uid = user['id'].encode('utf-8')
+
+# 	for i in user:
+# 		if(i == 'phone'):
+# 			cursur.query(User).filter(User.id==uid).update({'phone' : user[i]})
+# 		if(i == 'password'):
+# 			cursur.query(User).filter(User.id==uid).update({'password' : user[i]})
+
+# 	cursur.commit()
+# 	cursur.close()
+# 	return json.dumps({'user': uid})
