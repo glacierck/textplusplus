@@ -2,8 +2,7 @@
 
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import app, thulac
-from model import engine, Tokeninfo, User, DBSession
+from app import app, thulac, conn
 
 def check_token(token):
 
@@ -13,20 +12,20 @@ def check_token(token):
 		return False
 	return True
 
-def updata_time(token,name):
+def updata_time(token,name,api):
 
 	s = DBSession()
 	u = s.query(User).filter(User.token==token).first()
 	uid = u.id
 	
-	utoken = s.query(Tokeninfo).filter(Tokeninfo.user==uid,Tokeninfo.api==name).first()
+	utoken = s.query(api).filter(api.user==uid).first()
 	t = utoken.times + 1
 
 	s.query(Tokeninfo).filter(Tokeninfo.user==uid,Tokeninfo.api==name).update({'times' : t, 'last_time' : time.time()})
 	s.commit()
 	s.close()
 
-def check_tokentime(token,name):
+def check_tokentime(token,name,api):
 
 	max_count = 1000
 	min_frequen = 5
@@ -35,7 +34,9 @@ def check_tokentime(token,name):
 
 	u = s.query(User).filter(User.token==token).first()
 	uid = u.id
-	utoken = s.query(Tokeninfo).filter(Tokeninfo.user==uid,Tokeninfo.api==name).first()
+	utoken = s.query(api).filter(api.user==uid).first()
+	print utoken['20160630']
+
 	if utoken == None:
 		info = Tokeninfo()
 		
@@ -77,7 +78,7 @@ def lac():
 	if(check_token(token) == False):
 		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
 	
-	tokenuse = check_tokentime(token,"lac")	
+	tokenuse = check_tokentime(token, "lac", Lac)	
 	if(tokenuse == 1):
 		return json.dumps({'code': 206,'message': 'count limit exceed'}), 203
 	if(tokenuse == 2):
@@ -90,13 +91,10 @@ def lac():
 		b = a.split(" ")
 		ans = []
 		for j in b:
-			#print j
 			c = j.split('_')
-			#print c[0]
-			#print c[1]
 			ans.append((c[0], c[1]))
 		result.append(ans)
 		
-	updata_time(token,"lac")
+	updata_time(token, "lac", Lac)
 
 	return json.dumps({'code': 100,'message': 'success','result': result})
