@@ -6,60 +6,60 @@ from app import app, thulac, conn
 
 def check_token(token):
 
-	s = DBSession()
-	u = s.query(User).filter(User.token==token).first()
+	cursor=conn.cursor()
+	cursor.execute('select * from user where token = %s', (token,))
+	u = cursor.fetchone()
 	if u is None:
 		return False
 	return True
 
-def updata_time(token,name,api):
+def updata_time(token,name):
 
-	s = DBSession()
-	u = s.query(User).filter(User.token==token).first()
-	uid = u.id
+	cursor=conn.cursor()
+	cursor.execute('select * from user where token = %s', (token,))
+	u = cursor.fetchone()
+	uid = u[0]
+
+	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
+	u = cursor.fetchone()
+	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
+	t = u[-1]+1
+	cursor.execute('update ' + name + ' set ' + dt + ' = %s where user = %s', (t,uid))
+
+	s = name + '_last_time'
+	t = time.time()
+	cursor.execute('select * from tokeninfo where user = %s', (uid,))
+	u = cursor.fetchone()
+	cursor.execute('update tokeninfo set ' + s + ' = %s where user = %s', (t,uid))
+	conn.commit()
+
 	
-	utoken = s.query(api).filter(api.user==uid).first()
-	t = utoken.times + 1
 
-	s.query(Tokeninfo).filter(Tokeninfo.user==uid,Tokeninfo.api==name).update({'times' : t, 'last_time' : time.time()})
-	s.commit()
-	s.close()
+def check_tokentime(token,name,order):
 
-def check_tokentime(token,name,api):
+	cursor=conn.cursor()
+	cursor.execute('select * from user where token = %s', (token,))
+	u = cursor.fetchone()
+	uid = u[0]
 
-	max_count = 1000
-	min_frequen = 5
+	cursor.execute('select * from tokeninfo where user = %s', (uid,))
+	u = cursor.fetchone()
 
-	s = DBSession()
+	s = order*3
 
-	u = s.query(User).filter(User.token==token).first()
-	uid = u.id
-	utoken = s.query(api).filter(api.user==uid).first()
-	print utoken['20160630']
+	limit = u[s+1]
+	lastt = float(u[s+2])	
+	fre = u[s+3]	
+	
 
-	if utoken == None:
-		info = Tokeninfo()
-		
-		info.id = uid+name
-		info.user = uid
-		info.api = name
-		info.times = 0
-		info.last_time = time.time()
-		info.limit_times = max_count
-		info.frequen = min_frequen
-		s.add(info)
-		s.commit()
-		s.close()
-		return 0
+	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
+	u = cursor.fetchone()
+	t = u[-1]
 
-	t = utoken.times
-	limitt = utoken.limit_times
-	if t >= limitt:
+	if t >= limit:
 		return 1
 
 	nowt = time.time()
-	lastt = float(utoken.last_time)
-	fre = utoken.frequen
 	if(nowt - lastt < fre):
 		return 2
 
@@ -78,7 +78,7 @@ def lac():
 	if(check_token(token) == False):
 		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
 	
-	tokenuse = check_tokentime(token, "lac", Lac)	
+	tokenuse = check_tokentime(token, "lac", 0)	
 	if(tokenuse == 1):
 		return json.dumps({'code': 206,'message': 'count limit exceed'}), 203
 	if(tokenuse == 2):
@@ -95,6 +95,6 @@ def lac():
 			ans.append((c[0], c[1]))
 		result.append(ans)
 		
-	updata_time(token, "lac", Lac)
+	updata_time(token, "lac")
 
 	return json.dumps({'code': 100,'message': 'success','result': result})

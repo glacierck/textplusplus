@@ -221,7 +221,7 @@ public:
                 ret = tagged.get();
 
                 std::ofstream out("out2.txt");
-                out<<tagged<<std::endl;
+                out<<tagged;
             }
                     
             else 
