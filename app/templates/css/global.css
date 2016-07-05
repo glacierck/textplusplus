@@ -278,6 +278,16 @@ input[type="text"][readonly]:focus{
     opacity: 0.85;
 }
 
+.header_topbar_bg3 {
+    height: 70px;
+    background-color: rgba(111,104,36, 0.9);
+    /*box-shadow: 0 0 24px rgba(12,2,3,0.3);*/
+    filter: alpha(opacity=85);
+    -moz-opacity: 0.85;
+    -khtml-opacity: 0.85;
+    opacity: 0.85;
+}
+
 .header_content {
     z-index: 5;
     position: relative;
@@ -897,12 +907,34 @@ input[type="text"][readonly]:focus{
   margin-top: 60px;
 }
 
+.appapply_left {
+  float: left;
+  position: relative;
+  width: 25%;
+  height: 1000px;
+  position: fixed;
+  background-color: rgba(255,255,255,0.4);
+  margin: 0px;
+  margin-left: 0px;
+  margin-top: 60px;
+}
+
 .console_right {
   float: right;
   position: relative;
   width: 75%;
-  height: 600px;
+  height: auto;
   background-color: rgba(255,255,255,0.7);
+  margin-left: 0px;
+  margin-top: 60px; 
+}
+
+.appapply_right {
+  float: right;
+  position: relative;
+  width: 75%;
+  height: 1000px;
+  background-color: rgba(255,255,255,0.8);
   margin-left: 0px;
   margin-top: 60px; 
 }
@@ -913,6 +945,13 @@ input[type="text"][readonly]:focus{
   height: 50%;
   margin-left: 0px;
 }
+
+.appapply_right_top {
+  position: relative;
+  width: 100%;
+  height: 300px; 
+}
+
 
 .console_right_bottom {
   position: relative;
