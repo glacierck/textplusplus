@@ -1,19 +1,18 @@
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import app, thulac
-from model import engine, Tokeninfo, User, DBSession
+from app import app, thulac, conn
 
 def check_token(token):
 
-	s = DBSession()
-	u = s.query(User).filter(User.token==token).first()
+	cursor=conn.cursor()
+	cursor.execute('select * from user where token = %s', (token,))
+	u = cursor.fetchone()
 	if u is None:
 		return False
 	return True
 
 @app.route('/api/thulac', methods=['GET','POST'])
 def semlac():
-	print request.form
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 	
