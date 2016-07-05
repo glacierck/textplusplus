@@ -34,6 +34,9 @@ def register():
 
 	t = time.time()
 	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token, False, user['password'].encode('utf-8'), t, t, t))
+	cursor.execute("INSERT INTO lac(user) VALUES(%s)", (uid))
+	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1))
+
 	conn.commit()
 	return json.dumps({'code': 100,'message': 'success','user': uid})
 
@@ -63,36 +66,7 @@ def log_in():
 	session['id'] = uid
 	return json.dumps({'code': 100,'message': 'success','user': uid})
 
-@app.route('/api/console/tag_info', methods=['GET','POST'])
-def tag_info():
-	uid = session['id']
-	cursor = conn.cursor()
-	cursor.execute('select * from lac where user = %s', (uid,))
-	u = cursor.fetchone()
-	print uid
-	print u
 
-	max_count = 1000
-	dt =86400
-	t = time.time()
-	time.strftime('%m%d',time.localtime(time.time()))
-	res = []
-	num = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
-	sign = 0
-
-	for i in num:
-		md = time.strftime('%m%d',time.localtime(t))
-		t = t - dt
-
-		if (len(u) == i):
-			sign = 1
-		if (sign == 1):
-			res.append({'date':md, 'num':0})
-		else:
-			res.append({'date':md, 'num':u[-i]})
-
-	res.reverse()
-	return json.dumps({'used': u[-1],'unused': max_count-u[-1],'used_data': res})
 
 # @app.route('/api/gettoken', methods=['GET','POST'])
 # def get_token():

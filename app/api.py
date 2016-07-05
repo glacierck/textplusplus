@@ -2,7 +2,7 @@
 
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import app, thulac, conn
+from app import	 app, thulac, conn
 
 def check_token(token):
 

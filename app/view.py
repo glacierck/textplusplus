@@ -23,11 +23,17 @@ def index():
 
 @app.route("/login")
 def login():
-	return render_template("login.html")
+	if(session['id'] is not None):
+		return render_template("console.html")
+	else:
+		return render_template("login.html")
 
 @app.route("/register")
 def regist():
-	return render_template("register.html")
+	if(session['id'] is not None):
+		return render_template("console.html")
+	else:
+		return render_template("register.html")
 
 @app.route("/semantic")
 def semantic():
