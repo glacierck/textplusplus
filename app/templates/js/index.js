@@ -21,8 +21,7 @@ $("#quit_button").click(function() {
    },
    function(data) {
       var ret = eval("(" + data + ")");
-      var 
       window.location.reload(); 
-   }            
+   });
 });
 
