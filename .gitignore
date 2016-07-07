@@ -91,3 +91,7 @@ ENV/
 
 #THULAC model
 model/
+*.o
+*.so
+*.dll
+*.dylib
