@@ -47,11 +47,11 @@ def islogined():
 	if (request.form == ([])):
 		uid = request.form['isloged']
 		if(uid == False):
-			session['id'] = None
+			del session['id']
 			return json.dumps({'islogined': 0, 'username': 'null'})
 
 	else:
-		if(session['id'] is None):
+		if('id' in session['id']):
 			return json.dumps({'islogined': 0, 'username': 'null'})
 		else:
 			return json.dumps({'islogined': 1, 'username': session['id']})
