@@ -51,7 +51,7 @@ def islogined():
 			return json.dumps({'islogined': 0, 'username': 'null'})
 
 	else:
-		if('id' in session['id']):
+		if('id' in session):
 			return json.dumps({'islogined': 0, 'username': 'null'})
 		else:
 			return json.dumps({'islogined': 1, 'username': session['id']})

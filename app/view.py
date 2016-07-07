@@ -23,14 +23,14 @@ def index():
 
 @app.route("/login")
 def login():
-	if('id' in session['id']):
+	if('id' in session):
 		return render_template("console.html")
 	else:
 		return render_template("login.html")
 
 @app.route("/register")
 def regist():
-	if('id' in session['id']):
+	if('id' in session):
 		return render_template("console.html")
 	else:
 		return render_template("register.html")
