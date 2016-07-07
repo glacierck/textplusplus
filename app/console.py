@@ -44,14 +44,21 @@ def console_info():
 def islogined():
 	print request.form
 
-	if (request.form == ([])):
-		uid = request.form['isloged']
-		if(uid == False):
-			del session['id']
-			return json.dumps({'islogined': 0, 'username': 'null'})
+	# if (request.form == ([])):
+	# 	uid = request.form['isloged']
+	# 	if(uid == False):
+	# 		del session['id']
+	# 		return json.dumps({'islogined': 0, 'username': 'null'})
 
+	# else:
+	if('id' not in session):
+		return json.dumps({'islogined': 0, 'username': 'null'})
 	else:
-		if('id' not in session):
-			return json.dumps({'islogined': 0, 'username': 'null'})
-		else:
-			return json.dumps({'islogined': 1, 'username': session['id']})
+		return json.dumps({'islogined': 1, 'username': session['id']})
+
+
+@app.route("/api/logout", methods=['GET','POST'])
+def logout():
+	if('id' in session):
+		del session['id']
+	return ""
