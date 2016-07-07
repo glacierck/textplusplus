@@ -7,7 +7,6 @@
 #include "negword.h"
 #include "punctuation.h"
 #include "filter.h"
-#include <direct.h>
 #include "string.h"
 #include <fstream>
 using namespace thulac;
