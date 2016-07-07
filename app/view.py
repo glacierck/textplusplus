@@ -17,6 +17,10 @@ def static_css(name):
 def static_images(name):
 	return handle_static("images", name)
 
+@app.route("")
+def kong():
+	return redirect(url_for('index'))
+
 @app.route("/index")
 def index():
 	return render_template("index.html")
