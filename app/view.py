@@ -46,6 +46,6 @@ def semantic():
 @app.route("/userinfo")
 def userinfo():
 	if('id' in session):
-		return render_template("index.html")
-	else:
 		return render_template("console.html")
+	else:
+		return render_template("index.html")
