@@ -441,7 +441,7 @@
 .mod_col_text {
     float: left;
     width: 430px;
-    height: 500px;
+    /*height: 300px;*/
 }
 
 .mod_col_h2 {
@@ -831,6 +831,7 @@
 
 .result_sentence {
     padding-bottom: 68px;
+    min-height: 200px;
 }
 
 .result_sentence .text {
@@ -855,8 +856,21 @@
     line-height: 30px;
     padding: 0 5px;
     margin: 0 2px;
-    color: #FFF;
-    background-color: #10667f;
+    color: white;
+    background-color: green;
+    vertical-align: middle;
+}
+
+.result_sentence .focal_possible {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 5px;
+    margin: 0 2px;
+    color: white;
+    background-color: rgb(85,186,141);
     vertical-align: middle;
 }
 
@@ -2059,7 +2073,7 @@ textarea {
 /* 句法类 */
 
 .col_3_wrap .mod_col_h2 {
-    text-align: center;
+    /*text-align: center;*/
     position: relative;
     padding-bottom: 14px;
 }

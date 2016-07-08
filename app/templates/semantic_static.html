@@ -30,87 +30,6 @@
 <script src="css/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="js/index.js"></script>
 
-<script type="text/javascript">
-$(function () {
-	Highcharts.setOptions({
-        colors: ['rgb(74,211,200)']
-    });
-    // Create the chart
-    $('#container').highcharts({
-        chart: {
-            type: 'column',
-            backgroundColor: 'rgba(0,0,0,0)',
-        },
-        title: {
-            text: '文本分类'
-        },
-        credits: {
-            enabled: false
-        },
-        exporting: {
-            enabled: false
-        },
-        xAxis: {
-            categories: ['小说', '科技', '散文', '议论文', '测试1', '测试2']
-        },
-        yAxis: {
-            title: {
-                text: '可能性'
-            }
-
-        },
-        legend: {
-            enabled: false,
-        },
-        plotOptions: {
-            series: {
-                borderWidth: 0,
-                dataLabels: {
-                    enabled: true,
-                    format: '{point.y:.1f}%'
-                }
-            }
-        },
-
-        tooltip: {
-            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-        },
-
-        series: [{
-            name: 'Brands',
-            colorByPoint: false,
-            data: [{
-                name: 'Microsoft Internet Explorer',
-                y: 56.33,
-                drilldown: 'Microsoft Internet Explorer'
-            }, {
-                name: 'Chrome',
-                y: 24.03,
-                drilldown: 'Chrome'
-            }, {
-                name: 'Firefox',
-                y: 10.38,
-                drilldown: 'Firefox'
-            }, {
-                name: 'Safari',
-                y: 4.77,
-                drilldown: 'Safari'
-            }, {
-                name: 'Opera',
-                y: 0.91,
-                drilldown: 'Opera'
-            }, {
-                name: 'Proprietary or Undetectable',
-                y: 0.2,
-                drilldown: null
-            }]
-        }],
-        
-    });
-});
-		</script>
-
 </head>
 <body>
 <div class="fix_top semantic">
@@ -137,10 +56,10 @@ $(function () {
 	<div id="cate_nav">
 		<ul class="ui_maxw">
 			<li data-menuanchor="page1" class="active" style=" display:none;"><a href="semantic#page1">产品体验</a></li>
-			<li data-menuanchor="page2"><a href="semantic#page2">分词</a></li>
-			<li data-menuanchor="page3"><a href="semantic#page3">文本分类</a></li>
-			<li data-menuanchor="page4"><a href="semantic#page4">关键词抽取</a></li>
-			<li data-menuanchor="page5"><a href="semantic#page5">情感分析</a></li>
+			<li data-menuanchor="page2"><a href="semantic#page2">功能1</a></li>
+			<li data-menuanchor="page3"><a href="semantic#page3">句法类API（未改）</a></li>
+			<li data-menuanchor="page4"><a href="semantic#page4">篇章类API（未改）</a></li>
+			<li data-menuanchor="page5"><a href="semantic#page5">下载类API（未改）</a></li>
 		</ul>
 		<!-- <div class="cate_nav_bg"></div> -->
 	</div>
@@ -165,7 +84,7 @@ $(function () {
 	</div>
 	<div class="section wrap_xy_2" id="section1" style="background-image: url(images/main/background_b.png)";>
 		<div class="col_2_wrap mod_col_wrap ui_maxw clearfix">
-			<h2 class="mod_col_h2">分词:
+			<h2 class="mod_col_h2">功能1:
 				<a class="col_text_mean">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</a>
 				<a style="float:right" href=help.html?topic=api#analysis" class="button button-small" title="开发文档">开发文档</a>
 			</h2>
@@ -205,39 +124,64 @@ $(function () {
 			</div>
 		</div>
 	</div>
-	<div class="section wrap_xy_2" id="section2" style="background-image: url(images/main/background_b.png)";>
-		
+	<div class="section wrap_xy_2" id="section2">
 		<div class="col_3_wrap mod_col_wrap ui_maxw clearfix">
-			<h2 class="mod_col_h2">文本分类:
-				<a class="col_text_mean">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</a>
-				<a style="float:right" href=help.html?topic=api#analysis" class="button button-small" title="开发文档">开发文档</a>
+			<h2 class="mod_col_h2">句法类API
+				<a class="col_help" href="help.html?topic=api#check" title="开发文档"><i class="icon_main icon_word"></i>开发文档</a>
 			</h2>
-			
-			<br>
-			<div class="col3_tab col3_tab1 show">
+			<div class="show_wrap">
+				<div class="hd show_tabs">
+					<ul>
+						<li class="first on" title="句法分析" data-tab="2">句法分析</li>
+						<li class="last" title="纠错／同义词" data-tab="1">纠错／同义词</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col3_tab col3_tab1 ">
 				<div class="mod_col_text">
-					<p class="mod_col_title">输入一段想分类的文字：</p>
+					<p class="mod_col_title">输入一段想分析的文字：<a class="replaced" href="semantic#" title="换一段示例" id="sec2_1_replaced">换一段示例</a></p>
 					<div class="analysis_wrap">
-						<div id="content-1" class="analysis_content">
-							<textarea id="input_sec2" class="txt" name="" limit="230"></textarea>
+						<div id="content-1" class="analysis_content ">
+							<textarea id="input_sec2_1" class="txt" name="" id="txt2" limit="230">我只想每天起来睡交吃饭。</textarea>
 							<i class="icon_close" id="sec2_1_clear"></i>
-							
+							<p class="txt_warm">体验版最多可输入230个字</p>
 						</div>
 					</div>
-					<button style="float:right; margin-top: 10px; margin-right:23px;" class="button button-action button-small" title="分析" id="classify_button">分类</button>
 				</div>
-			<br>
 				<div class="mod_col_main result_main">
-					<p class="mod_col_title">分类结果：</p>
+					<p class="mod_col_title">分析结果：</p>
 					<dl class="row">
-						<dd class="mod_result_content result_sentence" id="container">
-							<!-- <div style="float:left;"><em class="focal">小说</em><em class="focal_possible">20%</em><br><br><em class="focal">科技</em><em class="focal_possible">10%</em></div>
-						
-							<div style="float:left; margin-left: 40%;"><em class="focal">时政</em><em class="focal_possible">70%</em></div> -->
-							
-							
-							
-							
+						<dd class="mod_result_content result_sentence ">
+							<p class="mod_result_content_title">纠错</p>
+							<div class="text mCustomScrollbar check_text">我只想每天起来<em class="focal">睡觉</em>吃饭<em> </em></div>
+							<p class="mod_result_content_title">同义词</p>
+							<div class="text text2 mCustomScrollbar synonyms_text">
+								<p class="synonyms_item">想 —— 需要</p><p class="synonyms_item">每天 —— 天天</p><p class="synonyms_item">起来 —— 醒来</p><p class="synonyms_item">睡 —— 睡觉</p>
+							</div>
+						</dd>
+					</dl>
+				</div>
+			</div>
+			<div class="col3_tab col3_tab2 show">
+				<div class="mod_col_text">
+					<p class="mod_col_title">输入一段想分析的文字：<a class="replaced" href="semantic#" title="换一段示例" id="sec2_2_replaced">换一段示例</a></p>
+					<div class="analysis_wrap">
+						<div id="content-1" class="analysis_content ">
+							<textarea id="input_sec2_2" class="txt" name="" id="txt3" limit="20">这是一个很长很长的句子</textarea>
+							<i class="icon_close" id="sec2_2_clear"></i>
+							<p class="txt_warm">体验版最多可输入20个字</p>
+						</div>
+					</div>
+				</div>
+				<div class="mod_col_main result_main">
+					<p class="mod_col_title">分析结果：</p>
+					<dl class="row">
+						<dd class="mod_result_content result_sentence dependency_chart">
+						<a href="semantic##" class="show_all">显示全部</a>
+						</dd>
+						<dd class="mod_result_content result_tabs dependency_text">
+							<div class="result_tabs_wrap result_tabs_wrap_first">
+							</div>
 						</dd>
 					</dl>
 				</div>
