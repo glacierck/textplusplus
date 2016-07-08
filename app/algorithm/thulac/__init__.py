@@ -7,11 +7,7 @@ class Thulac(object):
 		lib.Thulac_run.restype = c_char_p
 
 	def run(self,raw):
-		lib.Thulac_run(self.obj,raw)
-
-		f = open('out2.txt','r')
-		ret = f.read()
-		f.close()
+		ret = lib.Thulac_run(self.obj,raw)
 		return ret
 
 thulac = Thulac()

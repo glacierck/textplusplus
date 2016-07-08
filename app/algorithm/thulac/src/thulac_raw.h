@@ -45,7 +45,25 @@ public:
 
         std::string ret = "";
          for(size_t i=0;i<this->size();i++){
-            ret = ret + char((*this)[i]);
+
+            int c = (*this)[i];
+            if(c<128){//1个byte的utf-8
+                    
+                ret = ret + char(c);
+                }else if(c<0x800){//2个byte的utf-8
+                    ret = ret + char(0xc0|(c>>6));
+                    ret = ret + char(0x80|(c&0x3f));
+                }else if(c<0x10000){//3个byte的utf-8
+                    ret = ret + char(0xe0|((c>>12)&0x0f));
+                    ret = ret + char(0x80|((c>>6)&0x3f));
+                    ret = ret + char(0x80|(c&0x3f));
+                }else {//4个byte的utf-8
+                    ret = ret + char(0xf0|((c>>18)&0x07));
+                    ret = ret + char(0x80|((c>>12)&0x3f));
+                    ret = ret + char(0x80|((c>>6)&0x3f));
+                    ret = ret + char(0x80|(c&0x3f));
+                };
+            //ret = ret + char((*this)[i]);
             //put_character(raw[i],os);
         }
         return ret;

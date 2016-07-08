@@ -219,8 +219,9 @@ public:
                 //std::cout<<tagged;//输出
                 ret = tagged.get();
 
-                std::ofstream out("out2.txt");
-                out<<tagged;
+                //std::ofstream out("out2.txt");
+                //out<<tagged;
+                
             }
                     
             else 

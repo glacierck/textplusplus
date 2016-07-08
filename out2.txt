@@ -1,1 +1,0 @@
-2012年_t 3月_t 22日_t -_w 分类_v Python_x 标签_n NoneType_x ,_w not_x iterable_x ,_w python_x ,_w TypeError_x 发表_v 评论_n 电子_n 邮件_n 地址_n 不_d 会_v 被_p 公开_v 。_w 必_d 填_v 项_q 已_d 用_p *_w 标注_v 评论_n 姓名_n *_w 电子_n 邮件_n *_w 站点_n ..._m
