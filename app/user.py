@@ -33,7 +33,7 @@ def register():
 		return json.dumps({ 'code': 302, 'message': 'the email is existed' }), 203
 
 	t = time.time()
-	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token, False, user['password'].encode('utf-8'), t, t, t))
+	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token(), False, user['password'].encode('utf-8'), t, t, t))
 	cursor.execute("INSERT INTO lac(user) VALUES(%s)", (uid))
 	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1))
 
