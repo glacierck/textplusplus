@@ -1,0 +1,2 @@
+dbuser = 'root'
+dbpw = 'thunlp'

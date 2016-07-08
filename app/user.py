@@ -1,6 +1,8 @@
 from flask import *
 import time, random, string, hashlib, re
-from app import app, conn
+from app import app
+from config import *
+import MySQLdb
 
 def token():
 	slcNum = [random.choice(string.digits) for i in range(10)]
@@ -14,7 +16,9 @@ def token():
 def register():
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
-
+		
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor=conn.cursor()
 	user = request.form
 	uid = user['id'].encode('utf-8')
@@ -38,6 +42,7 @@ def register():
 	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1))
 
 	conn.commit()
+	conn.close()
 	return json.dumps({'code': 100,'message': 'success','user': uid})
 
 @app.route('/api/login', methods=['GET','POST'])
@@ -45,6 +50,8 @@ def log_in():
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor=conn.cursor()
 	user = request.form
 	uid = user['id'].encode('utf-8')
@@ -62,6 +69,7 @@ def log_in():
 	t = time.time()
 	cursor.execute('update user set last_login = %s where id = %s', (t,uid))
 	conn.commit()
+	conn.close()
 
 	session['id'] = uid
 	return json.dumps({'code': 100,'message': 'success','user': uid})

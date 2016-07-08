@@ -1,12 +1,17 @@
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import app, thulac, conn
+from app import app,thulac
+from config import *
+import MySQLdb
 
 def check_token(token):
 
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor=conn.cursor()
 	cursor.execute('select * from user where token = %s', (token,))
 	u = cursor.fetchone()
+	conn.close()
 	if u is None:
 		return False
 	return True

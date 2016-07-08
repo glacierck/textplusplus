@@ -2,19 +2,28 @@
 
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import	 app, thulac, conn
+from app import	 app,thulac
+from config import *
+import MySQLdb
 
 def check_token(token):
+	
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 
 	cursor=conn.cursor()
 	cursor.execute('select * from user where token = %s', (token,))
 	u = cursor.fetchone()
+	conn.close()
+
 	if u is None:
 		return False
 	return True
 
 def updata_time(token,name):
 
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor=conn.cursor()
 	cursor.execute('select * from user where token = %s', (token,))
 	u = cursor.fetchone()
@@ -23,7 +32,13 @@ def updata_time(token,name):
 	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
 	u = cursor.fetchone()
 	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
-	t = u[-1]+1
+
+	t = u[-1]
+	if(t is not None):
+		t = t + 1
+	else:
+		t = 1
+
 	cursor.execute('update ' + name + ' set ' + dt + ' = %s where user = %s', (t,uid))
 
 	s = name + '_last_time'
@@ -32,11 +47,13 @@ def updata_time(token,name):
 	u = cursor.fetchone()
 	cursor.execute('update tokeninfo set ' + s + ' = %s where user = %s', (t,uid))
 	conn.commit()
+	conn.close()
 
 	
-
 def check_tokentime(token,name,order):
 
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor=conn.cursor()
 	cursor.execute('select * from user where token = %s', (token,))
 	u = cursor.fetchone()
@@ -54,6 +71,7 @@ def check_tokentime(token,name,order):
 
 	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
 	u = cursor.fetchone()
+	conn.close()
 	t = u[-1]
 
 	if t >= limit:

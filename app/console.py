@@ -1,13 +1,19 @@
 from flask import *
 import time, random, string, hashlib, re
-from app import app, conn
+from app import app
+from config import *
+import MySQLdb
 
 @app.route('/api/console/tag_info', methods=['GET','POST'])
 def tag_info():
+
 	uid = session['id']
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	cursor = conn.cursor()
 	cursor.execute('select * from lac where user = %s', (uid,))
 	u = cursor.fetchone()
+	conn.close()
 
 	max_count = 1000
 	dt =86400
@@ -33,10 +39,14 @@ def tag_info():
 
 @app.route('/api/console', methods=['GET','POST'])
 def console_info():
+	
+	conn=MySQLdb.connect(host='127.0.0.1',user=dbuser,passwd=dbpw,port=3306)
+	conn.select_db('thunlp')
 	uid = session['id']
 	cursor = conn.cursor()
 	cursor.execute('select * from user where id = %s', (uid,))
 	u = cursor.fetchone()
+	conn.close()
 
 	return json.dumps({'name': u[0],'email': u[1],'register_time': time.strftime('%Y-%m-%d',time.localtime(u[4])),'token': u[3]})
 
