@@ -1,4 +1,3 @@
-
 // semantic js
 $(document).ready(function() {
 	if (typeof (JSON) == 'undefined') {
@@ -285,36 +284,36 @@ $(document).ready(function() {
 
 		//showImg(0);
 
-		function showImg(n) {
+		// function showImg(n) {
 
 
-			$('.search_txt').val(demoLink[n]);
-			var img = $('.img_show img').eq(n);
-			img.show().siblings().hide();
+		// 	$('.search_txt').val(demoLink[n]);
+		// 	var img = $('.img_show img').eq(n);
+		// 	img.show().siblings().hide();
 
 
-			$.ajax({
-				async:false,
-				type:'post',
-				url: '/public/wenzhi/api/get_con.php',
-				dataType: 'json',
-				data:{
-					index: n
-				},
-				success:function(data){
-					$('#phone_title_2').html(data["title"]);
-					$('#mCSB_8_container').html(data["content"]);
-					//$('#phone_web').html(data["phone"]);
+		// 	$.ajax({
+		// 		async:false,
+		// 		type:'post',
+		// 		url: '/public/wenzhi/api/get_con.php',
+		// 		dataType: 'json',
+		// 		data:{
+		// 			index: n
+		// 		},
+		// 		success:function(data){
+		// 			$('#phone_title_2').html(data["title"]);
+		// 			$('#mCSB_8_container').html(data["content"]);
+		// 			//$('#phone_web').html(data["phone"]);
 
-					content = data["phone"];
-					var array_con = content.split("/style>");
-					var len = array_con.length;
-					var ret = array_con[len-1];
+		// 			content = data["phone"];
+		// 			var array_con = content.split("/style>");
+		// 			var len = array_con.length;
+		// 			var ret = array_con[len-1];
 
-					$('#phone_web').html(ret);
-				}
-			});
-		}
+		// 			$('#phone_web').html(ret);
+		// 		}
+		// 	});
+		// }
 
 		function autoDiv(){
 			$(".section").height($(window).height());
@@ -325,84 +324,84 @@ $(document).ready(function() {
 		})
 		autoDiv();
 
-	function checkDo(){
-		var value = $('#input_stage').val();
-		value = text_filter(value);
+	// function checkDo(){
+	// 	var value = $('#input_stage').val();
+	// 	value = text_filter(value);
 
-		var dat = {"text":value};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'4',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				var temp = data["text_annotate"];
-				var check_ret = temp.replace(/<em>/g, "<em class=\"focal\">");
-				$('#check_ret').html(check_ret);
-				$('#correction_right').html(data["text_annotate"]);
-				var syn_value =  data["text"];
-		    	var syn_dat = {"text":syn_value};
-		    	var ret = '';
+	// 	var dat = {"text":value};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'4',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			var temp = data["text_annotate"];
+	// 			var check_ret = temp.replace(/<em>/g, "<em class=\"focal\">");
+	// 			$('#check_ret').html(check_ret);
+	// 			$('#correction_right').html(data["text_annotate"]);
+	// 			var syn_value =  data["text"];
+	// 	    	var syn_dat = {"text":syn_value};
+	// 	    	var ret = '';
 
-		    	var syn_src = '';
-		    	var syn_des = '';
+	// 	    	var syn_src = '';
+	// 	    	var syn_des = '';
 
-		    	$.ajax({
-					async:true,
-					type:'post',
-					url: '/public/wenzhi/api/common_api1223.php',
-					dataType: 'json',
-					data:{
-						'api':'3',
-						'body_data': JSON.stringify(syn_dat)
-					},
-					success:function(data){
-						var temp = data["syns"];
-						var syn_ret = '';
-						if (temp != undefined) {
-							for (var i=0; i<temp.length; i++)
-							{
-								var value = temp[i];
-								//console.log("value is:", value);
-								var syns = value;
-								//for (var j=0; j<syns.length; j++)
-								//{
-									//var syns_word = syns[j];
-									var syns_word = syns;
+	// 	    	$.ajax({
+	// 				async:true,
+	// 				type:'post',
+	// 				url: '/public/wenzhi/api/common_api1223.php',
+	// 				dataType: 'json',
+	// 				data:{
+	// 					'api':'3',
+	// 					'body_data': JSON.stringify(syn_dat)
+	// 				},
+	// 				success:function(data){
+	// 					var temp = data["syns"];
+	// 					var syn_ret = '';
+	// 					if (temp != undefined) {
+	// 						for (var i=0; i<temp.length; i++)
+	// 						{
+	// 							var value = temp[i];
+	// 							//console.log("value is:", value);
+	// 							var syns = value;
+	// 							//for (var j=0; j<syns.length; j++)
+	// 							//{
+	// 								//var syns_word = syns[j];
+	// 								var syns_word = syns;
 
-									var word_ori = syns_word["word_ori"]["text"];
-									//console.log("word_ori is:", word_ori);
-									syn_ret += "<p class=\"result_sort_item\" ><b class=\"t\"><span class=\"w\">";
-									syn_ret += word_ori;
-									syn_ret += "</span><i class=\"l\"></i></b>";
+	// 								var word_ori = syns_word["word_ori"]["text"];
+	// 								//console.log("word_ori is:", word_ori);
+	// 								syn_ret += "<p class=\"result_sort_item\" ><b class=\"t\"><span class=\"w\">";
+	// 								syn_ret += word_ori;
+	// 								syn_ret += "</span><i class=\"l\"></i></b>";
 
-									var word_syns = syns_word["word_syns"];
-									for (var k=0; k<word_syns.length; k++)
-									{
-										var ret_word = word_syns[k]["text"];
-										//console.log("ret_word is:", ret_word);
-										if (k==0) {
-											syn_ret += "<span class=\"w\">" + ret_word + '</span>';
-										}
-										else {
-											syn_ret += "/<span class=\"w\">" + ret_word + '</span>';
-										}
-									}
-									syn_ret += "</p>";
-								//}
-							}
-						}
-						//console.log("syn_ret", syn_ret);
-						$('#syn_ret').html(syn_ret);
-					}
-				});
-			}
-		});
-	}
+	// 								var word_syns = syns_word["word_syns"];
+	// 								for (var k=0; k<word_syns.length; k++)
+	// 								{
+	// 									var ret_word = word_syns[k]["text"];
+	// 									//console.log("ret_word is:", ret_word);
+	// 									if (k==0) {
+	// 										syn_ret += "<span class=\"w\">" + ret_word + '</span>';
+	// 									}
+	// 									else {
+	// 										syn_ret += "/<span class=\"w\">" + ret_word + '</span>';
+	// 									}
+	// 								}
+	// 								syn_ret += "</p>";
+	// 							//}
+	// 						}
+	// 					}
+	// 					//console.log("syn_ret", syn_ret);
+	// 					$('#syn_ret').html(syn_ret);
+	// 				}
+	// 			});
+	// 		}
+	// 	});
+	// }
 
 	//$("#input_stage").keyup(function(){
 	$('#input_stage').bind('input propertychange', function() {
@@ -755,381 +754,381 @@ $(document).ready(function() {
 		get_keywords();
 	});
 
-	function get_sentiment(){
-		var text = $('#input_sec3').val();
-		text = text_filter(text);
+	// function get_sentiment(){
+	// 	var text = $('#input_sec3').val();
+	// 	text = text_filter(text);
 
-		var dat = {"content":text};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'6',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				var negative = (Math.round(data["negative"]*100)).toString() + "%";
-				var positive = (Math.round(data["positive"]*100)).toString() + "%";
+	// 	var dat = {"content":text};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'6',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			var negative = (Math.round(data["negative"]*100)).toString() + "%";
+	// 			var positive = (Math.round(data["positive"]*100)).toString() + "%";
 
-				$('.plan_l').width(negative);
-				$('.plan_r').width(positive);
-				var ret_neg = "负面 " + negative;
-				var ret_pos = "正面 " + positive;
-				$('.txt_l').html(ret_neg);
-				$('.txt_r').html(ret_pos);
-			}
-		});
-	}
+	// 			$('.plan_l').width(negative);
+	// 			$('.plan_r').width(positive);
+	// 			var ret_neg = "负面 " + negative;
+	// 			var ret_pos = "正面 " + positive;
+	// 			$('.txt_l').html(ret_neg);
+	// 			$('.txt_r').html(ret_pos);
+	// 		}
+	// 	});
+	// }
 
-	function get_check(){
-		var text = $('#input_sec2_1').val();
-		text = text_filter(text);
+	// function get_check(){
+	// 	var text = $('#input_sec2_1').val();
+	// 	text = text_filter(text);
 
-		var dat = {"text":text};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'4',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				check_ret = data["text_annotate"];
-				check_ret = check_ret.replace('<em>','<em class="focal">');
-				$('.check_text').children().children().html(check_ret);
-			}
-		});
-	}
+	// 	var dat = {"text":text};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'4',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			check_ret = data["text_annotate"];
+	// 			check_ret = check_ret.replace('<em>','<em class="focal">');
+	// 			$('.check_text').children().children().html(check_ret);
+	// 		}
+	// 	});
+	// }
 
-	function get_synonyms(){
-		var text = $('#input_sec2_1').val();
-		text = text_filter(text);
+	// function get_synonyms(){
+	// 	var text = $('#input_sec2_1').val();
+	// 	text = text_filter(text);
 
-		var dat = {"text":text};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'3',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				synonyms_ret = data["syns"];
-			    synonyms_tpl = '<p class="synonyms_item">{ori} —— {syns}</p>';
-				$('.synonyms_text').children().children().empty();
-				if(synonyms_ret instanceof Array){
-					for(var i = 0; i<synonyms_ret.length; i++){
-						var temp = synonyms_ret[i];
-						var temp_ori  = temp["word_ori"]["text"];
-						var temp_syns = temp["word_syns"][0]["text"];
-						var temp_tpl  = synonyms_tpl.replace("{ori}",temp_ori).replace("{syns}",temp_syns);
-						$('.synonyms_text').children().children().append(temp_tpl);
-					}
-				}
-			},
-			error:function(data){
-				synonyms_ret = data["syns"];
-			    synonyms_tpl = '<p class="synonyms_item">{ori} —— {syns}</p>';
-				$('.synonyms_text').children().children().empty();
-				if(synonyms_ret instanceof Array){
-					for(var i = 0; i<synonyms_ret.length; i++){
-						var temp = synonyms_ret[i];
-						var temp_ori  = temp["word_ori"]["text"];
-						var temp_syns = temp["word_syns"][0]["text"];
-						var temp_tpl  = synonyms_tpl.replace("{ori}",temp_ori).replace("{syns}",temp_syns);
-						$('.synonyms_text').children().children().append(temp_tpl);
-					}
-				}
-			}
-		});
-	}
-
-
-	function get_dependency(){
-		var text = $('#input_sec2_2').val();
-		text = text_filter(text);
-
-		var dat = {"content":text};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'11',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				var url_obj   = {"nodes":[],"links":[]};
-				var node_obj  = {};
-				var links_obj = {};
-				var dep_link_array = {};
-				keywords_ret  = data["keywords"];
-				if(keywords_ret instanceof Array){
-					$('.dependency_chart').empty();
-					deps = keywords_ret[0];
-					node_obj = {"word": "root","pos": "","class": "root"};
-					url_obj.nodes.push(node_obj);
-
-					for(var i =0; i<deps.length; i++){
-						node_obj = {};
-						links_obj = {};
-						node_obj["word"] = deps[i]["word"];
-						node_obj["pos"] = base_attr_array[deps[i]["postag"]];
-						node_obj["class"] = "term";
-						links_obj["target"] = deps[i]["id"];
-						links_obj["source"] = deps[i]["father_id"];
-						links_obj["relation"] = deps[i]["dep_rel"];
-
-						url_obj.nodes.push(node_obj);
-						url_obj.links.push(links_obj);
-
-						tmp_dep_rel   = deps[i]["dep_rel"];
-						dep_link_array[tmp_dep_rel] = dep_link_array[tmp_dep_rel] || [];
-						dep_link_array[tmp_dep_rel].push(i);
-					}
-					$('.dependency_text').children().empty();
-					dep_rel_tpl = '<a href="#" title="{dep_rel}">{dep_rel}-{dep_chn}</a>';
-					for( dep_rel in dep_link_array){
-						var temp_dep_rel = dep_rel_tpl.replace(/{dep_rel}/g,dep_rel).replace('{dep_chn}',base_dep_rel_array[dep_rel]);
-						$('.dependency_text').children().append(temp_dep_rel);
-					}
-				}
-				$('.dependency_chart').append('<a href="##" class="show_all">显示全部</a>');
-
-				url = encodeURIComponent(JSON.stringify(url_obj));
-				DrawGraph(url);
-
-				return;
-
-				keywords_ret = data["keywords"];
-				dep_rel_array  = [];
-				dep_link_array = {};
-				var width  = 0;
-				var from_x = 0;
-				var top_x  = 0;
-				var top_y  = 0;
-				var target_x = 0;
-				var top    = 0;
-
-				svg_html_tpl = '<div class="arc_arrow active {dep}"><svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="{width}px" height="136px" viewBox="0 0 {width} 136">'+
-                        '<defs><marker id="Arrow" markerWidth="5" markerHeight="5" viewBox="-6 -6 12 12" refX="-2" refY="0" markerUnits="strokeWidth" orient="auto"><polygon points="-2,0 -5,5 5,0 -5,-5" fill="#249a0d" stroke="transparent" stroke-width="2px"></polygon></marker></defs>'+
-                        '<path d="M {from_x},130 Q {top_x},{top_y} {target_x},130" stroke="#249a0d" fill="none" stroke-width="2px" marker-end="url(#Arrow)"></path></svg>'+
-                        '<p class="word_name word_name_vob" style="top:{top}px">{dep}</p></div>';
-				word_root_tpl = '<div class="word_wrap"><span class="root">Root</span></div>';
-				word_wrap_tpl = '<div class="word_wrap"><a href="##" class="word normal">{word}</a><span class="word_attr">{attr}</span></div>';
-				if(keywords_ret instanceof Array){
-					$('.dependency_chart').empty();
-					$('.dependency_chart').append(word_root_tpl);
-					deps = keywords_ret[0];
-					for(var i = 0; i < deps.length; i++){
-						var tmp_dep_rel   = deps[i]["dep_rel"];
-						var tmp_father_id = deps[i]["father_id"];
-						var tmp_id        = deps[i]["id"];
-						var tmp_postag    = deps[i]["postag"];
-						var tmp_word      = deps[i]["word"];
-						direction = tmp_father_id > tmp_id ? 'reverse' : 'straight';
-						//console.log(tmp_father_id+'+'+tmp_id);
-						abs       = Math.abs(tmp_father_id - tmp_id);
-						//console.log(direction+abs);
-						if(direction == 'straight'){
-							from_x = 25-abs;
-							target_x = 25-abs+ 35*abs+0.6*abs*abs;
-							target_x = abs>6 ? target_x + 20: target_x;
-						}else{
-							target_x = 25-abs;
-							from_x   = 25-abs+ 35*abs+0.6*abs*abs;
-							from_x   = abs>6 ? form_x + 20 : from_x;
-						}
-						if(tmp_father_id == 0){
-							target_x += 30;
-						}
-						top   = 90-10*abs;
-						top   = Math.max(-3,top);
-						top_x = (from_x + target_x)/2;
-						top_y = 120-20*abs;
-						top_y = Math.max(-100,top_y);
-
-						width = Math.abs(from_x-target_x) + 35;
+	// 	var dat = {"text":text};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'3',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			synonyms_ret = data["syns"];
+	// 		    synonyms_tpl = '<p class="synonyms_item">{ori} —— {syns}</p>';
+	// 			$('.synonyms_text').children().children().empty();
+	// 			if(synonyms_ret instanceof Array){
+	// 				for(var i = 0; i<synonyms_ret.length; i++){
+	// 					var temp = synonyms_ret[i];
+	// 					var temp_ori  = temp["word_ori"]["text"];
+	// 					var temp_syns = temp["word_syns"][0]["text"];
+	// 					var temp_tpl  = synonyms_tpl.replace("{ori}",temp_ori).replace("{syns}",temp_syns);
+	// 					$('.synonyms_text').children().children().append(temp_tpl);
+	// 				}
+	// 			}
+	// 		},
+	// 		error:function(data){
+	// 			synonyms_ret = data["syns"];
+	// 		    synonyms_tpl = '<p class="synonyms_item">{ori} —— {syns}</p>';
+	// 			$('.synonyms_text').children().children().empty();
+	// 			if(synonyms_ret instanceof Array){
+	// 				for(var i = 0; i<synonyms_ret.length; i++){
+	// 					var temp = synonyms_ret[i];
+	// 					var temp_ori  = temp["word_ori"]["text"];
+	// 					var temp_syns = temp["word_syns"][0]["text"];
+	// 					var temp_tpl  = synonyms_tpl.replace("{ori}",temp_ori).replace("{syns}",temp_syns);
+	// 					$('.synonyms_text').children().children().append(temp_tpl);
+	// 				}
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 
-						var tmp_svg_html  = svg_html_tpl.replace(/{dep}/g,tmp_dep_rel).replace(/{width}/g,width).replace('{from_x}',from_x).replace('{target_x}',target_x).replace('{top_x}',top_x).replace('{top_y}',top_y).replace('{top}',top);
-						var temp_word_wrap = word_wrap_tpl.replace('{word}',tmp_word).replace('{attr}',base_attr_array[tmp_postag]);
-						$('.dependency_chart').append(temp_word_wrap);
-						if(direction == 'straight'){
-							$($('.dependency_chart .word_wrap').get(tmp_father_id)).append(tmp_svg_html);
-						}else{
-							$($('.dependency_chart .word_wrap').get(tmp_id)).append(tmp_svg_html);
-						}
-						dep_link_array[tmp_dep_rel] = dep_link_array[tmp_dep_rel] || [];
-						dep_link_array[tmp_dep_rel].push(i);
-					}
-					$('.dependency_text').children().empty();
-					dep_rel_tpl = '<a href="#" title="{dep_rel}">{dep_rel}-{dep_chn}</a>';
-					for( dep_rel in dep_link_array){
-						var temp_dep_rel = dep_rel_tpl.replace(/{dep_rel}/g,dep_rel).replace('{dep_chn}',base_dep_rel_array[dep_rel]);
-						$('.dependency_text').children().append(temp_dep_rel);
-					}
+	// function get_dependency() {
+	// 	var text = $('#input_sec2_2').val();
+	// 	text = text_filter(text);
+
+	// 	var dat = {"content":text};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'11',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			var url_obj   = {"nodes":[],"links":[]};
+	// 			var node_obj  = {};
+	// 			var links_obj = {};
+	// 			var dep_link_array = {};
+	// 			keywords_ret  = data["keywords"];
+	// 			if(keywords_ret instanceof Array){
+	// 				$('.dependency_chart').empty();
+	// 				deps = keywords_ret[0];
+	// 				node_obj = {"word": "root","pos": "","class": "root"};
+	// 				url_obj.nodes.push(node_obj);
+
+	// 				for(var i =0; i<deps.length; i++){
+	// 					node_obj = {};
+	// 					links_obj = {};
+	// 					node_obj["word"] = deps[i]["word"];
+	// 					node_obj["pos"] = base_attr_array[deps[i]["postag"]];
+	// 					node_obj["class"] = "term";
+	// 					links_obj["target"] = deps[i]["id"];
+	// 					links_obj["source"] = deps[i]["father_id"];
+	// 					links_obj["relation"] = deps[i]["dep_rel"];
+
+	// 					url_obj.nodes.push(node_obj);
+	// 					url_obj.links.push(links_obj);
+
+	// 					tmp_dep_rel   = deps[i]["dep_rel"];
+	// 					dep_link_array[tmp_dep_rel] = dep_link_array[tmp_dep_rel] || [];
+	// 					dep_link_array[tmp_dep_rel].push(i);
+	// 				}
+	// 				$('.dependency_text').children().empty();
+	// 				dep_rel_tpl = '<a href="#" title="{dep_rel}">{dep_rel}-{dep_chn}</a>';
+	// 				for( dep_rel in dep_link_array){
+	// 					var temp_dep_rel = dep_rel_tpl.replace(/{dep_rel}/g,dep_rel).replace('{dep_chn}',base_dep_rel_array[dep_rel]);
+	// 					$('.dependency_text').children().append(temp_dep_rel);
+	// 				}
+	// 			}
+	// 			$('.dependency_chart').append('<a href="##" class="show_all">显示全部</a>');
+
+	// 			url = encodeURIComponent(JSON.stringify(url_obj));
+	// 			DrawGraph(url);
+
+	// 			return;
+
+	// 			keywords_ret = data["keywords"];
+	// 			dep_rel_array  = [];
+	// 			dep_link_array = {};
+	// 			var width  = 0;
+	// 			var from_x = 0;
+	// 			var top_x  = 0;
+	// 			var top_y  = 0;
+	// 			var target_x = 0;
+	// 			var top    = 0;
+
+	// 			svg_html_tpl = '<div class="arc_arrow active {dep}"><svg version="1.1" baseProfile="full" xmlns="http://www.w3.org/2000/svg" width="{width}px" height="136px" viewBox="0 0 {width} 136">'+
+ //                        '<defs><marker id="Arrow" markerWidth="5" markerHeight="5" viewBox="-6 -6 12 12" refX="-2" refY="0" markerUnits="strokeWidth" orient="auto"><polygon points="-2,0 -5,5 5,0 -5,-5" fill="#249a0d" stroke="transparent" stroke-width="2px"></polygon></marker></defs>'+
+ //                        '<path d="M {from_x},130 Q {top_x},{top_y} {target_x},130" stroke="#249a0d" fill="none" stroke-width="2px" marker-end="url(#Arrow)"></path></svg>'+
+ //                        '<p class="word_name word_name_vob" style="top:{top}px">{dep}</p></div>';
+	// 			word_root_tpl = '<div class="word_wrap"><span class="root">Root</span></div>';
+	// 			word_wrap_tpl = '<div class="word_wrap"><a href="##" class="word normal">{word}</a><span class="word_attr">{attr}</span></div>';
+	// 			if(keywords_ret instanceof Array){
+	// 				$('.dependency_chart').empty();
+	// 				$('.dependency_chart').append(word_root_tpl);
+	// 				deps = keywords_ret[0];
+	// 				for(var i = 0; i < deps.length; i++){
+	// 					var tmp_dep_rel   = deps[i]["dep_rel"];
+	// 					var tmp_father_id = deps[i]["father_id"];
+	// 					var tmp_id        = deps[i]["id"];
+	// 					var tmp_postag    = deps[i]["postag"];
+	// 					var tmp_word      = deps[i]["word"];
+	// 					direction = tmp_father_id > tmp_id ? 'reverse' : 'straight';
+	// 					//console.log(tmp_father_id+'+'+tmp_id);
+	// 					abs       = Math.abs(tmp_father_id - tmp_id);
+	// 					//console.log(direction+abs);
+	// 					if(direction == 'straight'){
+	// 						from_x = 25-abs;
+	// 						target_x = 25-abs+ 35*abs+0.6*abs*abs;
+	// 						target_x = abs>6 ? target_x + 20: target_x;
+	// 					}else{
+	// 						target_x = 25-abs;
+	// 						from_x   = 25-abs+ 35*abs+0.6*abs*abs;
+	// 						from_x   = abs>6 ? form_x + 20 : from_x;
+	// 					}
+	// 					if(tmp_father_id == 0){
+	// 						target_x += 30;
+	// 					}
+	// 					top   = 90-10*abs;
+	// 					top   = Math.max(-3,top);
+	// 					top_x = (from_x + target_x)/2;
+	// 					top_y = 120-20*abs;
+	// 					top_y = Math.max(-100,top_y);
+
+	// 					width = Math.abs(from_x-target_x) + 35;
 
 
-				}
-			}
-		});
-	}
+	// 					var tmp_svg_html  = svg_html_tpl.replace(/{dep}/g,tmp_dep_rel).replace(/{width}/g,width).replace('{from_x}',from_x).replace('{target_x}',target_x).replace('{top_x}',top_x).replace('{top_y}',top_y).replace('{top}',top);
+	// 					var temp_word_wrap = word_wrap_tpl.replace('{word}',tmp_word).replace('{attr}',base_attr_array[tmp_postag]);
+	// 					$('.dependency_chart').append(temp_word_wrap);
+	// 					if(direction == 'straight'){
+	// 						$($('.dependency_chart .word_wrap').get(tmp_father_id)).append(tmp_svg_html);
+	// 					}else{
+	// 						$($('.dependency_chart .word_wrap').get(tmp_id)).append(tmp_svg_html);
+	// 					}
+	// 					dep_link_array[tmp_dep_rel] = dep_link_array[tmp_dep_rel] || [];
+	// 					dep_link_array[tmp_dep_rel].push(i);
+	// 				}
+	// 				$('.dependency_text').children().empty();
+	// 				dep_rel_tpl = '<a href="#" title="{dep_rel}">{dep_rel}-{dep_chn}</a>';
+	// 				for( dep_rel in dep_link_array){
+	// 					var temp_dep_rel = dep_rel_tpl.replace(/{dep_rel}/g,dep_rel).replace('{dep_chn}',base_dep_rel_array[dep_rel]);
+	// 					$('.dependency_text').children().append(temp_dep_rel);
+	// 				}
 
-	function get_keywords(){
-		var text = $('#input_sec3').val();
-		text = text_filter(text);
 
-		var dat = {"content":text,"title":text};
-		$.ajax({
-			async:true,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'5',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-        $('.circle').hide();
-				var temp = data["keywords"];
-				if(!temp[0]){
-					temp = [{"keyword":"无关键词","score":1,"type":"keyword"}];
-				}
-				var keywords_ret = '';
-				for (var i=0; i<temp.length; i++)
-				{
-					var value = temp[i];
-					var keyword = value["keyword"];
-					var score   = value["score"];
-					$($('.circle').find('circle').get(i)).attr("r",Math.sqrt(score*100)*6);
-					$($($('.circle').get(i)).find('tspan').get(0)).text(keyword);
-					$($($('.circle').get(i)).find('tspan').get(1)).text(parseInt(score*100)+'%');
+	// 			}
+	// 		}
+	// 	});
+	// }
 
-          $($('.circle').get(i)).show();
-					/* if (i == 0) {
-						keywords_ret += '<i class="icon_main icon_clock"></i><span class="text">' + keyword + '</span>';
-					}
-					else {
-						keywords_ret += '<span>&nbsp</span><span class="text">' + keyword + '</span>';
-					} */
-				}
-				$('#keywords_ret').html(keywords_ret);
-			}
-		});
-	}
+	// function get_keywords(){
+	// 	var text = $('#input_sec3').val();
+	// 	text = text_filter(text);
 
-	function get_classes(){
-		var text = $('#input_sec3').val();
-		text = text_filter(text);
+	// 	var dat = {"content":text,"title":text};
+	// 	$.ajax({
+	// 		async:true,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'5',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+ //        $('.circle').hide();
+	// 			var temp = data["keywords"];
+	// 			if(!temp[0]){
+	// 				temp = [{"keyword":"无关键词","score":1,"type":"keyword"}];
+	// 			}
+	// 			var keywords_ret = '';
+	// 			for (var i=0; i<temp.length; i++)
+	// 			{
+	// 				var value = temp[i];
+	// 				var keyword = value["keyword"];
+	// 				var score   = value["score"];
+	// 				$($('.circle').find('circle').get(i)).attr("r",Math.sqrt(score*100)*6);
+	// 				$($($('.circle').get(i)).find('tspan').get(0)).text(keyword);
+	// 				$($($('.circle').get(i)).find('tspan').get(1)).text(parseInt(score*100)+'%');
 
-		var dat = {"content":text};
-		$.ajax({
-			async:false,
-			type:'post',
-			url: '/public/wenzhi/api/common_api1223.php',
-			dataType: 'json',
-			data:{
-				'api':'7',
-				'body_data': JSON.stringify(dat)
-			},
-			success:function(data){
-				var temp = data["classes"];
-				temp.sort(function(a, b) { return a.conf < b.conf ? 1 : -1;} );
-            	var date_arr = [];
+ //          $($('.circle').get(i)).show();
+	// 				/* if (i == 0) {
+	// 					keywords_ret += '<i class="icon_main icon_clock"></i><span class="text">' + keyword + '</span>';
+	// 				}
+	// 				else {
+	// 					keywords_ret += '<span>&nbsp</span><span class="text">' + keyword + '</span>';
+	// 				} */
+	// 			}
+	// 			$('#keywords_ret').html(keywords_ret);
+	// 		}
+	// 	});
+	// }
 
-				var len = temp.length > 3 ? 3 : temp.length;
-				var total_score = 0;
-				for (var i=0; i<len; i++)
-				{
-					var value = temp[i];
-					total_score += value["conf"];
-				}
-				for (var i=0; i<len; i++)
-				{
-					var value = temp[i];
-					var class_name = value["class"];
-					var score = value["conf"];
-					var temp_arr = [];
-					//var pro = parseFloat(score)/parseFloat(total_score);
-					if ( score>0.01 ) {
-						temp_arr.push(class_name);
-						temp_arr.push(score);
-						date_arr.push(temp_arr);
-					}
+	// function get_classes(){
+	// 	var text = $('#input_sec3').val();
+	// 	text = text_filter(text);
 
-				}
-				//--------------highchart pie begin------------
-				$('#classes_ret').highcharts({
-	                chart: {
-	                	backgroundColor: null,
-	                    plotBackgroundColor: null,
-	                    plotBorderWidth: null,
-	                    plotShadow: false
-	                },
-	                exporting:{
-	                    enabled: false
-	                },
-	                title:{
-	                    text:null
-	                },
-	                colors: ['#F9C332', '#1DE05F', '#287DE7'],
-	                tooltip: {
-	                	enabled: false,
-	                    pointFormat: '{point.percentage:.1f}%</b>'
-	                },
-	                plotOptions: {
-	                    pie: {
-	                        allowPointSelect: true,
-	                        size: '50%',
-	                        cursor: 'pointer',
-	                        dataLabels: {
-	                            enabled: true,
-	                            color: '#FFFFFF',
-	                            connectorColor: '#FFFFFF',
-								style: {fontSize:"13px",fontWeight:"normal"},
-	                            connectorPadding: 2,
-	                            connectorWidth:0.5,
-	                            distance:25,
-	                            format: '{point.name}<br>{point.percentage:.1f}%'
-	                        }
-	                    }
-	                },
-	                legend: {
-	                        layout: 'horizontal',
-	                        align: 'left',
-	                        verticalAlign: 'top',
-	                        floating: true,
-	                        borderWidth: 1,
-	                        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-	                        shadow: true,
-	                        reversed:true
-	                },
-	                credits:{
-	                    enabled: false
-	                },
-	                series: [{
-	                    type: 'pie',
-	                    name: 'Browser share',
-	                    innerSize:80,
-	                    data: date_arr
-	                }]
-	            });
+	// 	var dat = {"content":text};
+	// 	$.ajax({
+	// 		async:false,
+	// 		type:'post',
+	// 		url: '/public/wenzhi/api/common_api1223.php',
+	// 		dataType: 'json',
+	// 		data:{
+	// 			'api':'7',
+	// 			'body_data': JSON.stringify(dat)
+	// 		},
+	// 		success:function(data){
+	// 			var temp = data["classes"];
+	// 			temp.sort(function(a, b) { return a.conf < b.conf ? 1 : -1;} );
+ //            	var date_arr = [];
 
-				$('.show_single_wrap>text').removeAttr("style").attr("style", "font-family: 'microsoft yahei', tahoma, Arial, 'hiragino sans gb', 'microsoft yahei', sans-serif; font-size:13px;font-weight:normal;color:#9ebfd8;line-height:13px;fill:#FFFFFF;");
-				$('tspan').removeAttr("style").addClass('txt_r');
-				//$('tspan').removeAttr("style").addClass('text');
-				//--------------highchart pie end--------------
-			}
-		});
-	}
+	// 			var len = temp.length > 3 ? 3 : temp.length;
+	// 			var total_score = 0;
+	// 			for (var i=0; i<len; i++)
+	// 			{
+	// 				var value = temp[i];
+	// 				total_score += value["conf"];
+	// 			}
+	// 			for (var i=0; i<len; i++)
+	// 			{
+	// 				var value = temp[i];
+	// 				var class_name = value["class"];
+	// 				var score = value["conf"];
+	// 				var temp_arr = [];
+	// 				//var pro = parseFloat(score)/parseFloat(total_score);
+	// 				if ( score>0.01 ) {
+	// 					temp_arr.push(class_name);
+	// 					temp_arr.push(score);
+	// 					date_arr.push(temp_arr);
+	// 				}
+
+	// 			}
+	// 			//--------------highchart pie begin------------
+	// 			$('#classes_ret').highcharts({
+	//                 chart: {
+	//                 	backgroundColor: null,
+	//                     plotBackgroundColor: null,
+	//                     plotBorderWidth: null,
+	//                     plotShadow: false
+	//                 },
+	//                 exporting:{
+	//                     enabled: false
+	//                 },
+	//                 title:{
+	//                     text:null
+	//                 },
+	//                 colors: ['#F9C332', '#1DE05F', '#287DE7'],
+	//                 tooltip: {
+	//                 	enabled: false,
+	//                     pointFormat: '{point.percentage:.1f}%</b>'
+	//                 },
+	//                 plotOptions: {
+	//                     pie: {
+	//                         allowPointSelect: true,
+	//                         size: '50%',
+	//                         cursor: 'pointer',
+	//                         dataLabels: {
+	//                             enabled: true,
+	//                             color: '#FFFFFF',
+	//                             connectorColor: '#FFFFFF',
+	// 							style: {fontSize:"13px",fontWeight:"normal"},
+	//                             connectorPadding: 2,
+	//                             connectorWidth:0.5,
+	//                             distance:25,
+	//                             format: '{point.name}<br>{point.percentage:.1f}%'
+	//                         }
+	//                     }
+	//                 },
+	//                 legend: {
+	//                         layout: 'horizontal',
+	//                         align: 'left',
+	//                         verticalAlign: 'top',
+	//                         floating: true,
+	//                         borderWidth: 1,
+	//                         backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+	//                         shadow: true,
+	//                         reversed:true
+	//                 },
+	//                 credits:{
+	//                     enabled: false
+	//                 },
+	//                 series: [{
+	//                     type: 'pie',
+	//                     name: 'Browser share',
+	//                     innerSize:80,
+	//                     data: date_arr
+	//                 }]
+	//             });
+
+	// 			$('.show_single_wrap>text').removeAttr("style").attr("style", "font-family: 'microsoft yahei', tahoma, Arial, 'hiragino sans gb', 'microsoft yahei', sans-serif; font-size:13px;font-weight:normal;color:#9ebfd8;line-height:13px;fill:#FFFFFF;");
+	// 			$('tspan').removeAttr("style").addClass('txt_r');
+	// 			//$('tspan').removeAttr("style").addClass('text');
+	// 			//--------------highchart pie end--------------
+	// 		}
+	// 	});
+	// }
 
 	function text_filter(text){
 		text = text.replace(/<[\/\s]*(?:(?!div|br)[^>]*)>/g, '');
