@@ -240,7 +240,7 @@ private:
     inline void find_bases(int dat_size,int ch1,int ch2,int& uni_base,int&bi_base){
         if(ch1>32 &&ch1<128)ch1+=65248;
         if(ch2>32 &&ch2<128)ch2+=65248;
-        if(ch1 >= dat_size || dat[ch1].check){
+        if(dat[ch1].check){
             uni_base=-1;bi_base=-1;return;
         }
         uni_base=dat[ch1].base+SEPERATOR;
