@@ -17,11 +17,11 @@ public:
 		tag_v = "v";
     };
 
-
     void adjust(TaggedSentence& sentence){
 		if((!vM_dat)||(!vD_dat))return;
 		for(int i=0;i<sentence.size()-1;i++){
 			if((sentence[i].tag==tag_v)&&(sentence[i+1].tag==tag_v)){
+				printf("%d\n", vM_dat->match(sentence[i].word));
 				if(vM_dat->match(sentence[i].word)!=-1){
 					sentence[i].tag="vm";
 				}else if(vD_dat->match(sentence[i+1].word)!=-1){

@@ -12,9 +12,18 @@
 
 namespace thulac{
 
-//用于分词和词性标注的类
+
 class TaggingDecoder{
 public:
+
+    ///*模型参数*/
+    permm::Model* model;
+
+    DAT* dat;
+    char** label_info;
+    int** pocs_to_tags;
+
+
     char separator;
 
     int max_length;
@@ -22,19 +31,9 @@ public:
     int len;//句子长度
     int* sequence;//句子
     int** allowed_label_lists;///
-    int** pocs_to_tags;///
 
     ///*特征*//
     NGramFeature* ngram_feature;
-
-    
-
-    ///*双数组*/
-    DAT* dat;
-    int is_old_type_dat;
-
-    ///*模型参数*/
-    permm::Model* model;
 
     ///*解码用*/
     permm::Node* nodes;//只用来存储解码用的节点的拓扑结构
@@ -43,9 +42,6 @@ public:
     permm::Alpha_Beta* betas;//后向算法数据
     int best_score;
     int* result;//存储结果
-    
-    char** label_info;
-
 
     ///**合法转移矩阵*/
     int*label_trans;
@@ -75,20 +71,30 @@ public:
     void put_values();
     void dp();
     void cal_betas();
+    void cal_betas(int**);
     
     /*接口*/
-    
+    int segment(int* input,int length,int* tags);
+    int segment(RawSentence&);
+    int segment(RawSentence&,SegmentedSentence&);
+    int segment(RawSentence&,POCGraph&,SegmentedSentence&);
     int segment(RawSentence&,POCGraph&,TaggedSentence&);
+    int segment(RawSentence&,POCGraph&);
+    int segment(RawSentence&,POCGraph&, POCGraph&);
+    int segment(POCGraph&,RawSentence&);
+    int segment(int**,RawSentence&);
+    int segment(int**, RawSentence&, TaggedSentence&);
+    int segment(RawSentence&,POCGraph&,Lattice&);
     
+    void find_good_choice();
+    void generate_lattice(Lattice&);
     
     void get_result(TaggedSentence&);
-    void get_seg_result(SegmentedSentence&);
+    void get_seg_result(SegmentedSentence& ss);
     /*输入输出*/
     void output_raw_sentence();
     void output_sentence();
     void output_allow_tagging();
-
-    void cs(); 
     
 private:
     void load_label_trans(char*filename);
@@ -99,18 +105,12 @@ private:
 
 TaggingDecoder::TaggingDecoder(){
     this->separator='_';
-    this->max_length=10000;   //就是这里！
+    this->max_length=10000;
     this->len=0;
     this->sequence=new int[this->max_length];
     this->allowed_label_lists=new int*[this->max_length];
-    pocs_to_tags=NULL;
 
     ngram_feature=NULL;
-
-    
-
-    dat=NULL; 
-    is_old_type_dat=false;
     
     nodes=new permm::Node[this->max_length];
     
@@ -125,8 +125,6 @@ TaggingDecoder::TaggingDecoder(){
     this->tag_size=0;
     //this->is_good_choice=NULL;
     
-    this->model=NULL;
-    
     alphas=NULL;
     betas=NULL;
     
@@ -135,8 +133,7 @@ TaggingDecoder::~TaggingDecoder(){
     delete[]sequence;
     delete[]allowed_label_lists;
     
-    //delete 用于释放 new 分配的空间，free 有用释放 malloc 分配的空间。
-    //关于delete和free的区别详情可以看http://www.cnblogs.com/zhuyp1015/archive/2012/07/20/2601698.html
+    delete ngram_feature;
     
     for(int i=0;i<max_length;i++){
         delete[](nodes[i].predecessors);
@@ -147,39 +144,26 @@ TaggingDecoder::~TaggingDecoder(){
     free(alphas);
     free(betas);
     free(result);
-    if(model!=NULL)for(int i=0;i<model->l_size;i++){
-        if(label_info)delete[](label_info[i]);
-    };
-    delete[](label_info);
     
         
     
-    free(label_trans);
+    delete[](label_trans);
     if(model!=NULL)for(int i=0;i<model->l_size;i++){
-        if(label_trans_pre)free(label_trans_pre[i]);
-        if(label_trans_post)free(label_trans_post[i]);
+        if(label_trans_pre)delete[](label_trans_pre[i]);
+        if(label_trans_post)delete[](label_trans_post[i]);
     }
-    free(label_trans_pre);
-    free(label_trans_post);
+    delete[](label_trans_pre);
+	delete[](label_trans_post);
     
 //    delete[](allow_sep);
     delete[](allow_com);
     
-    if(model!=NULL)for(int i=0;i<model->l_size;i++){
-        if(label_looking_for)delete[](label_looking_for[i]);
-    };
-    delete[](label_looking_for);
+	if(model!=NULL)for(int i=0;i<model->l_size;i++){
+		if(label_looking_for)delete[](label_looking_for[i]);
+	};
+	delete[](label_looking_for);
     delete[](is_good_choice);
     
-    if(pocs_to_tags){
-        for(int i=1;i<16;i++){
-            delete[]pocs_to_tags[i];
-        }
-    }
-    delete[]pocs_to_tags;
-    
-    if(model!=NULL)delete model;
-    delete dat;
 }
 
 void TaggingDecoder::init(
@@ -253,13 +237,17 @@ void TaggingDecoder::init(
     is_good_choice=new int[max_length*model->l_size];
     
 }
-
-void TaggingDecoder::dp(){//调用cb_decoder.h里的函数
+void TaggingDecoder::dp(){
     if(allowed_label_lists[0]==NULL){
         allowed_label_lists[0]=pocs_to_tags[9];
     }
     if(allowed_label_lists[len-1]==NULL){
         allowed_label_lists[len-1]=pocs_to_tags[12];
+    }
+    int* p=allowed_label_lists[0];
+    while(*p!=-1){
+        //std::cout<<"p "<<*p<<"\n";
+        p++;
     }
     best_score=dp_decode(
             model->l_size,//check
@@ -272,6 +260,7 @@ void TaggingDecoder::dp(){//调用cb_decoder.h里的函数
             label_trans_pre,
             allowed_label_lists
         );
+    //std::cout<<best_score<<"\n";
     allowed_label_lists[0]=NULL;
     allowed_label_lists[len-1]=NULL;
     /*for(int i=0;i<len;i++){
@@ -280,15 +269,58 @@ void TaggingDecoder::dp(){//调用cb_decoder.h里的函数
         std::cout<<" ";
     }std::cout<<"\n";*/
 }
+void TaggingDecoder::cal_betas(){
+    if(allowed_label_lists[0]==NULL){
+        allowed_label_lists[0]=pocs_to_tags[9];
+    }
+    if(allowed_label_lists[len-1]==NULL){
+        allowed_label_lists[len-1]=pocs_to_tags[12];
+    }
+    int tmp=nodes[len-1].successors[0];
+    nodes[len-1].successors[0]=-1;
+    dp_cal_betas(
+            model->l_size,
+            model->ll_weights,
+            len,
+            nodes,
+            values,
+            betas,
+            label_trans_post,
+            allowed_label_lists
+    );
+    nodes[len-1].successors[0]=tmp;
+    allowed_label_lists[0]=NULL;
+    allowed_label_lists[len-1]=NULL;
 
+}
 
-void TaggingDecoder::set_label_trans(){//不同位置可能出现的标签种类
+void TaggingDecoder::cal_betas(int** tags){
+    for(int i=0;i<len;i++){
+        allowed_label_lists[i]=tags[i];
+    }
+
+    int tmp=nodes[len-1].successors[0];
+    nodes[len-1].successors[0]=-1;
+    dp_cal_betas(
+            model->l_size,
+            model->ll_weights,
+            len,
+            nodes,
+            values,
+            betas,
+            label_trans_post,
+            allowed_label_lists
+    );
+    nodes[len-1].successors[0]=tmp;
+
+}
+
+void TaggingDecoder::set_label_trans(){
     int l_size=this->model->l_size;
-    std::list<int> *pre_labels;
-    std::list<int> *post_labels;
-    pre_labels=new std::list<int>[l_size];
-    post_labels=new std::list<int>[l_size];
-
+    // std::list<int> pre_labels[l_size];
+    std::list<int> *pre_labels = new std::list<int>[l_size];
+    // std::list<int> post_labels[l_size];
+    std::list<int> *post_labels = new std::list<int>[l_size];
     for(int i=0;i<l_size;i++)
         for(int j=0;j<l_size;j++){
             // 0:B 1:M 2:E 3:S
@@ -296,7 +328,7 @@ void TaggingDecoder::set_label_trans(){//不同位置可能出现的标签种类
             int nj=this->label_info[j][0]-'0';
             int i_is_end=((ni==2)//i is end of a word
                     ||(ni==3));
-            int j_is_begin=((nj==0)//j is begin of a word
+            int j_is_begin=((nj==0)//i is end of a word
                     ||(nj==3));
             int same_tag=strcmp(this->label_info[i]+1,this->label_info[j]+1);
             
@@ -343,8 +375,8 @@ void TaggingDecoder::set_label_trans(){//不同位置可能出现的标签种类
         };
         label_trans_post[i][k]=-1;
     }
-    delete []pre_labels;
-    delete []post_labels;
+    delete [] post_labels;
+    delete [] pre_labels;
 };
 
 void TaggingDecoder::load_label_trans(char*filename){
@@ -388,7 +420,6 @@ void TaggingDecoder::put_values(){
     /*values*/
     memset(values,0,sizeof(*values)*len*model->l_size);
     ngram_feature->put_values(sequence,len);
-    //for(int i=0;i<len;i++) std::cout << values[i] << std::endl;
 }
 
 
@@ -411,6 +442,211 @@ void TaggingDecoder::output_sentence(){
             }
             if((i+1)<len)putchar(' ');//在分词位置输出空格
         }
+    }
+}
+void TaggingDecoder::get_result(TaggedSentence& ts){
+    int c;
+    int offset=0;
+    ts.clear();
+    for(int i=0;i<len;i++){
+        if((i==len-1)||(label_info[result[i]][0]==kPOC_E)||(label_info[result[i]][0]==kPOC_S)){//分词位置
+            ts.push_back(WordWithTag(separator));
+            for(int j=offset;j<i+1;j++){
+                ts.back().word.push_back(sequence[j]);
+            }
+            offset=i+1;
+            if(*(label_info[result[i]]+1)){//输出标签（如果有的话）
+                ts.back().tag=label_info[result[i]]+1;
+                //printf("%s",label_info[result[i]]+1);
+            }
+            //if((i+1)<len)putchar(' ');//在分词位置输出空格
+        }
+    }
+};
+
+void TaggingDecoder::get_seg_result(SegmentedSentence& ss){
+        ss.clear();
+        /*
+        Raw raw;
+        for(int i = 0; i < len; i ++){
+                raw.push_back(sequence[i]);
+        }
+        std::cerr<<raw<<std::endl;
+        */
+    for(int i=0;i<len;i++){
+        if((i==0)||(label_info[result[i]][0]==kPOC_B)||(label_info[result[i]][0]==kPOC_S)){
+            ss.push_back(Word());
+        }
+        ss.back().push_back(sequence[i]);
+    }
+};
+
+void TaggingDecoder::find_good_choice(){
+    /*找出可能的标注*/
+    for(int i=0;i<len*model->l_size;i++){
+        is_good_choice[i]=false;
+    }
+    for(int i=0;i<len;i++){
+        int* p_allowed_label=allowed_label_lists[i];
+        int j=-1;
+        //std::cout<<p_allowed_label<<" ";
+        while((p_allowed_label?
+                    ((j=(*(p_allowed_label++)))!=-1)://如果有指定，则按照列表来
+                    ((++j)!=model->l_size))){//否则枚举
+            int ind=i*model->l_size+j;
+            is_good_choice[ind]=
+                alphas[ind].value+betas[ind].value-values[ind]+threshold>=best_score;
+        }
+
+    }
+    for(int i=0;i<len*model->l_size;i++){
+        
+        //is_good_choice[i]=alphas[i].value+betas[i].value-values[i]+threshold>=best_score;
+    }
+};
+
+void TaggingDecoder::generate_lattice(Lattice& lattice){
+    lattice.clear();
+    find_good_choice();
+    /*找出可能的词*/
+    int this_score=0;
+    int left_part=0;
+    int last_id=0;
+	//std::cerr<<"len:"<<len<<std::endl;
+    for(int i=0;i<len;i++){
+        for(int b_label_i=0;b_label_i<model->l_size;b_label_i++){
+            if(!is_good_choice[i*model->l_size+b_label_i]){
+                continue;
+            }
+            //std::cout<<i<<" "<<b_label_i<<"\n";
+            //#if((label_info[b_label_i][0]==kPOC_S)||(i==0&&label_info[b_label_i][0]==kPOC_E)){
+            if((label_info[b_label_i][0]==kPOC_S)){
+                //输出单个字的词
+                this_score=alphas[i*model->l_size+b_label_i].value
+                        +betas[i*model->l_size+b_label_i].value
+                        -values[i*model->l_size+b_label_i];
+                //printf("%d,%d,%s,%d ",i,i+1,label_info[b_label_i]+1,best_score-this_score);
+                lattice.push_back(LatticeEdge());
+                LatticeEdge& edge=lattice.back();
+                edge.begin=i;
+                edge.word=Raw();edge.word.push_back(sequence[i]);
+                edge.tag=std::string(label_info[b_label_i]+1);
+                edge.margin=best_score-this_score;
+
+            }else if(label_info[b_label_i][0]==kPOC_B){
+                int mid_ind=label_looking_for[b_label_i][0];
+                int right_ind=label_looking_for[b_label_i][1];
+                left_part=alphas[i*model->l_size+b_label_i].value;
+                last_id=b_label_i;
+                for(int j=i+1;j<len;j++){
+                    if(j==len)break;
+                    if(right_ind==-1)break;
+
+                    if((is_good_choice[j*model->l_size+right_ind])){
+                        //check，是不是合格的词
+                        this_score=left_part
+                                +model->ll_weights[last_id*model->l_size+right_ind]
+                                +betas[j*model->l_size+right_ind].value;
+                        if(best_score-this_score<=threshold){
+                            //printf("%d,%d,%s,%d ",i,j+1,label_info[b_label_i]+1,best_score-this_score);
+                            lattice.push_back(LatticeEdge());
+                            LatticeEdge& edge=lattice.back();
+                            edge.begin=i;
+                            edge.word=Raw();
+                            for(int k=i;k<j+1;k++)
+                                edge.word.push_back(sequence[k]);
+                            edge.tag=std::string(label_info[b_label_i]+1);
+                            edge.margin=best_score-this_score;
+
+                        }
+                    }
+                    if(mid_ind==-1)break;
+                    if(!is_good_choice[(j*(model->l_size))+mid_ind])
+                        break;
+                    left_part+=values[j*model->l_size+mid_ind]
+                            +model->ll_weights[last_id*model->l_size+mid_ind];
+                    last_id=mid_ind;
+                }
+                
+            }
+        }
+    }
+	std::cerr<<"lattice:"<<lattice.size()<<std::endl;
+};
+    
+void TaggingDecoder::output_allow_tagging(){
+    Lattice lattice;
+    generate_lattice(lattice);
+    for(int i=0;i<lattice.size();i++){
+        LatticeEdge& edge=lattice[i];
+        printf("%d,%d,%s,%d ",edge.begin,edge.begin+(int)edge.word.size(),edge.tag.c_str(),edge.margin);
+    }
+    //std::cout<<lattice<<"\n";
+    return;
+}
+
+int TaggingDecoder::segment(int* input,int length,int* tags){
+    if(not length)return 0;
+    for(int i=0;i<length;i++){
+        sequence[i]=input[i];
+    }
+    len=length;
+    
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+    
+    for(int i=0;i<len;i++){
+        if((label_info[result[i]][0]==kPOC_B)||(label_info[result[i]][0]==kPOC_S)){//分词位置
+            tags[i]=1;
+        }else{
+            tags[i]=0;
+        }
+    }
+}
+
+int TaggingDecoder::segment(RawSentence& raw){
+    if(raw.size()==0)return 0;
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+}
+
+int TaggingDecoder::segment(RawSentence& raw,SegmentedSentence& segged){
+    segged.clear();
+    if(raw.size()==0)return 0;
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+    for(int i=0;i<len;i++){
+        if((i==0)||(label_info[result[i]][0]==kPOC_B)||(label_info[result[i]][0]==kPOC_S)){
+            segged.push_back(Word());
+        }
+        segged.back().push_back(raw[i]);
+    }
+}
+
+int TaggingDecoder::segment(RawSentence& raw,
+        POCGraph&old_graph,
+        SegmentedSentence& segged){
+    for(int i=0;i<(int)raw.size();i++){
+        int pocs=old_graph[i];
+        //std::cout<<pocs<<" ";
+        if(pocs){
+            allowed_label_lists[i]=pocs_to_tags[pocs];
+        }else{
+            allowed_label_lists[i]=pocs_to_tags[15];
+        }
+    }
+    //std::cout<<"\n";
+    segment(raw,segged);
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=NULL;
     }
 }
 
@@ -454,29 +690,148 @@ int TaggingDecoder::segment(RawSentence& raw, POCGraph& graph, TaggedSentence& t
             //if((i+1)<len)putchar(' ');//在分词位置输出空格
         }
     }
-}
-void TaggingDecoder::get_seg_result(SegmentedSentence& ss){
-        ss.clear();
-        /*
-        Raw raw;
-        for(int i = 0; i < len; i ++){
-                raw.push_back(sequence[i]);
-        }
-        std::cerr<<raw<<std::endl;
-        */
+};
+
+int TaggingDecoder::segment(RawSentence&raw,
+        POCGraph& graph,
+        POCGraph& new_graph){
+    if(raw.size()==0)return 0;
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
     for(int i=0;i<len;i++){
-        if((i==0)||(label_info[result[i]][0]==kPOC_B)||(label_info[result[i]][0]==kPOC_S)){
-            ss.push_back(Word());
+        int pocs=graph[i];
+        if(pocs){
+            allowed_label_lists[i]=pocs_to_tags[pocs];
+        }else{
+            allowed_label_lists[i]=pocs_to_tags[15];
         }
-        ss.back().push_back(sequence[i]);
+    }
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+    cal_betas();
+    find_good_choice();
+    new_graph.clear();
+    for(int i=0;i<len;i++){
+        new_graph.push_back(0);
+        for(int j=0;j<model->l_size;j++){
+            if(is_good_choice[i*model->l_size+j])
+                //new_graph.back()|=(1<<j);
+                new_graph.back()|=(1<<(*label_info[j]-'0'));
+        }
+    }
+
+    for(int i=0;i<len;i++){
+        allowed_label_lists[i]=NULL;
+    }
+}
+
+int TaggingDecoder::segment(POCGraph& poc_graph,RawSentence& raw){
+    if(raw.size()==0)return 0;
+    for(int i=0;i<(int)raw.size();i++){
+        int pocs=poc_graph[i];
+        if(pocs){
+            allowed_label_lists[i]=pocs_to_tags[pocs];
+        }else{
+            allowed_label_lists[i]=pocs_to_tags[15];
+        }
+    }
+    //std::cout<<"\n";
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=NULL;
     }
 };
-void TaggingDecoder::cs()
-    {   
-        for(int i=0;i<1000;i++) std::cout << dat->dat[i].check << " " ;
-        std::cout << std::endl;
+
+int TaggingDecoder::segment(int** tags,RawSentence& raw){
+    if(raw.size()==0)return 0;
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=tags[i];
     }
+    //std::cout<<"\n";
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=NULL;
+    }
+};
+
+int TaggingDecoder::segment(int** tags, RawSentence& raw, TaggedSentence& ts){
+    if(raw.size()==0)return 0;
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=tags[i];
+    }
+    //std::cout<<"\n";
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=NULL;
+    }
+
+    int c;
+    int offset=0;
+    ts.clear();
+    for(int i=0;i<len;i++){
+        if((i==len-1)||(label_info[result[i]][0]==kPOC_E)||(label_info[result[i]][0]==kPOC_S)){//分词位置
+            ts.push_back(WordWithTag(separator));
+            for(int j=offset;j<i+1;j++){
+                ts.back().word.push_back(sequence[j]);
+            }
+            offset=i+1;
+            if(*(label_info[result[i]]+1)){//输出标签（如果有的话）
+                ts.back().tag=label_info[result[i]]+1;
+                //printf("%s",label_info[result[i]]+1);
+            }
+            //if((i+1)<len)putchar(' ');//在分词位置输出空格
+        }
+    }
+};
+
+int TaggingDecoder::segment(RawSentence& raw,POCGraph& poc_graph,Lattice& lattice){
+    if(raw.size()==0)return 0;
+    for(int i=0;i<(int)raw.size();i++){
+        int pocs=poc_graph[i];
+        //std::cout<<pocs<<" ";
+        if(pocs){
+            allowed_label_lists[i]=pocs_to_tags[pocs];
+        }else{
+            allowed_label_lists[i]=pocs_to_tags[15];
+        }
+    }
+    //std::cout<<"\n";
+    for(int i=0;i<(int)raw.size();i++){
+        sequence[i]=raw[i];
+    }
+    len=(int)raw.size();
+    put_values();//检索出特征值并初始化放在values数组里
+    dp();//动态规划搜索最优解放在result数组里
+    cal_betas();
+
+    generate_lattice(lattice);
+
+    for(int i=0;i<(int)raw.size();i++){
+        allowed_label_lists[i]=NULL;
+    }
+};
+
 }
-
-
 

@@ -1,13 +1,17 @@
-#include "preprocess.h"
 #include "thulac_base.h"
-#include "cb_tagging_decoder.h"
+#include "preprocess.h"
 #include "postprocess.h"
+#include "punctuation.h"
+#include "cb_tagging_decoder.h"
+#include "chinese_charset.h"
+#include "thulac.h"
+#include "filter.h"
 #include "timeword.h"
 #include "verbword.h"
 #include "negword.h"
-#include "punctuation.h"
-#include "filter.h"
-#include "string.h"
+#include "wb_extended_features.h"
+#include "wb_lattice.h"
+#include "bigram_model.h"
 #include <fstream>
 using namespace thulac;
 using std::cout;
@@ -39,13 +43,13 @@ class ThuLac
     bool useT2S = false;
     bool seg_only = false;
     bool useFilter = false;
-    bool use_second = false;
+    bool use_second = true;
 
     TaggingDecoder* cws_decoder=new TaggingDecoder();
 
 
-    permm::Model* cws_model = new permm::Model((prefix+"cws_model.bin").c_str());
-    DAT* cws_dat = new DAT((prefix+"cws_dat.bin").c_str());
+    permm::Model* cws_model;
+    DAT* cws_dat;
     char** cws_label_info = new char*[cws_model->l_size];
     int** cws_pocs_to_tags = new int*[16];
 
@@ -55,29 +59,32 @@ class ThuLac
     char** tagging_label_info = NULL;
     int** tagging_pocs_to_tags = NULL;    
 
-    POCGraph poc_cands;
+    
     int rtn=1;
 
-    Preprocesser* preprocesser = new Preprocesser();
-    Postprocesser* ns_dict = new Postprocesser((prefix+"ns.dat").c_str(), "ns", false);
-    Postprocesser* idiom_dict = new Postprocesser((prefix+"idiom.dat").c_str(), "i", false);
+    Preprocesser* preprocesser = NULL;
     Postprocesser* user_dict = NULL;
+    LatticeFeature* lf;
+    DAT* sogout;
+    Postprocesser* ns_dict = NULL;
+    Postprocesser* idiom_dict = NULL;
+    Postprocesser* nz_dict = NULL;
+    Postprocesser* ni_dict = NULL;
+    Postprocesser* noun_dict = NULL;
+    Postprocesser* adj_dict = NULL;
+    Postprocesser* verb_dict = NULL;
+    Postprocesser* y_dict = NULL;
 
+    Punctuation* punctuation = NULL;
 
+    NegWord* negword = NULL;
+    TimeWord* timeword = NULL;
+    VerbWord* verbword = NULL;
 
-    Punctuation* punctuation = new Punctuation((prefix+"singlepun.dat").c_str());
+    hypergraph::Decoder<int,LatticeEdge> decoder;
 
-    NegWord* negword = new NegWord((prefix+"neg.dat").c_str());
-    TimeWord* timeword = new TimeWord();
-    VerbWord* verbword = new VerbWord((prefix+"vM.dat").c_str(), (prefix+"vD.dat").c_str());
 
     Filter* filter = NULL;
-
-    thulac::RawSentence raw;
-    thulac::RawSentence oiraw;
-    thulac::RawSentence traw;
-    thulac::SegmentedSentence segged;
-    thulac::TaggedSentence tagged;
 
     clock_t start = clock();
     std::vector<thulac::RawSentence> vec;
@@ -88,11 +95,40 @@ public:
         cws_model = new permm::Model((prefix+"cws_model.bin").c_str());
         cws_dat = new DAT((prefix+"cws_dat.bin").c_str());
         cws_label_info = new char*[cws_model->l_size];
-        ns_dict = new Postprocesser((prefix+"ns.dat").c_str(), "ns", false);
-        idiom_dict = new Postprocesser((prefix+"idiom.dat").c_str(), "i", false);
-        punctuation = new Punctuation((prefix+"singlepun.dat").c_str());
-        negword = new NegWord((prefix+"neg.dat").c_str());
-        verbword = new VerbWord((prefix+"vM.dat").c_str(), (prefix+"vD.dat").c_str());
+
+
+        LatticeFeature* lf = new LatticeFeature();
+        sogout=new DAT((prefix+"sgT.dat").c_str());
+        lf->node_features.push_back(new SogouTFeature(sogout));
+
+        std::vector<std::string> n_gram_model;
+        std::vector<std::string> dictionaries;
+        dictionaries.push_back(prefix+"sgW.dat");
+        for(int i=0;i<dictionaries.size();++i){
+            lf->node_features.push_back(new DictNodeFeature(new DAT(dictionaries[i].c_str())));
+        }
+        lf->filename=prefix+"model_w";
+        lf->load();
+        decoder.features.push_back(lf);
+
+        preprocesser = new Preprocesser();
+        preprocesser->setT2SMap((prefix+"t2s.dat").c_str());
+
+        Postprocesser* ns_dict = new Postprocesser((prefix+"ns.dat").c_str(), "ns", false);
+        Postprocesser* idiom_dict = new Postprocesser((prefix+"idiom.dat").c_str(), "i", false);
+        Postprocesser* nz_dict = new Postprocesser((prefix+"nz.dat").c_str(), "nz", false);
+        Postprocesser* ni_dict = new Postprocesser((prefix+"ni.dat").c_str(), "ni", false);
+        Postprocesser* noun_dict = new Postprocesser((prefix+"noun.dat").c_str(), "n", false);
+        Postprocesser* adj_dict = new Postprocesser((prefix+"adj.dat").c_str(), "a", false);
+        Postprocesser* verb_dict = new Postprocesser((prefix+"verb.dat").c_str(), "v", false);
+        Postprocesser* y_dict = new Postprocesser((prefix+"y.dat").c_str(), "y", false);
+
+        Punctuation* punctuation = new Punctuation((prefix+"singlepun.dat").c_str());
+
+        NegWord* negword = new NegWord((prefix+"neg.dat").c_str());
+        TimeWord* timeword = new TimeWord();
+        VerbWord* verbword = new VerbWord((prefix+"vM.dat").c_str(), (prefix+"vD.dat").c_str());
+
     }
 
     ThuLac(int argc,char **argv)
@@ -138,7 +174,6 @@ public:
             cws_decoder->threshold=15000;
         }
 
-        preprocesser->setT2SMap((prefix+"t2s.dat").c_str());
 
         get_label_info((prefix+"cws_label.txt").c_str(), cws_label_info, cws_pocs_to_tags);
         cws_decoder->init(cws_model, cws_dat, cws_label_info, cws_pocs_to_tags);
@@ -178,6 +213,15 @@ public:
 
     const char* run(char* s)
     {
+
+        POCGraph poc_cands;
+        POCGraph new_poc_cands;
+        thulac::RawSentence raw;
+        thulac::RawSentence oiraw;
+        thulac::RawSentence traw;
+        thulac::SegmentedSentence segged;
+        thulac::TaggedSentence tagged;
+
         thulac::get_raw(oiraw, s, strlen(s));//读入生句子
         if(useT2S)
         {            
@@ -193,31 +237,49 @@ public:
         {
                 
             std::string ret="";
+            cws_decoder->segment(raw, poc_cands, new_poc_cands);
             if(!seg_only)
             {
-                tagging_decoder->segment(raw,poc_cands,tagged);
-                    
-                    //后处理
-                ns_dict->adjust(tagged);
-                idiom_dict->adjust(tagged);
 
-                if(user_dict)
-                {
-                    user_dict->adjust(tagged);
+                if(use_second){
+                    Lattice lattice;
+                    hypergraph::Graph graph;
+                    tagging_decoder->segment(raw, new_poc_cands, lattice);
+                    hypergraph::lattice_to_graph(lattice, graph);
+                    decoder.decode(graph);
+                    hypergraph::graph_to_lattice(graph,lattice,1);
+                    lattice_to_sentence(lattice,tagged, (char)separator);
+                }else{
+                    tagging_decoder->segment(raw,poc_cands,tagged);
+                    tagging_decoder->segment(raw, new_poc_cands, tagged);
+                    //tagging_decoder->segment(raw, poc_cands, tagged);
                 }
 
+                ns_dict->adjust(tagged);
+                idiom_dict->adjust(tagged);
+                nz_dict->adjust(tagged);
+                ni_dict->adjust(tagged);
+                noun_dict->adjust(tagged);
+                adj_dict->adjust(tagged);
+                verb_dict->adjust(tagged);
+                // vm_dict->adjustSame(tagged);
+                y_dict->adjustSame(tagged);
+
+                if(user_dict){
+                    user_dict->adjust(tagged);
+                }
                 punctuation->adjust(tagged);
                 timeword->adjustDouble(tagged);
                 negword->adjust(tagged);
                 verbword->adjust(tagged);
-                if(useFilter)
-                {
+                if(useFilter){
                     filter->adjust(tagged);
                 }
+                
 
                 //输出
                 //std::cout<<tagged;//输出
-                ret = tagged.get();
+                ret = tagged.getString();
 
                 //std::ofstream out("out2.txt");
                 //out<<tagged;
@@ -226,22 +288,18 @@ public:
                     
             else 
             {
-
-                cws_decoder->segment(raw, poc_cands, tagged);
+                cws_decoder->segment(raw, poc_cands, new_poc_cands);
                 cws_decoder->get_seg_result(segged);
                 ns_dict->adjust(segged);
                 idiom_dict->adjust(segged);
-
-                if(user_dict)
-                {
+                nz_dict->adjust(segged);
+                noun_dict->adjust(segged);
+                if(user_dict){
                     user_dict->adjust(segged);
                 }
-
                 punctuation->adjust(segged);
                 timeword->adjust(segged);
-                negword->adjust(segged);
-                if(useFilter)
-                {
+                if(useFilter){
                     filter->adjust(segged);
                 }
                         
@@ -250,7 +308,7 @@ public:
                     if(j!=0)
                     ret = ret + " ";
                     //std::cout<<segged[j];
-                    ret = ret + segged[j].get();
+                    ret = ret + segged[j].getString();
                 }
             }
             return ret.c_str();

@@ -309,7 +309,7 @@ public:
 
 		for(int i = 0; i < npVec.size(); i ++){
 			npRaw = npVec[i];
-			if(npRaw.size() > 0 && npRaw.size() < 15){
+			if(npRaw.size() < 15){
 				int start = npStartVec[i];
 				int size = npRaw.size();
 				

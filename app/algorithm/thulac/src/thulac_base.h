@@ -52,12 +52,12 @@ class TaggedSentence: public std::vector<WordWithTag>{
         return os;    
     };
 public:
-    std::string get(){
+    std::string getString(){
         std::string ret = "";
 
         for(size_t i=0;i<this->size();i++){
             if(i!=0)ret=ret+" ";
-            ret =ret + ((*this)[i].word.get()) + ((*this)[i].separator) + ((*this)[i].tag);
+            ret =ret + ((*this)[i].word.getString()) + ((*this)[i].separator) + ((*this)[i].tag);
         }
         return ret;
     }

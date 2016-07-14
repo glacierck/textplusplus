@@ -1,7 +1,6 @@
 #pragma once
 #include <fstream>
 #include <cstring>
-#include <fstream>
 #include "dat.h"
 
 namespace thulac{
@@ -19,8 +18,8 @@ public:
 			lexicon.push_back(DATMaker::KeyValue());
 			std::string str;
 			int id = 0;
-			while(std::getline(is,str,'\n'))
-            {
+			void* rtn;
+			while(std::getline(is,str,'\n')) {
 				if(str.length()==0)continue;
 				if(*str.rbegin() == '\r'){
 					str.erase(str.end()-1);

@@ -15,6 +15,8 @@ int main (int argc,char **argv) {
     int bigram_threshold=1;
     static struct option long_options[] =
 		{
+			//{"verbose", no_argument,       &verbose_flag, 1},
+			{"seg_only",   no_argument,       &seg_only, 1},
 			{"help",     no_argument,       0, 'h'},
             {"separator",     required_argument,       0, 's'},
 			{"iteration",  required_argument,       0, 'i'},

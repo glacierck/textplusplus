@@ -41,7 +41,7 @@ public:
         return -1;
     };
 
-    std::string get(){
+    std::string getString(){
 
         std::string ret = "";
          for(size_t i=0;i<this->size();i++){
