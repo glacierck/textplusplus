@@ -50,7 +50,7 @@ class ThuLac
 
     permm::Model* cws_model;
     DAT* cws_dat;
-    char** cws_label_info = new char*[cws_model->l_size];
+    char** cws_label_info = NULL;
     int** cws_pocs_to_tags = new int*[16];
 
     TaggingDecoder* tagging_decoder = NULL;
@@ -96,8 +96,7 @@ public:
         cws_dat = new DAT((prefix+"cws_dat.bin").c_str());
         cws_label_info = new char*[cws_model->l_size];
 
-
-        LatticeFeature* lf = new LatticeFeature();
+        lf = new LatticeFeature();
         sogout=new DAT((prefix+"sgT.dat").c_str());
         lf->node_features.push_back(new SogouTFeature(sogout));
 
@@ -114,20 +113,20 @@ public:
         preprocesser = new Preprocesser();
         preprocesser->setT2SMap((prefix+"t2s.dat").c_str());
 
-        Postprocesser* ns_dict = new Postprocesser((prefix+"ns.dat").c_str(), "ns", false);
-        Postprocesser* idiom_dict = new Postprocesser((prefix+"idiom.dat").c_str(), "i", false);
-        Postprocesser* nz_dict = new Postprocesser((prefix+"nz.dat").c_str(), "nz", false);
-        Postprocesser* ni_dict = new Postprocesser((prefix+"ni.dat").c_str(), "ni", false);
-        Postprocesser* noun_dict = new Postprocesser((prefix+"noun.dat").c_str(), "n", false);
-        Postprocesser* adj_dict = new Postprocesser((prefix+"adj.dat").c_str(), "a", false);
-        Postprocesser* verb_dict = new Postprocesser((prefix+"verb.dat").c_str(), "v", false);
-        Postprocesser* y_dict = new Postprocesser((prefix+"y.dat").c_str(), "y", false);
+        ns_dict = new Postprocesser((prefix+"ns.dat").c_str(), "ns", false);
+        idiom_dict = new Postprocesser((prefix+"idiom.dat").c_str(), "i", false);
+        nz_dict = new Postprocesser((prefix+"nz.dat").c_str(), "nz", false);
+        ni_dict = new Postprocesser((prefix+"ni.dat").c_str(), "ni", false);
+        noun_dict = new Postprocesser((prefix+"noun.dat").c_str(), "n", false);
+        adj_dict = new Postprocesser((prefix+"adj.dat").c_str(), "a", false);
+        verb_dict = new Postprocesser((prefix+"verb.dat").c_str(), "v", false);
+        y_dict = new Postprocesser((prefix+"y.dat").c_str(), "y", false);
 
-        Punctuation* punctuation = new Punctuation((prefix+"singlepun.dat").c_str());
+        punctuation = new Punctuation((prefix+"singlepun.dat").c_str());
 
-        NegWord* negword = new NegWord((prefix+"neg.dat").c_str());
-        TimeWord* timeword = new TimeWord();
-        VerbWord* verbword = new VerbWord((prefix+"vM.dat").c_str(), (prefix+"vD.dat").c_str());
+        negword = new NegWord((prefix+"neg.dat").c_str());
+        timeword = new TimeWord();
+        verbword = new VerbWord((prefix+"vM.dat").c_str(), (prefix+"vD.dat").c_str());
 
     }
 
