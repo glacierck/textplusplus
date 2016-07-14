@@ -72,6 +72,8 @@ def check_tokentime(token,name,order):
 	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
 	u = cursor.fetchone()
 	conn.close()
+	if(len(u) == 0):
+		return 0
 	t = u[-1]
 
 	if t >= limit:
