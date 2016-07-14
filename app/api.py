@@ -33,6 +33,7 @@ def updata_time(token,name):
 	u = cursor.fetchone()
 	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
 
+	t = u[-1]
 	if(t is not None):
 		t = t + 1
 	else:
