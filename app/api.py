@@ -33,13 +33,13 @@ def updata_time(token,name):
 	u = cursor.fetchone()
 	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
 
-	t = u[-1]
+	t = int(u[-1])
 	if(t is not None):
 		t = t + 1
 	else:
 		t = 1
 
-	cursor.execute('update ' + name + ' set ' + dt + ' = %s where user = %s', (t,uid))
+	cursor.execute('update ' + name + ' set ' + dt + ' = %s where user = %s', (str(t),uid))
 
 	s = name + '_last_time'
 	t = time.time()
@@ -64,17 +64,15 @@ def check_tokentime(token,name,order):
 
 	s = order*3
 
-	limit = u[s+1]
-	lastt = float(u[s+2])	
-	fre = u[s+3]	
+	limit = int(u[s+1])
+	lastt = float(u[s+2])
+	fre = float(u[s+3])
 	
 
 	cursor.execute('select * from ' + name + ' where user = %s', (uid,))
 	u = cursor.fetchone()
 	conn.close()
-	if(len(u) == 0):
-		return 0
-	t = u[-1]
+	t = int(u[-1])
 
 	if t >= limit:
 		return 1
