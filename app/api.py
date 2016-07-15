@@ -87,7 +87,7 @@ def check_tokentime(token,name,order):
 
 @app.route('/api/lac', methods=['GET','POST'])
 def lac():
-	if not request.json:
+	if (not request.json) or ('content' not in request.json):
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 	
 	result = []	
@@ -105,7 +105,7 @@ def lac():
 		return json.dumps({ 'code': 207,'message': 'frequency limit exceed' }), 203
 
 	global thu1
-	a = thulac.run(i.encode('utf-8'))
+	a = thulac.run(raws.encode('utf-8'))
 	b = a.split(" ")
 	ans = []
 	for j in b:
