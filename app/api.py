@@ -106,6 +106,8 @@ def lac():
 
 	global thu1
 	a = thulac.run(raws.encode('utf-8'))
+	if(len(a) == 0):
+		return json.dumps({ 'code': 202,'message': 'thu system has error, please try again' }), 203
 	b = a.split(" ")
 	ans = []
 	for j in b:
