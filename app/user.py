@@ -24,13 +24,13 @@ def register():
 	uid = user['id'].encode('utf-8')
 	uemail = user['email'].encode('utf-8')
 
-	cursor.execute('select * from user where id = %s', (uid,))
+	cursor.execute("select * from user where id = '%s'", (uid,))
 	u = cursor.fetchone()
 
 	if(u is not None):
 		return json.dumps({ 'code': 301, 'message': 'the id is existed' }), 203
 
-	cursor.execute('select * from user where email = %s', (uemail,))
+	cursor.execute("select * from user where email = '%s'", (uemail,))
 	u = cursor.fetchone()
 
 	if(u is not None):
@@ -38,9 +38,9 @@ def register():
 
 	t = time.time()
 	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
-	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token(), False, user['password'].encode('utf-8'), t, t, t))
-	cursor.execute("INSERT INTO lac(user,%s) VALUES(%s,%s)", (dt,uid,0))
-	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1))
+	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES('%s','%s','%s','%s',%s,%s,%s,%s)", (uid, uemail, token(), False, user['password'].encode('utf-8'), t, t, t))
+	cursor.execute("INSERT INTO lac(user,%s) VALUES('%s','%s')", (dt,uid,'0'))
+	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES('%s',%s,%s,%s)", (uid, 100, 0, 0.1))
 
 	conn.commit()
 	conn.close()
@@ -57,7 +57,7 @@ def log_in():
 	user = request.form
 	uid = user['id'].encode('utf-8')
 
-	cursor.execute('select * from user where id = %s', (uid,))
+	cursor.execute("select * from user where id = '%s'", (uid,))
 	u = cursor.fetchone()
 
 	if(u is None):
@@ -68,7 +68,7 @@ def log_in():
 		return json.dumps({ 'code': 307, 'message': 'the password is wrong' }), 203
 	
 	t = time.time()
-	cursor.execute('update user set last_login = %s where id = %s', (t,uid))
+	cursor.execute("update user set last_login = '%s' where id = '%s'", (t,uid))
 	conn.commit()
 	conn.close()
 
