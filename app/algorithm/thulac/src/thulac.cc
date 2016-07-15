@@ -43,7 +43,7 @@ class ThuLac
     bool useT2S = false;
     bool seg_only = false;
     bool useFilter = false;
-    bool use_second = true;
+    bool use_second = false;
 
     TaggingDecoder* cws_decoder=new TaggingDecoder();
 
@@ -249,7 +249,6 @@ public:
                     hypergraph::graph_to_lattice(graph,lattice,1);
                     lattice_to_sentence(lattice,tagged, (char)separator);
                 }else{
-                    tagging_decoder->segment(raw,poc_cands,tagged);
                     tagging_decoder->segment(raw, new_poc_cands, tagged);
                     //tagging_decoder->segment(raw, poc_cands, tagged);
                 }
