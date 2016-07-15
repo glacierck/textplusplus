@@ -24,13 +24,13 @@ def register():
 	uid = user['id'].encode('utf-8')
 	uemail = user['email'].encode('utf-8')
 
-	cursor.execute("select * from user where id = '%s'", (uid,))
+	cursor.execute("select * from user where id = %s", (uid,))
 	u = cursor.fetchone()
 
 	if(u is not None):
 		return json.dumps({ 'code': 301, 'message': 'the id is existed' }), 203
 
-	cursor.execute("select * from user where email = '%s'", (uemail,))
+	cursor.execute("select * from user where email = %s", (uemail,))
 	u = cursor.fetchone()
 
 	if(u is not None):
@@ -57,7 +57,7 @@ def log_in():
 	user = request.form
 	uid = user['id'].encode('utf-8')
 
-	cursor.execute("select * from user where id = '%s'", (uid,))
+	cursor.execute("select * from user where id = %s", (uid,))
 	u = cursor.fetchone()
 
 	if(u is None):
