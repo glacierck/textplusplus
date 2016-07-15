@@ -1,5 +1,3 @@
-#coding=utf-8
-
 from flask import Flask,json,request,abort,url_for
 import time,random,string
 from app import	 app,thulac
@@ -93,7 +91,7 @@ def lac():
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 	
 	result = []	
-	raws = request.json
+	raws = request.json['content']
 	token = request.headers.get_all('Token')[0].encode('utf-8')
 	
 
@@ -107,15 +105,13 @@ def lac():
 		return json.dumps({ 'code': 207,'message': 'frequency limit exceed' }), 203
 
 	global thu1
-	for i in raws:
-
-		a = thulac.run(i.encode('utf-8'))
-		b = a.split(" ")
-		ans = []
-		for j in b:
-			c = j.split('_')
-			ans.append((c[0], c[1]))
-		result.append(ans)
+	a = thulac.run(i.encode('utf-8'))
+	b = a.split(" ")
+	ans = []
+	for j in b:
+		c = j.split('_')
+		ans.append((c[0], c[1]))
+	result = ans
 		
 	updata_time(token, "lac")
 
