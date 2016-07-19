@@ -212,7 +212,7 @@ public:
 
     const char* run(char* s)
     {
-        printf("%s\n",s);
+        // printf("%s\n",s);
         POCGraph poc_cands;
         POCGraph new_poc_cands;
         thulac::RawSentence raw;
@@ -309,7 +309,7 @@ public:
                     ret = ret + segged[j].getString();
                 }
             }
-            printf("%s\n",ret.c_str());
+            // printf("%s\n",ret.c_str());
             return ret.c_str();
             //cout<<endl;
         }
