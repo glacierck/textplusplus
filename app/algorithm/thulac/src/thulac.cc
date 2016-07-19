@@ -309,7 +309,7 @@ public:
                     ret = ret + segged[j].getString();
                 }
             }
-            printf("%s\n",ret);
+            printf("%s\n",ret.c_str());
             return ret.c_str();
             //cout<<endl;
         }
