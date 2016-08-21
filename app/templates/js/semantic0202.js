@@ -1208,6 +1208,8 @@ $(document).ready(function(){
 	    },
 	    function(data){
 	    	//alert(data);
+	    	$('#wtype_ret').empty();
+			$('#mCSB_2_container').empty();
 	    	var obj = eval("(" + data + ")");
 	      	var temp = obj.result;
 				var word_ret = '';
