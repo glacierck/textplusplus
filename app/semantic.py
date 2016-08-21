@@ -30,7 +30,7 @@ def semlac():
 	if(check_token(token) == False):
 		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
 
-	raw = raws['text']
+	raw = raws['text'].encode("utf-8")
 
 	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 	client.connect("/tmp/lac.sock")
