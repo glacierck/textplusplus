@@ -263,7 +263,7 @@ public:
 					npRaw.clear();
 				}
 				hasAt = true;
-				npStart = graph.size();
+				npStart = graph.size() - 1;
 				npRaw.clear();
 			}else if(hasAt){
 				npRaw.push_back(c);
@@ -271,7 +271,7 @@ public:
 
 			if(c == 12298){
 				hasTitle = true;
-				titleStart = graph.size();
+				titleStart = graph.size() - 1;
 				titleRaw.clear();
 			}else if(hasTitle){
 				titleRaw.push_back(c);
