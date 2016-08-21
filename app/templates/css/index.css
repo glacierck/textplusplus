@@ -16,7 +16,7 @@
   left: 0;
   width: 100%;
   height: 650px;
-  background: url(../images/main/background.png) no-repeat center top;
+  background: url(../images/main/background.jpg) no-repeat center top;
 }
 .header_banner,
 .header_brand {
@@ -275,110 +275,6 @@
     opacity: 1;
   }
 }
-/* 品牌icon --------- */
-.header_brand {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-.header_brand_title {
-  height: 40px;
-  line-height: 40px;
-  font-size: 20px;
-  text-align: center;
-  color: #8fa5b4;
-  background-color: rgba(26, 28, 30, 0.56);
-}
-.lt9 .header_brand_title {
-  background-color: #17506f;
-}
-.header_brand_cont {
-  height: 129px;
-  background-color: rgba(13, 28, 37, 0.85);
-}
-.lt9 .header_brand_cont {
-  background-color: #1d415f;
-}
-.header_brand_cont ul {
-  padding-top: 30px;
-}
-.header_brand_cont li {
-  position: relative;
-  float: left;
-  width: 166px;
-  height: 70px;
-  text-align: center;
-  border-left: 1px solid #1e3646;
-}
-.header_brand_cont li.first {
-  border-left: none;
-}
-.header_brand_cont li.last {
-  border-right: none;
-}
-.header_brand_cont .icon_main {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 80px;
-  height: 70px;
-  margin-left: -40px;
-  -webkit-transition: all 0.4s ease-in-out;
-          transition: all 0.4s ease-in-out;
-  -webkit-transform: translate3d(0, 0, 0) scale(0.8);
-          transform: translate3d(0, 0, 0) scale(0.8);
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-.icon_brand_wechat {
-  background-image: url(../images/common/icon_brand_wechat.png);
-}
-.icon_brand_qzone {
-  background-image: url(../images/common/icon_brand_qzone.png);
-}
-.icon_brand_music {
-  background-image: url(../images/common/icon_brand_music.png);
-}
-.icon_brand_video {
-  background-image: url(../images/common/icon_brand_video.png);
-}
-.icon_brand_map {
-  background-image: url(../images/common/icon_brand_map.png);
-}
-.icon_brand_qq {
-  background-image: url(../images/common/icon_brand_qq.png);
-}
-.icon_brand_yyb {
-  background-image: url(../images/common/icon_brand_yyb.png);
-}
-.header_brand_cont .icon_brand_wechat2 {
-  background-image: url(../images/common/icon_brand_wechat2.png);
-  background-position: center -4px;
-}
-.header_brand_cont .icon_brand_qzone2 {
-  background-image: url(../images/common/icon_brand_qzone2.png);
-  background-position: center -4px;
-}
-.header_brand_cont .icon_brand_music2 {
-  background-image: url(../images/common/icon_brand_music2.png);
-  background-position: center -4px;
-}
-.header_brand_cont .icon_brand_video2 {
-  background-image: url(../images/common/icon_brand_video2.png);
-}
-.header_brand_cont .icon_brand_map2 {
-  background-image: url(../images/common/icon_brand_map2.png);
-  background-position: center -4px;
-}
-.header_brand_cont .icon_brand_qq2 {
-  background-image: url(../images/common/icon_brand_qq2.png);
-}
-.header_brand_cont .icon_brand_yyb2 {
-  background-image: url(../images/common/icon_brand_yyb2.png);
-  background-position: center -4px;
-}
-/* 品牌icon 动画 --------- */
 .header_brand_cont .i_2 {
   opacity: 0;
 }
@@ -1557,7 +1453,7 @@
 /* 核心优势-四图 ---------------------- */
 .section_container {
   height: 600px;
-  background: #30363c url(../images/main/background_b.png);
+  background: #30363c url(../images/main/background_b.jpg);
 }
 .section_bg {
   width: 100%;
