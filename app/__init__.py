@@ -1,5 +1,4 @@
 from flask import Flask
-from algorithm import thulac
 import MySQLdb
 
 app = Flask(__name__)
