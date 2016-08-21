@@ -93,7 +93,7 @@ def lac():
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 	
 	result = []	
-	raws = request.json['content']
+	raws = request.json['content'].encode("utf-8")
 	token = request.headers.get_all('Token')[0].encode('utf-8')
 	
 
