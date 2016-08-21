@@ -13,6 +13,13 @@
 #include "wb_lattice.h"
 #include "bigram_model.h"
 #include <fstream>
+#include <stdlib.h>
+#include <netinet/in.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/un.h>
+#include <string.h>
 using namespace thulac;
 using std::cout;
 using std::endl;
@@ -39,7 +46,7 @@ class ThuLac
 
     Character separator = '_';
 
-    std::string prefix = "model/thulac/";
+    std::string prefix = "model/";
     bool useT2S = false;
     bool seg_only = false;
     bool useFilter = false;
@@ -162,7 +169,7 @@ public:
             }
         }else{
             //std::string a = getcwd(NULL, 0);
-            prefix = "model/thulac/";
+            prefix = "model/";
         }
 
         InitModel();
@@ -210,9 +217,8 @@ public:
         }
     }
 
-    const char* run(char* s)
+    std::string run(char* s)
     {
-        // printf("%s\n",s);
         POCGraph poc_cands;
         POCGraph new_poc_cands;
         thulac::RawSentence raw;
@@ -231,7 +237,7 @@ public:
         {
             preprocesser -> clean(oiraw,raw,poc_cands);
         }
-                
+
         if(raw.size())
         {
                 
@@ -278,9 +284,6 @@ public:
                 //输出
                 //std::cout<<tagged;//输出
                 ret = tagged.getString();
-
-                //std::ofstream out("out2.txt");
-                //out<<tagged;
                 
             }
                     
@@ -300,7 +303,6 @@ public:
                 if(useFilter){
                     filter->adjust(segged);
                 }
-                        
                 for(int j = 0; j < segged.size(); j++)
                 {
                     if(j!=0)
@@ -309,15 +311,55 @@ public:
                     ret = ret + segged[j].getString();
                 }
             }
-            // printf("%s\n",ret.c_str());
-            return ret.c_str();
+            return ret;
             //cout<<endl;
         }
     }
 };
 
-
+/*
 extern "C" {
     ThuLac* Thulac_new(){ char **p; return new ThuLac(0,p); }
     const char* Thulac_run(ThuLac* Thulac, char* s){return Thulac->run(s); }
+}*/
+
+int main()
+{
+    char **p;
+    ThuLac* Thulac = new ThuLac(0,p);
+    struct sockaddr_un s_un;//server address structure
+    struct sockaddr_un c_un;//client address structure
+    int fd,c_fd,lent;
+    socklen_t len;
+    char buf[65536];
+    char a[65536];
+
+    memset((void *)&s_un,0,sizeof(s_un));    
+    s_un.sun_family = AF_UNIX;
+
+    unlink("/tmp/lac.sock");
+    strncpy(s_un.sun_path,"/tmp/lac.sock",sizeof(s_un.sun_path)-1);
+
+    fd = socket(AF_UNIX,SOCK_STREAM,0);//socket(int domain, int type, int protocol)
+
+  
+    bind(fd,(struct sockaddr *)&s_un,sizeof(s_un));
+
+    listen(fd,10);//lisiening start
+
+    while(1)
+    {
+        len = sizeof(c_un);    
+        c_fd = accept(fd,(struct sockaddr *)&c_un,&len);
+
+        int n = read(c_fd,buf,65536);//read the message send by client
+        char* s = buf;
+        std::string ans = Thulac->run(s);
+        write(c_fd,ans.c_str(),ans.length());//sent message back to client
+
+        close(c_fd);
+    }
+    return 0;
+
+
 }

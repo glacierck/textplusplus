@@ -1,7 +1,8 @@
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import app,thulac
+from app import app
 from config import *
+import socket
 import MySQLdb
 
 def check_token(token):
@@ -31,7 +32,13 @@ def semlac():
 
 	raw = raws['text']
 
-	raw1 = thulac.run(raw.encode('utf-8'))
+	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+	client.connect("/tmp/lac.sock")
+	
+	client.send(raw)
+	raw1 = client.recv(65536)
+	client.close()
+
 	raw2 = raw1.strip().split(" ")
 
 	ans = map(lambda x:{"word":x.split("_")[0], "type":x.split("_")[1]}, raw2)

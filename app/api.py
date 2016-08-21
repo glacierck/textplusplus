@@ -1,8 +1,10 @@
 from flask import Flask,json,request,abort,url_for
 import time,random,string
-from app import	 app,thulac
+from app import	 app
 from config import *
 import MySQLdb
+import socket
+import os
 
 def check_token(token):
 	
@@ -91,7 +93,7 @@ def lac():
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
 	
 	result = []	
-	raws = request.json['content']
+	raws = request.json['content'].encode("utf-8")
 	token = request.headers.get_all('Token')[0].encode('utf-8')
 	
 
@@ -104,16 +106,20 @@ def lac():
 	if(tokenuse == 2):
 		return json.dumps({ 'code': 207,'message': 'frequency limit exceed' }), 203
 
-	global thu1
-	a = thulac.run(raws.encode('utf-8'))
-	if(len(a) == 0):
-		return json.dumps({ 'code': 202,'message': 'thu system has error, please try again' }), 203
+	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+	client.connect("/tmp/lac.sock")
+	
+	client.send(raws)
+	a = client.recv(65536)
+	client.close()
+
 	b = a.split(" ")
 	ans = []
 	for j in b:
 		c = j.split('_')
 		ans.append((c[0], c[1]))
 	result = ans
+
 		
 	updata_time(token, "lac")
 
