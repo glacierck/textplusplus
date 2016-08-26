@@ -109,7 +109,7 @@ def lac():
 	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 	client.connect("/tmp/lac.sock")
 	
-	client.send(raws)
+	client.send(raws+"\0\0")
 	a = client.recv(65536)
 	client.close()
 
