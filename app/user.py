@@ -39,8 +39,10 @@ def register():
 	t = time.time()
 	dt = 'd'+time.strftime('%Y%m%d',time.localtime(time.time()))
 	cursor.execute("INSERT INTO user(id, email, token, admin, password, create_at, last_login, token_time) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)", (uid, uemail, token(), False, user['password'].encode('utf-8'), t, t, t))
-	cursor.execute("INSERT INTO lac(user,"+dt+") VALUES(%s,%s)", (uid,'0'))
-	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1))
+	cursor.execute("INSERT INTO lac(user,"+dt+") VALUES(%s,%s)", (uid,'0'))	
+	cursor.execute("INSERT INTO ctc(user,"+dt+") VALUES(%s,%s)", (uid,'0'))
+
+	cursor.execute("INSERT INTO tokeninfo(user, lac_limit_times, lac_last_time, lac_frequen,ctc_limit_times, ctc_last_time, ctc_frequen) VALUES(%s,%s,%s,%s)", (uid, 100, 0, 0.1, 100, 0, 0.1))
 
 	conn.commit()
 	conn.close()
