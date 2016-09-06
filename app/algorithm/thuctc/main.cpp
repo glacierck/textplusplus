@@ -42,7 +42,7 @@ int main()
     bind(fd,(struct sockaddr *)&s_un,sizeof(s_un));
 
     listen(fd,10);//lisiening start
-
+    char tmpbuf[10];
     while(1)
     {
         len = sizeof(c_un);    
@@ -50,10 +50,15 @@ int main()
 
         int n = read(c_fd,buf,65536);//read the message send by client
         char* s = buf;
-        classifier->DoClassify(s,result);
-        cid = result[0].first;
-        cout<<cid<<endl;
-        std::string ans = cid;
+        classifier->DoClassify(s,result,5);
+        std::string ans = "";
+        for(int i = 0;  i < 5; i++)
+        {
+            gcvt(result[i].second,3,tmpbuf);
+            string tmp1 = tmpbuf;
+            ans += (result[i].first + "\t") ;
+            ans += (tmp1 + "\n");
+        }
         write(c_fd,ans.c_str(),ans.length());//sent message back to client
 
         close(c_fd);
