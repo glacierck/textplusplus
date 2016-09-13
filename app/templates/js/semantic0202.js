@@ -183,8 +183,8 @@ $(document).ready(function() {
 				}
 				else if (index == 3 && sectionMark[3] == 'no') {
 					// get_synonyms();
-					get_check();
-					get_dependency();
+					// get_check();
+					// get_dependency();
 					sectionMark[3] = 'yes';
 				}
 				else if (index == 5 && sectionMark[5] == 'no') {
@@ -1204,7 +1204,7 @@ $(document).ready(function(){
 	    $.post("api/thulac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
-	      	"text": $("#input_sec1").val(),
+	      	"text": $("#input_sec2").val(),
 	    },
 	    function(data){
 	    	//alert(data);

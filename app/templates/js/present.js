@@ -1,17 +1,24 @@
 $(document).ready(function() {
-    
-    $.get("api/thuctc", function(data) {
-        var classify_data = eval("(" + data + ")");
-        var classify_data_array = new Array();
-        var classification = new Array();
-        var possibility = new Array();
-        classify_data_array = classify_data.classify_data;
-        for (var i = 0; i < classify_data.classify_data.length; i++) {
-            classification[i] = classify_data.classify_data[i].classification;
-            possibility[i] = parseInt(classify_data.classify_data[i].possibility);
+    $("#classify_button").click(function(){
+        // alert($("#input_sec1").val());
+        $.post("api/thuctc",
+        {
+            "token" : "qC7pRO8LH912194p36DH",
+            "text": $("#input_sec1").val(),
+        },
+        function(data) {
+            var classify_data = eval("(" + data + ")");
+            var classify_data_array = new Array();
+            var classification = new Array();
+            var possibility = new Array();
+            classify_data_array = classify_data.classify_data;
+            for (var i = 0; i < classify_data.classify_data.length; i++) {
+                classification[i] = classify_data.classify_data[i].classification;
+                possibility[i] = parseInt(classify_data.classify_data[i].possibility);
 
-        }
-        draw_analysis_chart();
+            }
+            draw_analysis_chart();
+        });
     });
 
     function draw_classify_chart() {
