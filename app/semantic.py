@@ -67,11 +67,11 @@ def semctc():
 	raw1 = client.recv(65536)
 	client.close()
 	b = raw1.split('\n')
-	ans = {'classification':"",'possibility':0}
 	result = []
 	for i in b:
 		c = i.split('\t')
 		if(len(c) > 1):
+			ans = {}
 			ans['classification'] = c[0]
 			ans['possibility'] = c[1]
 			result.append(ans)
