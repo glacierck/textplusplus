@@ -161,4 +161,4 @@ def ctc():
 			result.append(ans)	
 	updata_time(token, "ctc")
 
-	return json.dumps({'code': 100,'message': 'success','result': ans})
+	return json.dumps({'code': 100,'message': 'success','result': result})
