@@ -4,7 +4,7 @@ $(document).ready(function() {
         $.post("api/thuctc",
         {
             "token" : "qC7pRO8LH912194p36DH",
-            "text": $("#input_sec1").val(),
+            "text": $("#input_sec2").val(),
         },
         function(data) {
             var classify_data = eval("(" + data + ")");
