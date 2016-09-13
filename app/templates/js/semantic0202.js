@@ -1204,7 +1204,7 @@ $(document).ready(function(){
 	    $.post("api/thulac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
-	      	"text": $("#input_sec2").val(),
+	      	"text": $("#input_sec1").val(),
 	    },
 	    function(data){
 	    	//alert(data);
