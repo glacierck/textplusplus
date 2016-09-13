@@ -1,12 +1,11 @@
 $(document).ready(function() {
     $("#classify_button").click(function(){
-        // alert($("#input_sec1").val());
+        // alert($("#input_sec2").val());
         $.post("api/thuctc",
         {
             "token" : "qC7pRO8LH912194p36DH",
             "text": $("#input_sec2").val(),
         },
-        
         function(data) {
             var classify_data = eval("(" + data + ")");
             var classify_data_array = new Array();
@@ -18,11 +17,11 @@ $(document).ready(function() {
                 possibility[i] = parseInt(classify_data.classify_data[i].possibility);
 
             }
-            draw_classify_chart();
+            draw_classify_chart(classification, possibility);
         });
     });
 
-    function draw_classify_chart() {
+    function draw_classify_chart(classification, possibility) {
     $(function () {
         Highcharts.setOptions({
             colors: ['rgb(74,211,200)']
