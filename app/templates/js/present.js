@@ -6,6 +6,7 @@ $(document).ready(function() {
             "token" : "qC7pRO8LH912194p36DH",
             "text": $("#input_sec2").val(),
         },
+        
         function(data) {
             var classify_data = eval("(" + data + ")");
             var classify_data_array = new Array();
