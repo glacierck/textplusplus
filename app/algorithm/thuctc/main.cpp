@@ -10,6 +10,7 @@
 #include <arpa/inet.h>
 #include <sys/un.h>
 #include <string.h>
+#include <errno.h>
 #include "ThuctcClassify.h"
 using namespace std;
 using namespace thunlp;
@@ -20,7 +21,7 @@ int main()
 
     string cid;
     vector<pair<string,float>> result;
-
+    int ret = 0;
 
     char **p;
     struct sockaddr_un s_un;//server address structure
@@ -38,10 +39,18 @@ int main()
 
     fd = socket(AF_UNIX,SOCK_STREAM,0);//socket(int domain, int type, int protocol)
 
+    if(fd < 0){
+        perror("socket");
+        exit(errno);
+    }
   
-    bind(fd,(struct sockaddr *)&s_un,sizeof(s_un));
-
-    listen(fd,10);//lisiening start
+    ::bind(fd,(struct sockaddr *)&s_un,sizeof(s_un));
+    ret = listen(fd,10);//lisiening start
+    if(ret != 0){
+        perror("listen");
+        exit(errno);
+    }
+    cerr << "after listen\n";
     char tmpbuf[10];
     while(1)
     {
