@@ -17,7 +17,7 @@ $(document).ready(function() {
                 possibility[i] = parseInt(classify_data.classify_data[i].possibility);
 
             }
-            draw_analysis_chart();
+            draw_classify_chart();
         });
     });
 
@@ -74,7 +74,7 @@ $(document).ready(function() {
                 data: [{
                     name: classification[0],
                     y: possibility[0],
-                   
+
                 }, {
                     name: classification[1],
                     y: possibility[1],
