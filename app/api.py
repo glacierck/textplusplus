@@ -161,12 +161,4 @@ def ctc():
 			result.append(ans)	
 	updata_time(token, "ctc")
 
-	return json.dumps({'code': 100,'message': 'success','result': 	b = a.split('\n')
-	ans = {'classification':"",'possibility':0}
-	result = []
-	for i in b:
-		c = i.split('\t')
-		if(len(c) > 1):
-			ans['classification'] = c[0]
-			ans['possibility'] = c[1]
-			result.append(ans)})
+	return json.dumps({'code': 100,'message': 'success','result': ans})
