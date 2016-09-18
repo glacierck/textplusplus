@@ -1137,10 +1137,17 @@ $(document).ready(function() {
 		return text;
 	}
 
-	$('.dependency_chart').empty();
+	// $('.dependency_chart').empty();
 });
 
-
+$(document).ready(function() {
+	$(function(){
+		$('#input_sec1').keyup(function(){ 
+			var txtLeng = $('#input_sec1').val().length;
+			$('#input_text_num').html('<font color="white">您已输入' + txtLeng + '个字</font>');
+  		});
+   });
+});
 
 
 function select_type(el){
@@ -1259,7 +1266,7 @@ $(document).ready(function(){
 					select_type(el);
 				}
 	    });
- 	 });
+ 	});
 });
 
 
