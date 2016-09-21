@@ -54,7 +54,7 @@ def semctc():
 	raws = request.form
 	token = raws['token']
 	
-	print raws
+	# print raws
 	if(check_token(token) == False):
 		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
 
@@ -75,6 +75,7 @@ def semctc():
 			ans['classification'] = c[0]
 			ans['possibility'] = c[1]
 			result.append(ans)
+	print result
 	return json.dumps({'code': 100,'message': 'success','classify_data': result})
 
 

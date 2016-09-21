@@ -14,7 +14,7 @@ $(document).ready(function() {
             classify_data_array = classify_data.classify_data;
             for (var i = 0; i < classify_data.classify_data.length; i++) {
                 classification[i] = classify_data.classify_data[i].classification;
-                possibility[i] = parseInt(classify_data.classify_data[i].possibility);
+                possibility[i] = parseFloat(classify_data.classify_data[i].possibility * 100);
 
             }
             draw_classify_chart(classification, possibility);
@@ -91,10 +91,6 @@ $(document).ready(function() {
                     name: classification[4],
                     y: possibility[4],
                   
-                }, {
-                    name: classification[5],
-                    y: possibility[5],
-                    
                 }]
             }],
             
