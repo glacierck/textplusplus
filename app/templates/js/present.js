@@ -109,6 +109,7 @@ $(document).ready(function() {
         function(data) {
             var word_list = eval("(" + data + ")");
             $(function() {
+                $("#extract_container").empty();
                 $("#extract_container").jQCloud(word_list);
             });
         });
