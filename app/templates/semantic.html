@@ -9,9 +9,11 @@
 <title>Text++ - 产品体验</title>
 <meta name="Copyright" content="Tencent" />
 <link href="images/common/favicon.ico" type="image/ico" rel="shortcut icon" />
+<link rel="stylesheet" href="css/jqcloud.css">
 <link rel="stylesheet" href="css/buttons.css">
 <link rel="stylesheet" href="css/global.css">
 <link rel="stylesheet" href="css/semantic0202.css">
+
 <meta name="Copyright" content="TextPlusPlus" />
 <meta name="Keywords" content="Text++" />
 <meta name="Description" content="自然语言处理平台" />
@@ -21,6 +23,7 @@
 <script type="text/javascript" src="js/jquery.fullPage.min.js"></script>
 <script type="text/javascript" src="js/jquery.limitTextarea.js"></script>
 <script type="text/javascript" src="js/d3.min.js"></script>
+<script type="text/javascript" src="js/jqcloud-1.0.4.js"></script>
 <script type="text/javascript" src="js/lex.js"></script>
 <script type="text/javascript" src="js/semantic0202.js"></script>
 <script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
@@ -58,8 +61,8 @@
 		<ul class="ui_maxw">
 			<li data-menuanchor="page1" class="active" style=" display:none;"><a href="semantic#page1">产品体验</a></li>
 			<li data-menuanchor="page2"><a href="semantic#page2">分词</a></li>
-			<li data-menuanchor="page3"><a href="semantic#page3">文本分类（未完成）</a></li>
-			<li data-menuanchor="page4"><a href="semantic#page4">关键词抽取（未完成）</a></li>
+			<li data-menuanchor="page3"><a href="semantic#page3">文本分类</a></li>
+			<li data-menuanchor="page4"><a href="semantic#page4">关键词抽取</a></li>
 			<li data-menuanchor="page5"><a href="semantic#page5">情感分析（未完成）</a></li>
 		</ul>
 	</div>
@@ -150,11 +153,41 @@
 					<p class="mod_col_title">分类结果：</p>
 					<dl class="row">
 						<dd class="mod_result_content result_sentence" id="classify_container">
-							<!-- <div style="float:left;"><em class="focal">小说</em><em class="focal_possible">20%</em><br><br><em class="focal">科技</em><em class="focal_possible">10%</em></div>
-						
-							<div style="float:left; margin-left: 40%;"><em class="focal">时政</em><em class="focal_possible">70%</em></div> -->
-							
 						</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="section wrap_xy_3" id="section3" style="background-image: url(images/main/background_b.jpg)";>
+		
+		<div class="col_3_wrap mod_col_wrap ui_maxw clearfix">
+			<h2 class="mod_col_h2">关键词抽取:
+				<a class="col_text_mean" style="font-size: 20px;">对所输入文本的关键词进行提取</a>
+				<a style="float:right" href=help.html?topic=api#analysis" class="button button-small" title="开发文档">开发文档</a>
+			</h2>
+			
+			<br>
+			<div class="col3_tab col3_tab1 show">
+				<div class="mod_col_text" style="float:left; width:400px; ">
+					<p class="mod_col_title">输入一段想分析的文字：</p>
+					<div class="analysis_wrap">
+						<div id="content-1" class="analysis_content" style="height: 340px;">
+							<textarea id="input_sec3" class="txt" name="" limit="230"></textarea>
+							<i class="icon_close" id="sec2_1_clear"></i>
+							
+						</div>
+					</div>
+					<button style="float:right; margin-top: 10px; margin-right:-15px;" class="button button-action button-small" title="抽取" id="extract_button">抽取</button>
+				</div>
+			<br>
+				<div class="mod_col_main result_main" style="float: right; width: 600px; margin-top: -25px;">
+					<p class="mod_col_title">抽取结果：</p>
+					<dl class="row" ">
+						<div class="mod_result_content result_sentence" id="extract_container" style="height: 340px; background-color:rgba(255,255,255,0.7);">
+
+						</div>
 					</dl>
 				</div>
 			</div>
