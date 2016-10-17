@@ -188,13 +188,13 @@ def cke():
 	client.send(raws+"\0\0")
 	a = client.recv(65536)
 	client.close()
-	word = {}
 	wordlist = []
 	b = a.split('\n')
 	for i in b:
 		if(i == ''):
 			break
 		c = i.split('\t')
+		word = {}
 		word['text'] = c[0]
 		word['weight'] = c[1]
 		wordlist.append(word)

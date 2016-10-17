@@ -17,7 +17,7 @@ def check_token(token):
 		return False
 	return True
 
-@app.route('/api/thulac', methods=['GET','POST'])
+@app.route('/api/semlac', methods=['GET','POST'])
 def semlac():
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
@@ -45,7 +45,7 @@ def semlac():
 
 	return json.dumps({'code': 100,'message': 'success','result': ans})
 
-@app.route('/api/thuctc', methods=['GET','POST'])
+@app.route('/api/semctc', methods=['GET','POST'])
 def semctc():
 	if not request.form:
 		return json.dumps({ 'code': 201,'message': 'format error' }), 400
@@ -77,6 +77,41 @@ def semctc():
 			result.append(ans)
 	print result
 	return json.dumps({'code': 100,'message': 'success','classify_data': result})
+
+@app.route('/api/semcke', methods=['GET','POST'])
+def semcke():
+	if not request.form:
+		return json.dumps({ 'code': 201,'message': 'format error' }), 400
+	
+	result = []	
+	raws = request.form
+	token = raws['token']
+	
+	# print raws
+	if(check_token(token) == False):
+		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
+
+	raw = raws['text'].encode("utf-8")
+
+	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+	client.connect("/tmp/ctc.sock")
+	
+	client.send(raw+"\0\0")
+	wordlist = []
+	raw1 = client.recv(65536)
+	client.close()
+	b = raw1.split('\n')
+
+	for i in b:
+		if(i == ''):
+			break
+		c = i.split('\t')
+		word = {}
+		word['text'] = c[0]
+		word['weight'] = c[1]
+		wordlist.append(word)
+
+	return json.dumps({'code': 100,'message': 'success','word_list': wordlist})
 
 
 @app.route('/api/userinfo', methods=['GET','POST'])
