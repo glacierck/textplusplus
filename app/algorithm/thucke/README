@@ -1,0 +1,14 @@
+编译方法：
+  在当前目录执行make
+
+下载模型文件：
+  将thucke模型下载并解压到./res/thucke_models/目录下
+  将thulac模型下载并解压到./res/thulac_models/目录下
+
+运行方法：
+  cd ./bin
+  ./thucke -i /tmp/text.txt -n 10 -m ../res/
+  参数解析：
+    -i 需要提取关键词的文件
+    -n 提取关键词的个数
+    -m 模型文件路径(注意该路径下面有thucke_models和thulac_models两个目录，分别放置对应的模型，这两个目录名字不能动)

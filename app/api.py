@@ -162,3 +162,42 @@ def ctc():
 	updata_time(token, "ctc")
 
 	return json.dumps({'code': 100,'message': 'success','result': result})
+
+@app.route('/api/cke', methods=['GET','POST'])
+def cke():
+	if (not request.json) or ('content' not in request.json):
+		return json.dumps({ 'code': 201,'message': 'format error' }), 400
+	
+	result = []	
+	raws = request.json['content'].encode("utf-8")
+	token = request.headers.get_all('Token')[0].encode('utf-8')
+	
+
+	if(check_token(token) == False):
+		return json.dumps({'code': 205,'message': 'the token is invalid'}), 203
+	
+	tokenuse = check_tokentime(token, "cke", 0)	
+	if(tokenuse == 1):
+		return json.dumps({'code': 206,'message': 'count limit exceed'}), 203
+	if(tokenuse == 2):
+		return json.dumps({ 'code': 207,'message': 'frequency limit exceed' }), 203
+
+	client = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+	client.connect("/tmp/cke.sock")
+
+	client.send(raws+"\0\0")
+	a = client.recv(65536)
+	client.close()
+	word = {}
+	wordlist = []
+	b = a.split('\n')
+	for i in b:
+		if(i == ''):
+			break
+		c = i.split('\t')
+		word['text'] = c[0]
+		word['weight'] = c[1]
+		wordlist.append(word)
+	
+	updata_time(token, "cke")
+	return json.dumps({'code': 100,'message': 'success','result': wordlist})	
