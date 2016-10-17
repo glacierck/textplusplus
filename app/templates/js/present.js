@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $("#classify_button").click(function(){
         // alert($("#input_sec2").val());
-        $.post("api/thuctc",
+        $.post("api/semctc",
         {
             "token" : "qC7pRO8LH912194p36DH",
             "text": $("#input_sec2").val(),
@@ -101,7 +101,7 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $("#extract_button").click(function(){
-        $.post("api/thucke",
+        $.post("api/semcke",
         {
             "token" : "qC7pRO8LH912194p36DH",
             "text": $("#input_sec3").val(),

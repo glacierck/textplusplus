@@ -1208,7 +1208,7 @@ $(document).ready(function(){
 	var txt = $('#input_sec1').val();
 		// txt = text_filter(txt);
   	$("#analysis_button").click(function(){
-	    $.post("api/thulac",
+	    $.post("api/semlac",
 	    {
 	    	"token" : "qC7pRO8LH912194p36DH",
 	      	"text": $("#input_sec1").val(),
